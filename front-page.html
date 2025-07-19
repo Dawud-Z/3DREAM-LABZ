@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3DREAM LABS - AI-Powered 3D Modeling</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Adjust based on your header height */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #000000, #555555);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(circle at center, rgba(240,240,240,1) 0%, rgba(255,255,255,1) 100%);
+        }
+        
+        .button-black {
+            background-color: #000;
+            color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button-black:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            width: 60px;
+            height: 60px;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+        
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .feature-card {
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        /* Quick demo shapes to simulate model elements */
+        .shape-cube {
+            width: 60px;
+            height: 60px;
+            background: #000;
+            transition: all 0.3s ease;
+            transform: rotate(45deg);
+        }
+        
+        .shape-sphere {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #000000, #333333);
+            border-radius: 50%;
+        }
+        
+        .shape-pyramid {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid #000;
+        }
+        
+        /* Pricing card styles */
+        .pricing-card {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        
+        .pricing-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-popular {
+            border: 2px solid #000;
+        }
+        
+        /* Slide overlay styles */
+        .page-transition-overlay {
+            position: fixed;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: #fff;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translateX(-100%);
+            transition: transform 0.35s cubic-bezier(.77,0,.18,1);
+        }
+        .page-transition-overlay.active {
+            transform: translateX(0);
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
+    <!-- Header -->
+    <header class="fixed w-full bg-white z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="logo-container mr-3">
+                        <img src="https://pfst.cf2.poecdn.net/base/image/5d0aedc7be5bdfd8a9089a105cac26480c6daa64a6d76a392abea35207d7701d?w=500&h=500" alt="3DREAM LABS" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">3DREAM LABS</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-black hover:text-gray-700 nav-link">Features</a>
+                    <a href="#how-it-works" class="text-black hover:text-gray-700 nav-link">How It Works</a>
+                    <a href="#pricing" class="text-black hover:text-gray-700 nav-link">Pricing</a>
+                    <a href="app.html" class="button-black px-5 py-2 rounded-full font-medium">Get Started</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="flex md:hidden">
+                    <button id="mobile-menu-button" class="text-black focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
+                <a href="#features" class="block py-2 text-black hover:text-gray-700 nav-link">Features</a>
+                <a href="#how-it-works" class="block py-2 text-black hover:text-gray-700 nav-link">How It Works</a>
+                <a href="#pricing" class="block py-2 text-black hover:text-gray-700 nav-link">Pricing</a>
+                <a href="app.html" class="block mt-4 button-black px-5 py-2 rounded-full font-medium text-center">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-32 pb-20 md:pt-40 md:pb-32">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 lg:pr-10 mb-10 lg:mb-0">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        Transform Ideas Into <span class="gradient-text">3D Reality</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-700 mb-8">
+                        Our AI-powered platform instantly converts images and descriptions into detailed 3D models ready for printing, gaming, or design.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="app.html" class="button-black px-8 py-4 rounded-full font-medium text-lg text-center">
+                            Start Creating Now
+                        </a>
+                        <a href="#how-it-works" class="px-8 py-4 rounded-full font-medium text-lg border border-black text-black hover:bg-gray-100 transition duration-300 text-center nav-link">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 relative">
+                    <div class="relative h-80 md:h-96 w-full flex items-center justify-center">
+                        <!-- Simple 3D model representation -->
+                        <div class="absolute animate-float" style="animation-delay: 0.5s;">
+                            <div class="shape-cube absolute top-10 left-20"></div>
+                        </div>
+                        <div class="absolute animate-float" style="animation-delay: 1.2s;">
+                            <div class="shape-sphere absolute top-40 right-40"></div>
+                        </div>
+                        <div class="absolute animate-float" style="animation-delay: 0.8s;">
+                            <div class="shape-pyramid absolute bottom-10 left-40"></div>
+                        </div>
+                        <!-- Large 3D logo -->
+                        <div class="absolute w-48 h-48 rounded-full bg-white p-2 shadow-xl animate-float">
+                            <div class="w-full h-full overflow-hidden rounded-full">
+                                <img src="https://pfst.cf2.poecdn.net/base/image/5d0aedc7be5bdfd8a9089a105cac26480c6daa64a6d76a392abea35207d7701d?w=500&h=500" alt="3DREAM LABS" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                    Our AI-powered platform offers everything you need to bring your ideas to life
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="feature-card rounded-xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Image to 3D</h3>
+                    <p class="text-gray-700">
+                        Upload any image and watch as our AI transforms it into a detailed 3D model within seconds.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card rounded-xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Text to 3D</h3>
+                    <p class="text-gray-700">
+                        Describe your idea in words and our advanced AI will create a 3D model matching your description.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card rounded-xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Multiple Formats</h3>
+                    <p class="text-gray-700">
+                        Export your 3D models in STL, OBJ, GLTF, and other popular formats for any application.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                    Creating 3D models has never been easier
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-12 md:space-y-0 md:space-x-8">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center text-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-2xl font-bold mb-6">1</div>
+                    <h3 class="text-xl font-semibold mb-3">Upload or Describe</h3>
+                    <p class="text-gray-700">
+                        Either upload an image or write a detailed description of what you want to create.
+                    </p>
+                </div>
+                
+                <!-- Arrow -->
+                <div class="hidden md:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center text-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-2xl font-bold mb-6">2</div>
+                    <h3 class="text-xl font-semibold mb-3">AI Processing</h3>
+                    <p class="text-gray-700">
+                        Our advanced AI analyzes your input and creates a detailed 3D model within seconds.
+                    </p>
+                </div>
+                
+                <!-- Arrow -->
+                <div class="hidden md:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center text-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-2xl font-bold mb-6">3</div>
+                    <h3 class="text-xl font-semibold mb-3">Download & Use</h3>
+                    <p class="text-gray-700">
+                        Preview your 3D model and download it in your preferred format for 3D printing or other uses.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <a href="app.html" class="button-black px-8 py-4 rounded-full font-medium text-lg inline-block">
+                    Try It Yourself
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                    Choose the plan that works best for your needs
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Free Package -->
+                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Free Package</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-3xl font-bold">$0</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>10 free tokens</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Basic resolution models</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>1 export format (STL)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Community support</span>
+                            </li>
+                        </ul>
+                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Basic Package -->
+                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Basic Package</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-3xl font-bold">$2.99</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>50 tokens per month</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Standard resolution models</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>3 export formats</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Email support</span>
+                            </li>
+                        </ul>
+                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Silver Package -->
+                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black relative">
+                    <div class="absolute top-0 right-0 bg-black text-white px-4 py-1 text-sm font-bold">
+                        POPULAR
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Silver Package</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-3xl font-bold">$5.99</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>200 tokens per month</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>High resolution models</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>All export formats</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Priority support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Texture mapping</span>
+                            </li>
+                        </ul>
+                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Gold Package -->
+                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Gold Package</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-3xl font-bold">$17.99</span>
+                            <span class="text-gray-500 ml-1">/month</span>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>1,000 tokens a month</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Ultra-high resolution models</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>All export formats</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>24/7 dedicated support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Advanced texture mapping</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>API access</span>
+                            </li>
+                        </ul>
+                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="bg-white rounded-2xl p-10 md:p-16 shadow-lg">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Create Amazing 3D Models?</h2>
+                    <p class="text-lg text-gray-700 mb-10">
+                        Join thousands of creators who are already using 3DREAM LABS to bring their ideas to life.
+                    </p>
+                    <a href="app.html" class="button-black px-10 py-5 rounded-full font-medium text-xl inline-block">
+                        Start Creating for Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-6 md:mb-0">
+                    <div class="logo-container mr-3">
+                        <img src="https://pfst.cf2.poecdn.net/base/image/5d0aedc7be5bdfd8a9089a105cac26480c6daa64a6d76a392abea35207d7701d?w=500&h=500" alt="3DREAM LABS" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">3DREAM LABS</span>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-black nav-link">Features</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-black nav-link">How It Works</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-black nav-link">Pricing</a>
+                    <a href="app.html" class="text-gray-600 hover:text-black">Create Now</a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-500">
+                <p>© 2025 3DREAM LABS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                    
+                    // Scroll to the target element
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70, // Adjust offset to account for fixed header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        function pageTransitionNavigate(url) {
+            const overlay = document.getElementById('pageTransitionOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 350); // Match the CSS transition duration
+        }
+
+        // Animate overlay away on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('pageTransitionOverlay');
+            overlay.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                overlay.style.transition = 'transform 0.35s cubic-bezier(.77,0,.18,1)';
+                overlay.style.transform = 'translateX(-100%)';
+            }, 50);
+        });
+    </script>
+</body>
+</html>

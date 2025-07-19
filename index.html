@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Dream Labz - Work in Progress</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('icursur.png') 0 0, auto;
+        }
+
+        /* Pointer cursor for clickable elements */
+        button, 
+        a, 
+        .logo-container,
+        input[type="email"],
+        .submit-btn,
+        .progress-btn,
+        .contact-info a {
+            cursor: url('ipointer.png') 0 0, pointer !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .background-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.03;
+            background-image: radial-gradient(circle at 20% 50%, #10b981 2px, transparent 2px),
+                              radial-gradient(circle at 80% 20%, #f59e0b 2px, transparent 2px),
+                              radial-gradient(circle at 40% 80%, #ef4444 2px, transparent 2px);
+            background-size: 100px 100px, 120px 120px, 80px 80px;
+            animation: patternShift 20s ease-in-out infinite;
+        }
+
+        @keyframes patternShift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(20px, -20px) rotate(1deg); }
+            66% { transform: translate(-20px, 20px) rotate(-1deg); }
+        }
+
+        .floating-orbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: orbFloat 15s ease-in-out infinite;
+        }
+
+        .orb:nth-child(1) {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1));
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 146, 60, 0.1));
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: -30px;
+            animation-delay: 5s;
+        }
+
+        .orb:nth-child(3) {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(249, 115, 22, 0.1));
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 10s;
+        }
+
+        .orb:nth-child(4) {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(132, 204, 22, 0.1));
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 15s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-60px) translateX(-20px) scale(0.9);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translateY(-30px) translateX(30px) scale(1.05);
+                opacity: 0.6;
+            }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #10b981, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoGlow 3s ease-in-out infinite alternate;
+            letter-spacing: -2px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.3);
+        }
+
+        @keyframes logoGlow {
+            0% { 
+                filter: brightness(1) drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+                transform: scale(1);
+            }
+            100% { 
+                filter: brightness(1.2) drop-shadow(0 0 30px rgba(245, 158, 11, 0.4));
+                transform: scale(1.02);
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .bubble:nth-child(1) { 
+            background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.8), rgba(16, 185, 129, 0.4));
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .bubble:nth-child(2) { 
+            background: radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.8), rgba(245, 158, 11, 0.4));
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .bubble:nth-child(3) { 
+            background: radial-gradient(circle at 30% 30%, rgba(239, 68, 68, 0.8), rgba(239, 68, 68, 0.4));
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .bubble:nth-child(4) { 
+            background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.8), rgba(34, 197, 94, 0.4));
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .bubble:nth-child(5) { 
+            background: radial-gradient(circle at 30% 30%, rgba(249, 115, 22, 0.8), rgba(249, 115, 22, 0.4));
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .bubble.active {
+            animation: bubbleFloat 3s ease-out forwards;
+        }
+
+        @keyframes bubbleFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.3);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(var(--bubble-x), var(--bubble-y)) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--bubble-x) * 2), calc(var(--bubble-y) * 2)) scale(0.5);
+            }
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #334155;
+            animation: slideInUp 1s ease-out 0.2s both;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: #64748b;
+            font-weight: 400;
+            animation: slideInUp 1s ease-out 0.4s both;
+            line-height: 1.6;
+        }
+
+        .progress-section {
+            margin-bottom: 3rem;
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+
+        .progress-container {
+            width: 350px;
+            height: 8px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 50px;
+            margin: 0 auto 1.5rem auto;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+            border-radius: 50px;
+            animation: progressFlow 4s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        @keyframes progressFlow {
+            0% { width: 0%; transform: translateX(-100%); }
+            50% { width: 80%; transform: translateX(0%); }
+            100% { width: 100%; transform: translateX(0%); }
+        }
+
+        .status {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #475569;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .email-signup {
+            margin-bottom: 2.5rem;
+            animation: slideInUp 1s ease-out 0.8s both;
+        }
+
+        .email-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .email-input {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(148, 163, 184, 0.3);
+            border-radius: 50px;
+            padding: 16px 24px;
+            font-size: 1rem;
+            color: #334155;
+            width: 320px;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+
+        .email-input::placeholder {
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #10b981;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1),
+                        0 15px 35px rgba(16, 185, 129, 0.15),
+                        0 0 50px rgba(245, 158, 11, 0.1);
+        }
+
+        .email-input:hover::placeholder {
+            color: #10b981;
+            transform: translateX(5px);
+        }
+
+        .email-input:focus {
+            border-color: #10b981;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1), 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #10b981, #f59e0b);
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .email-message {
+            font-size: 0.9rem;
+            margin-top: 12px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            min-height: 22px;
+            font-weight: 500;
+        }
+
+        .email-message.success {
+            color: #059669;
+            opacity: 1;
+        }
+
+        .email-message.error {
+            color: #dc2626;
+            opacity: 1;
+        }
+
+        .progress-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(148, 163, 184, 0.3);
+            color: #334155;
+            padding: 16px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 1.0s both;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .progress-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #10b981;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            color: #10b981;
+        }
+
+        .progress-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .progress-btn.loading {
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-loader {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: none;
+            letter-spacing: 0px;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-top: 2px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-info {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            animation: slideInUp 1s ease-out 1.2s both;
+            font-weight: 400;
+        }
+
+        .contact-info a {
+            color: #10b981;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            border-bottom-color: #10b981;
+            color: #059669;
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 3rem; }
+            .title { font-size: 1.8rem; }
+            .subtitle { font-size: 1.1rem; margin-bottom: 2rem; }
+            .progress-container { width: 280px; }
+            .email-form { 
+                flex-direction: column; 
+                gap: 15px; 
+                align-items: center; 
+            }
+            .email-input { 
+                width: 280px; 
+                font-size: 1rem;
+            }
+            .submit-btn, .progress-btn { 
+                padding: 14px 28px; 
+                font-size: 0.9rem; 
+            }
+            .orb {
+                transform: scale(0.7);
+            }
+            
+            .email-input:hover {
+                transform: translateY(-3px) scale(1.01);
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+                color: #f1f5f9;
+            }
+            
+            .title { color: #f1f5f9; }
+            .subtitle { color: #cbd5e1; }
+            .status { color: #94a3b8; }
+            
+            .email-input {
+                background: rgba(15, 23, 42, 0.8);
+                border-color: rgba(71, 85, 105, 0.5);
+                color: #f1f5f9;
+            }
+            
+            .email-input::placeholder { color: #64748b; }
+            
+            .progress-btn {
+                background: rgba(15, 23, 42, 0.8);
+                border-color: rgba(71, 85, 105, 0.5);
+                color: #f1f5f9;
+            }
+            
+            .progress-btn:hover {
+                background: rgba(15, 23, 42, 0.95);
+                color: #60a5fa;
+            }
+            
+            .contact-info a { color: #60a5fa; }
+        }
+
+        /* Slide overlay styles */
+        .page-transition-overlay {
+            position: fixed;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: #fff;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translateX(-100%);
+            transition: transform 0.35s cubic-bezier(.77,0,.18,1);
+        }
+        .page-transition-overlay.active {
+            transform: translateX(0);
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
+    <div class="background-pattern"></div>
+    
+    <div class="floating-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <div class="container">
+        <div class="logo-container" onmouseenter="createBubbles()" onmouseleave="stopBubbles()">
+            <div class="logo">3Dream Labz</div>
+        </div>
+        <div class="title">Revolutionizing Creation</div>
+        <div class="subtitle">Next-generation AI platform for immersive 3D experiences</div>
+        
+        <div class="progress-section">
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="status">Launching Soon</div>
+        </div>
+
+        <div class="email-signup">
+            <div class="email-form">
+                <input type="email" id="emailInput" class="email-input" placeholder="Enter your email for early access" required>
+                <button type="submit" class="submit-btn" onclick="submitEmail()">Join Waitlist</button>
+            </div>
+            <div id="emailMessage" class="email-message"></div>
+        </div>
+
+        <button class="progress-btn" onclick="openProgressPage()">
+            <span class="btn-text">View Progress</span>
+            <span class="btn-loader" style="display: none;">
+                <span class="spinner"></span>
+                Loading Platform...
+            </span>
+        </button>
+
+        <p class="contact-info">
+            Questions? Reach out at <a href="mailto:dawud46meo@gmail.com">dawud46meo@gmail.com</a>
+        </p>
+    </div>
+
+    <script>
+        let bubbleInterval;
+        let isBubblingActive = false;
+
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        function createBubbles() {
+            if (isBubblingActive) return;
+            isBubblingActive = true;
+            
+            const logoContainer = document.querySelector('.logo-container');
+            const logo = document.querySelector('.logo');
+            const rect = logo.getBoundingClientRect();
+            
+            // Continue creating bubbles from the perimeter
+            bubbleInterval = setInterval(() => {
+                if (!isBubblingActive) return;
+                createBubble(logoContainer, rect);
+            }, 200);
+        }
+
+        function stopBubbles() {
+            isBubblingActive = false;
+            if (bubbleInterval) {
+                clearInterval(bubbleInterval);
+            }
+        }
+
+        function createBubble(container, rect) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble active';
+            
+            // Create rounded rectangle perimeter points
+            const width = rect.width + 40;
+            const height = rect.height + 40;
+            const borderRadius = 20;
+            
+            // Random position along the rounded rectangle perimeter
+            const side = Math.floor(Math.random() * 4);
+            let startX, startY, endX, endY;
+            
+            switch(side) {
+                case 0: // Top edge
+                    startX = borderRadius + Math.random() * (width - 2 * borderRadius);
+                    startY = -20;
+                    endX = (Math.random() - 0.5) * 150;
+                    endY = -100 - Math.random() * 50;
+                    break;
+                case 1: // Right edge
+                    startX = width;
+                    startY = borderRadius + Math.random() * (height - 2 * borderRadius);
+                    endX = 100 + Math.random() * 50;
+                    endY = (Math.random() - 0.5) * 150;
+                    break;
+                case 2: // Bottom edge
+                    startX = borderRadius + Math.random() * (width - 2 * borderRadius);
+                    startY = height;
+                    endX = (Math.random() - 0.5) * 150;
+                    endY = 100 + Math.random() * 50;
+                    break;
+                case 3: // Left edge
+                    startX = -20;
+                    startY = borderRadius + Math.random() * (height - 2 * borderRadius);
+                    endX = -100 - Math.random() * 50;
+                    endY = (Math.random() - 0.5) * 150;
+                    break;
+            }
+            
+            const size = 12 + Math.random() * 20;
+            
+            bubble.style.cssText = `
+                --bubble-x: ${endX}px;
+                --bubble-y: ${endY}px;
+                left: ${startX}px;
+                top: ${startY}px;
+                width: ${size}px;
+                height: ${size}px;
+            `;
+            
+            container.appendChild(bubble);
+            
+            setTimeout(() => {
+                if (bubble.parentNode) {
+                    bubble.parentNode.removeChild(bubble);
+                }
+            }, 3000);
+        }
+
+        function submitEmail() {
+            const emailInput = document.getElementById('emailInput');
+            const emailMessage = document.getElementById('emailMessage');
+            const email = emailInput.value.trim();
+            
+            emailMessage.className = 'email-message';
+            
+            if (!email) {
+                showMessage('Please enter your email address.', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Adding...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                showMessage('🚀 Welcome aboard! You\'ll be the first to know when we launch.', 'success');
+                emailInput.value = '';
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }, 1800);
+        }
+        
+        function showMessage(text, type) {
+            const emailMessage = document.getElementById('emailMessage');
+            emailMessage.textContent = text;
+            emailMessage.className = `email-message ${type}`;
+        }
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        document.getElementById('emailInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitEmail();
+            }
+        });
+
+        function openProgressPage() {
+            pageTransitionNavigate('front-page.html');
+        }
+
+        function pageTransitionNavigate(url) {
+            const overlay = document.getElementById('pageTransitionOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 350); // Match the CSS transition duration
+        }
+
+        // Animate overlay away on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('pageTransitionOverlay');
+            overlay.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                overlay.style.transition = 'transform 0.35s cubic-bezier(.77,0,.18,1)';
+                overlay.style.transform = 'translateX(-100%)';
+            }, 50);
+        });
+    </script>
+</body>
+</html>
