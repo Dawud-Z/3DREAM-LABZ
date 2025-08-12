@@ -1287,9 +1287,9 @@ body {
 <!-- Header -->
 <header class="bg-white border-b border-gray-200 shadow-sm">
 <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-<div class="flex items-center space-x-2">
+<div class="flex items-center space-x-1">
   <div class="logo-container">
-    <img src="favicon.png" alt="3DREAM LABS" class="w-full h-full object-cover">
+    <img src="favicon.png" alt="3DREAM LABS" style="width: 80%; height: 80%; object-fit: contain; margin: 10%;" class="object-cover">
   </div>
   <div class="text-black font-bold text-2xl" style="font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 1px;">
   3DREAM <span style="color: #FFD700; background: #f3f4f6; padding: 2px 10px; border-radius: 3px;">LABZ</span>
@@ -1304,7 +1304,6 @@ body {
 <button id="howitworks-btn" class="px-3 py-1 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">How It Works</button>
 <button id="pricing-btn" class="px-3 py-1 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Pricing</button>
 <button id="help-btn" class="px-3 py-1 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Help</button>
-<button id="admin-btn" class="hidden px-3 py-1 rounded-md text-yellow-600 hover:bg-gray-100 transition-colors">Admin</button>
 </nav>
 
 <!-- User info/login area -->
@@ -1383,7 +1382,6 @@ body {
 <button id="mobile-howitworks-btn" class="block w-full text-left px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">How It Works</button>
 <button id="mobile-pricing-btn" class="block w-full text-left px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Pricing</button>
 <button id="mobile-help-btn" class="block w-full text-left px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">Help</button>
-<button id="mobile-admin-btn" class="hidden block w-full text-left px-3 py-2 rounded-md text-yellow-600 hover:bg-gray-100 transition-colors">Admin</button>
 </div>
 </div>
 </header>
@@ -1402,6 +1400,15 @@ body {
 <button id="banner-signup-btn" class="px-4 py-2 bg-black hover:bg-gray-800 text-white rounded-md transition-colors">Sign Up</button>
 </div>
 </div>
+</div>
+
+<!-- 3D Modeling Studio Title -->
+<div class="text-center mb-8">
+  <div class="inline-block bg-gray-100 px-8 py-4 rounded-lg shadow-sm">
+    <h1 class="text-3xl font-bold text-black" style="font-family: 'Poppins', 'Inter', sans-serif;">
+      3D MODELING <span style="color: #FFD700;">STUDIO</span>
+    </h1>
+  </div>
 </div>
 
 <!-- App section -->
@@ -1851,58 +1858,7 @@ POPULAR
 </div>
 </section>
 
-<!-- Admin section - initially hidden -->
-<section id="admin-section" class="hidden space-y-6">
-<div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-<h2 class="text-2xl font-semibold mb-6 text-yellow-600">Admin Dashboard</h2>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-<div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-<h3 class="text-lg font-medium mb-2">Total Users</h3>
-<div class="text-3xl font-bold text-yellow-600">--</div>
-</div>
-
-<div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-<h3 class="text-lg font-medium mb-2">Total Models</h3>
-<div class="text-3xl font-bold text-yellow-600">--</div>
-</div>
-
-<div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-<h3 class="text-lg font-medium mb-2">Active Subscriptions</h3>
-<div class="text-3xl font-bold text-yellow-600">--</div>
-</div>
-</div>
-
-<div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-6">
-<h3 class="text-lg font-medium mb-4">Add Admin User</h3>
-<div class="flex flex-col md:flex-row gap-4">
-<input type="email" id="new-admin-email" placeholder="Enter email address" class="text-base flex-grow px-3 py-2 bg-white text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
-<button id="add-admin-btn" class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md transition-colors">Add Admin</button>
-</div>
-</div>
-
-<div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-<h3 class="text-lg font-medium mb-4">Manage Users</h3>
-<div class="overflow-x-auto">
-<table class="min-w-full bg-white">
-<thead>
-<tr>
-<th class="px-4 py-2 text-left">Email</th>
-<th class="px-4 py-2 text-left">Tokens</th>
-<th class="px-4 py-2 text-left">Subscription</th>
-<th class="px-4 py-2 text-left">Actions</th>
-</tr>
-</thead>
-<tbody id="user-table-body">
-<tr>
-<td class="px-4 py-2 text-gray-500" colspan="4">Loading users...</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</section>
 
 <!-- How It Works section - initially hidden -->
 <section id="howitworks-section" class="hidden space-y-6">
@@ -1989,7 +1945,7 @@ let processingTimer = null;
 let processingStartTime = 0;
 
 // Backend API endpoint - using local server
-const API_URL = 'https://6086-34-170-179-22.ngrok-free.app';  // Using the correct port
+const API_URL = 'https://0b4d4cc83c4b.ngrok-free.app';  // Using the correct port
 console.log("API URL configured as:", API_URL);
 
 // Store the current 3D model for export
@@ -2687,7 +2643,7 @@ async function saveRating(rating, feedback) {
 // Global navigation functions
 function showSection(sectionName) {
   // Hide all sections
-  const sections = ['app', 'dashboard', 'pricing', 'help', 'admin', 'howitworks'];
+  const sections = ['app', 'dashboard', 'pricing', 'help', 'howitworks'];
   sections.forEach(section => {
     const sectionElement = document.getElementById(`${section}-section`);
     if (sectionElement) sectionElement.classList.add('hidden');
@@ -2898,11 +2854,10 @@ let db = null;
 let storage = null;
 let provider = null;
 let currentUser = null;
-const admins = [
-  "rexyle24@gmail.com",
-  "admin@3dreamlabz.com"
-]; // List of admin emails
-let userIsAdmin = false;
+const owners = [
+  "dawud46meo@gmail.com"
+]; // List of owner emails
+let userIsOwner = false;
 
 function initFirebase() {
   try {
@@ -2941,7 +2896,7 @@ function initFirebase() {
       if (user) {
         // User is signed in
         currentUser = user;
-        userIsAdmin = admins.includes(user.email);
+        userIsOwner = owners.includes(user.email);
         updateUIForAuthState();
         
         // Try to create/update user document
@@ -2954,7 +2909,7 @@ function initFirebase() {
       } else {
         // User is signed out
         currentUser = null;
-        userIsAdmin = false;
+        userIsOwner = false;
         updateUIForAuthState();
       }
     });
@@ -3077,7 +3032,7 @@ async function signInWithGoogle() {
     
     const user = authResult.user;
     currentUser = user;
-    userIsAdmin = admins.includes(user.email);
+    userIsOwner = owners.includes(user.email);
     
     // Hide modals on success
     hideAuthModals();
@@ -3127,7 +3082,7 @@ async function loginUser(email, password) {
     const user = userCredential.user;
     
     currentUser = user;
-    userIsAdmin = admins.includes(user.email);
+    userIsOwner = owners.includes(user.email);
     
     hideAuthModals();
     updateUIForAuthState();
@@ -3172,8 +3127,10 @@ async function createUser(email, password, confirmPassword, fullName, profilePic
     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
     const user = userCredential.user;
     
+    // Check if user is owner
+    userIsOwner = owners.includes(user.email);
+    
     currentUser = user;
-    userIsAdmin = admins.includes(user.email);
     
     // Additional information for profile
     let photoURL = '';
@@ -3244,7 +3201,7 @@ function logoutUser() {
   
   auth.signOut().then(() => {
     currentUser = null;
-    userIsAdmin = false;
+    userIsOwner = false;
     updateUIForAuthState();
     showAlert("Logged Out", "You have been successfully logged out.");
   }).catch(error => {
@@ -3366,8 +3323,7 @@ function updateUIForAuthState() {
     const loggedOutElements = document.getElementById('logged-out-state');
     const loggedInElements = document.getElementById('logged-in-state');
     const loginRequiredBanner = document.getElementById('login-required-banner');
-    const adminBtn = document.getElementById('admin-btn');
-    const mobileAdminBtn = document.getElementById('mobile-admin-btn');
+
     
     // Update profile dropdown with user info
     const dropdownUserName = document.getElementById('dropdown-user-name');
@@ -3386,13 +3342,9 @@ function updateUIForAuthState() {
       // Update profile avatar
       updateProfileAvatar();
       
-      // Show admin button if user is admin
-      if (userIsAdmin) {
-        if (adminBtn) adminBtn.classList.remove('hidden');
-        if (mobileAdminBtn) mobileAdminBtn.classList.remove('hidden');
-      } else {
-        if (adminBtn) adminBtn.classList.add('hidden');
-        if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
+      // Owner gets unlimited credits automatically
+      if (userIsOwner) {
+        // Owner functionality - unlimited credits
       }
       
       // Default to app section when logged in
@@ -3405,10 +3357,10 @@ function updateUIForAuthState() {
         // Minimal user data if db is not accessible
         if (!db) {
           if (document.getElementById('token-count')) {
-            document.getElementById('token-count').textContent = userIsAdmin ? "∞" : "10";
+            document.getElementById('token-count').textContent = userIsOwner ? "∞" : "10";
           }
           if (document.getElementById('dashboard-token-count')) {
-            document.getElementById('dashboard-token-count').textContent = userIsAdmin ? "∞" : "10";
+            document.getElementById('dashboard-token-count').textContent = userIsOwner ? "∞" : "10";
           }
           return;
         }
@@ -3420,7 +3372,7 @@ function updateUIForAuthState() {
             const userData = doc.data();
             
             // Update token display
-            if (userIsAdmin) {
+            if (userIsOwner) {
               if (document.getElementById('token-count')) {
                 document.getElementById('token-count').textContent = "∞";
               }
@@ -3473,10 +3425,10 @@ function updateUIForAuthState() {
           } else {
             // No document exists yet - show default values
             if (document.getElementById('token-count')) {
-              document.getElementById('token-count').textContent = userIsAdmin ? "∞" : "10";
+              document.getElementById('token-count').textContent = userIsOwner ? "∞" : "10";
             }
             if (document.getElementById('dashboard-token-count')) {
-              document.getElementById('dashboard-token-count').textContent = userIsAdmin ? "∞" : "10";
+              document.getElementById('dashboard-token-count').textContent = userIsOwner ? "∞" : "10";
             }
             
             // Set default subscription as free
@@ -3486,10 +3438,10 @@ function updateUIForAuthState() {
           console.error("Error getting user data:", error);
           // Show default values on error
           if (document.getElementById('token-count')) {
-            document.getElementById('token-count').textContent = userIsAdmin ? "∞" : "10";
+            document.getElementById('token-count').textContent = userIsOwner ? "∞" : "10";
           }
           if (document.getElementById('dashboard-token-count')) {
-            document.getElementById('dashboard-token-count').textContent = userIsAdmin ? "∞" : "10";
+            document.getElementById('dashboard-token-count').textContent = userIsOwner ? "∞" : "10";
           }
           
           // Set default subscription as free
@@ -3807,8 +3759,8 @@ function initCustomSelects() {
 
 // Check if user has enough tokens to generate a model
 function hasEnoughTokens() {
-  // If user is admin, they have unlimited tokens
-  if (userIsAdmin) return true;
+      // If user is owner, they have unlimited tokens
+    if (userIsOwner) return true;
   
   // Get the token count from the UI
   const tokenCountElement = document.getElementById('token-count');
@@ -4034,12 +3986,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  const adminBtn = document.getElementById('admin-btn');
-  if (adminBtn) {
-    adminBtn.addEventListener('click', () => {
-      showSection('admin');
-    });
-  }
+  
   
   // Mobile navigation buttons
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -4087,12 +4034,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  const mobileAdminBtn = document.getElementById('mobile-admin-btn');
-  if (mobileAdminBtn) {
-    mobileAdminBtn.addEventListener('click', () => {
-      showSection('admin');
-    });
-  }
+  
   
   // Create first model button
   const createFirstModelBtn = document.getElementById('create-first-model');
@@ -4653,7 +4595,7 @@ document.addEventListener('DOMContentLoaded', function() {
         await generateAIModel(inputType, inputData);
         
         // Record model data and update user tokens
-        if (db && currentUser && !userIsAdmin) {
+        if (db && currentUser && !userIsOwner) {
           try {
             const userDocRef = db.collection('users').doc(currentUser.uid);
             const doc = await userDocRef.get();

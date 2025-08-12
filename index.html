@@ -587,13 +587,28 @@
             <div class="status">Launching Soon</div>
         </div>
 
-        <div class="email-signup">
-            <div class="email-form">
-                <input type="email" id="emailInput" class="email-input" placeholder="Enter your email for early access" required>
-                <button type="submit" class="submit-btn" onclick="submitEmail()">Join Waitlist</button>
-            </div>
-            <div id="emailMessage" class="email-message"></div>
-        </div>
+        <form
+          action="https://formspree.io/f/xkgzbydr"
+          method="POST"
+          class="email-form"
+          style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap;"
+        >
+          <input
+            type="email"
+            name="email"
+            class="email-input"
+            placeholder="Enter your email for early access"
+            required
+            style="background: rgba(255, 255, 255, 0.8); border: 2px solid rgba(148, 163, 184, 0.3); border-radius: 50px; padding: 16px 24px; font-size: 1rem; color: #334155; width: 320px; outline: none;"
+          />
+          <button
+            type="submit"
+            class="submit-btn"
+            style="background: linear-gradient(135deg, #10b981, #f59e0b); border: none; color: white; padding: 16px 32px; font-size: 1rem; font-weight: 600; border-radius: 50px; cursor: pointer;"
+          >
+            Join Waitlist
+          </button>
+        </form>
 
         <button class="progress-btn" onclick="openProgressPage()">
             <span class="btn-text">View Progress</span>
@@ -705,55 +720,6 @@
                 }
             }, 3000);
         }
-
-        function submitEmail() {
-            const emailInput = document.getElementById('emailInput');
-            const emailMessage = document.getElementById('emailMessage');
-            const email = emailInput.value.trim();
-            
-            emailMessage.className = 'email-message';
-            
-            if (!email) {
-                showMessage('Please enter your email address.', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showMessage('Please enter a valid email address.', 'error');
-                return;
-            }
-            
-            const submitBtn = document.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Adding...';
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.7';
-            
-            setTimeout(() => {
-                showMessage('🚀 Welcome aboard! You\'ll be the first to know when we launch.', 'success');
-                emailInput.value = '';
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-            }, 1800);
-        }
-        
-        function showMessage(text, type) {
-            const emailMessage = document.getElementById('emailMessage');
-            emailMessage.textContent = text;
-            emailMessage.className = `email-message ${type}`;
-        }
-        
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-        
-        document.getElementById('emailInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitEmail();
-            }
-        });
 
         function openProgressPage() {
             pageTransitionNavigate('front-page.html');
