@@ -3,362 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3Dream Labz - Work in Progress</title>
-    <!-- Favicon -->
+    <title>3Dream Labz - Launching Late September</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap');
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: url('icursur.png') 0 0, auto;
-        }
-
-        /* Pointer cursor for clickable elements */
-        button, 
-        a, 
-        .logo-container,
-        input[type="email"],
-        .submit-btn,
-        .progress-btn,
-        .contact-info a {
-            cursor: url('ipointer.png') 0 0, pointer !important;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
-            color: #1e293b;
+            background: linear-gradient(-45deg, #0ea5e9, #06b6d4, #f97316, #eab308, #10b981);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #ffffff;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             overflow-x: hidden;
             position: relative;
         }
 
-        .background-pattern {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0.03;
-            background-image: radial-gradient(circle at 20% 50%, #10b981 2px, transparent 2px),
-                              radial-gradient(circle at 80% 20%, #f59e0b 2px, transparent 2px),
-                              radial-gradient(circle at 40% 80%, #ef4444 2px, transparent 2px);
-            background-size: 100px 100px, 120px 120px, 80px 80px;
-            animation: patternShift 20s ease-in-out infinite;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        @keyframes patternShift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(20px, -20px) rotate(1deg); }
-            66% { transform: translate(-20px, 20px) rotate(-1deg); }
-        }
-
-        .floating-orbs {
-            position: absolute;
+        /* Floating geometric shapes */
+        .floating-shapes {
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
             pointer-events: none;
-            overflow: hidden;
+            z-index: 1;
         }
 
-        .orb {
+        .shape {
             position: absolute;
-            border-radius: 50%;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: orbFloat 15s ease-in-out infinite;
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
         }
 
-        .orb:nth-child(1) {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1));
-            width: 200px;
-            height: 200px;
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ffffff, #f0f9ff);
+            border-radius: 20px;
             top: 10%;
-            left: -50px;
+            left: 10%;
             animation-delay: 0s;
+            transform: rotate(45deg);
         }
 
-        .orb:nth-child(2) {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 146, 60, 0.1));
-            width: 150px;
-            height: 150px;
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #ffffff, #f0f9ff);
+            border-radius: 50%;
             top: 60%;
-            right: -30px;
+            right: 15%;
             animation-delay: 5s;
         }
 
-        .orb:nth-child(3) {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(249, 115, 22, 0.1));
-            width: 100px;
-            height: 100px;
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ffffff, #f0f9ff);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
             top: 30%;
             left: 70%;
             animation-delay: 10s;
         }
 
-        .orb:nth-child(4) {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(132, 204, 22, 0.1));
-            width: 120px;
-            height: 120px;
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ffffff, #f0f9ff);
+            border-radius: 20px;
             bottom: 20%;
-            left: 10%;
+            left: 20%;
             animation-delay: 15s;
+            transform: rotate(30deg);
         }
 
-        @keyframes orbFloat {
+        .shape:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ffffff, #f0f9ff);
+            border-radius: 50%;
+            top: 15%;
+            right: 30%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
             0%, 100% {
-                transform: translateY(0px) translateX(0px) scale(1);
-                opacity: 0.3;
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+                opacity: 0.1;
             }
             25% {
-                transform: translateY(-30px) translateX(20px) scale(1.1);
-                opacity: 0.5;
+                transform: translateY(-30px) translateX(20px) rotate(90deg);
+                opacity: 0.2;
             }
             50% {
-                transform: translateY(-60px) translateX(-20px) scale(0.9);
-                opacity: 0.4;
+                transform: translateY(-60px) translateX(-20px) rotate(180deg);
+                opacity: 0.15;
             }
             75% {
-                transform: translateY(-30px) translateX(30px) scale(1.05);
-                opacity: 0.6;
+                transform: translateY(-30px) translateX(30px) rotate(270deg);
+                opacity: 0.25;
             }
+        }
+
+        /* Wave animation */
+        .wave-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            clip-path: polygon(0 60%, 25% 40%, 50% 60%, 75% 30%, 100% 50%, 100% 100%, 0% 100%);
+            animation: waveMove 12s ease-in-out infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: -2s;
+            opacity: 0.5;
+            clip-path: polygon(0 80%, 25% 60%, 50% 80%, 75% 50%, 100% 70%, 100% 100%, 0% 100%);
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: -4s;
+            opacity: 0.3;
+            clip-path: polygon(0 70%, 25% 50%, 50% 70%, 75% 40%, 100% 60%, 100% 100%, 0% 100%);
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
         }
 
         .container {
-            text-align: center;
+            position: relative;
             z-index: 10;
-            position: relative;
             max-width: 600px;
-            padding: 0 20px;
-        }
-
-        .logo-container {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            backdrop-filter: blur(5px);
         }
 
         .logo {
-            font-size: 4.5rem;
-            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #10b981, #f59e0b, #ef4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: logoGlow 3s ease-in-out infinite alternate;
             letter-spacing: -2px;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-            filter: brightness(1.3);
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: logoGlow 3s ease-in-out infinite alternate;
         }
 
         @keyframes logoGlow {
             0% { 
-                filter: brightness(1) drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
                 transform: scale(1);
             }
             100% { 
-                filter: brightness(1.2) drop-shadow(0 0 30px rgba(245, 158, 11, 0.4));
+                text-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
                 transform: scale(1.02);
             }
         }
 
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .bubble:nth-child(1) { 
-            background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.8), rgba(16, 185, 129, 0.4));
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .bubble:nth-child(2) { 
-            background: radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.8), rgba(245, 158, 11, 0.4));
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .bubble:nth-child(3) { 
-            background: radial-gradient(circle at 30% 30%, rgba(239, 68, 68, 0.8), rgba(239, 68, 68, 0.4));
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .bubble:nth-child(4) { 
-            background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.8), rgba(34, 197, 94, 0.4));
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .bubble:nth-child(5) { 
-            background: radial-gradient(circle at 30% 30%, rgba(249, 115, 22, 0.8), rgba(249, 115, 22, 0.4));
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .bubble.active {
-            animation: bubbleFloat 3s ease-out forwards;
-        }
-
-        @keyframes bubbleFloat {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(0.3);
-            }
-            30% {
-                opacity: 1;
-                transform: translate(var(--bubble-x), var(--bubble-y)) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(calc(var(--bubble-x) * 2), calc(var(--bubble-y) * 2)) scale(0.5);
-            }
-        }
-
-        .title {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #334155;
-            animation: slideInUp 1s ease-out 0.2s both;
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
+        .tagline {
             font-size: 1.3rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 3rem;
-            color: #64748b;
-            font-weight: 400;
-            animation: slideInUp 1s ease-out 0.4s both;
-            line-height: 1.6;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideUp 1s ease-out 0.5s both;
+        }
+
+        .launch-section {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: slideUp 1s ease-out 0.7s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .launch-date {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .launch-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .progress-section {
             margin-bottom: 3rem;
-            animation: slideInUp 1s ease-out 0.6s both;
+            animation: slideUp 1s ease-out 0.9s both;
         }
 
         .progress-container {
-            width: 350px;
-            height: 8px;
-            background: rgba(148, 163, 184, 0.2);
-            border-radius: 50px;
-            margin: 0 auto 1.5rem auto;
+            width: 100%;
+            max-width: 400px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin: 0 auto 1rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
-            border-radius: 50px;
-            animation: progressFlow 4s ease-in-out infinite;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(90deg, #ffffff, #f0f9ff, #ffffff);
+            border-radius: 20px;
+            width: 0%;
+            transition: width 3s ease-out;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            animation: progressGlow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes progressFlow {
-            0% { width: 0%; transform: translateX(-100%); }
-            50% { width: 80%; transform: translateX(0%); }
-            100% { width: 100%; transform: translateX(0%); }
+        @keyframes progressGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+            100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.6); }
         }
 
-        .status {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #475569;
-            letter-spacing: 2px;
+        .progress-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .email-signup {
-            margin-bottom: 2.5rem;
-            animation: slideInUp 1s ease-out 0.8s both;
+        .email-section {
+            margin-bottom: 2rem;
+            animation: slideUp 1s ease-out 1.1s both;
         }
 
         .email-form {
             display: flex;
-            justify-content: center;
+            flex-direction: row;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
+            gap: 0.75rem;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         .email-input {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid rgba(148, 163, 184, 0.3);
-            border-radius: 50px;
-            padding: 16px 24px;
+            flex: 1;
+            padding: 1rem 1.5rem;
             font-size: 1rem;
-            color: #334155;
-            width: 320px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
             outline: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            font-family: 'Inter', sans-serif;
-            position: relative;
-        }
-
-        .email-input::placeholder {
-            color: #94a3b8;
             transition: all 0.3s ease;
-        }
-
-        .email-input:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: #10b981;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1),
-                        0 15px 35px rgba(16, 185, 129, 0.15),
-                        0 0 50px rgba(245, 158, 11, 0.1);
-        }
-
-        .email-input:hover::placeholder {
-            color: #10b981;
-            transform: translateX(5px);
+            backdrop-filter: blur(20px);
         }
 
         .email-input:focus {
-            border-color: #10b981;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1), 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
+        .email-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         .submit-btn {
-            background: linear-gradient(135deg, #10b981, #f59e0b);
-            border: none;
-            color: white;
-            padding: 16px 32px;
-            font-size: 1rem;
+            width: auto;
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+            backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
-            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
         }
 
         .submit-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+            border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .submit-btn::before {
@@ -376,261 +376,164 @@
             left: 100%;
         }
 
-        .email-message {
-            font-size: 0.9rem;
-            margin-top: 12px;
-            opacity: 0;
-            transition: all 0.3s ease;
-            min-height: 22px;
-            font-weight: 500;
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideUp 1s ease-out 1.3s both;
         }
 
-        .email-message.success {
-            color: #059669;
-            opacity: 1;
-        }
-
-        .email-message.error {
-            color: #dc2626;
-            opacity: 1;
-        }
-
-        .progress-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid rgba(148, 163, 184, 0.3);
-            color: #334155;
-            padding: 16px 40px;
+        .action-btn {
+            padding: 1rem 2rem;
             font-size: 1rem;
-            font-weight: 600;
-            border-radius: 50px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 2rem;
-            animation: slideInUp 1s ease-out 1.0s both;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            font-family: 'Inter', sans-serif;
         }
 
-        .progress-btn:hover {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: #10b981;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            color: #10b981;
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .progress-btn:active {
-            transform: translateY(-1px);
+        .footer {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            animation: slideUp 1s ease-out 1.5s both;
         }
 
-        .progress-btn.loading {
-            cursor: not-allowed;
-            pointer-events: none;
-            opacity: 0.8;
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .btn-loader {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: none;
-            letter-spacing: 0px;
+        .footer a:hover {
+            text-decoration: underline;
         }
 
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(16, 185, 129, 0.3);
-            border-top: 2px solid #10b981;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes slideInUp {
-            0% {
+        @keyframes slideUp {
+            from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(30px);
             }
-            100% {
+            to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .contact-info {
-            opacity: 0.6;
-            font-size: 0.9rem;
-            animation: slideInUp 1s ease-out 1.2s both;
-            font-weight: 400;
-        }
-
-        .contact-info a {
-            color: #10b981;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .contact-info a:hover {
-            border-bottom-color: #10b981;
-            color: #059669;
-        }
-
         @media (max-width: 768px) {
-            .logo { font-size: 3rem; }
-            .title { font-size: 1.8rem; }
-            .subtitle { font-size: 1.1rem; margin-bottom: 2rem; }
-            .progress-container { width: 280px; }
-            .email-form { 
-                flex-direction: column; 
-                gap: 15px; 
-                align-items: center; 
+            .logo {
+                font-size: 2.5rem;
             }
-            .email-input { 
-                width: 280px; 
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .description {
                 font-size: 1rem;
             }
-            .submit-btn, .progress-btn { 
-                padding: 14px 28px; 
-                font-size: 0.9rem; 
+            
+            .launch-section {
+                padding: 1.5rem;
             }
-            .orb {
+            
+            .container {
+                padding: 20px 15px;
+            }
+
+            .shape {
                 transform: scale(0.7);
             }
-            
-            .email-input:hover {
-                transform: translateY(-3px) scale(1.01);
-            }
         }
 
-        /* Dark mode support */
+        /* Dark mode adjustments */
         @media (prefers-color-scheme: dark) {
             body {
-                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-                color: #f1f5f9;
+                background: linear-gradient(-45deg, #0f172a, #1e293b, #374151, #4b5563, #6b7280);
             }
-            
-            .title { color: #f1f5f9; }
-            .subtitle { color: #cbd5e1; }
-            .status { color: #94a3b8; }
-            
-            .email-input {
-                background: rgba(15, 23, 42, 0.8);
-                border-color: rgba(71, 85, 105, 0.5);
-                color: #f1f5f9;
-            }
-            
-            .email-input::placeholder { color: #64748b; }
-            
-            .progress-btn {
-                background: rgba(15, 23, 42, 0.8);
-                border-color: rgba(71, 85, 105, 0.5);
-                color: #f1f5f9;
-            }
-            
-            .progress-btn:hover {
-                background: rgba(15, 23, 42, 0.95);
-                color: #60a5fa;
-            }
-            
-            .contact-info a { color: #60a5fa; }
-        }
-
-        /* Slide overlay styles */
-        .page-transition-overlay {
-            position: fixed;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: #fff;
-            z-index: 9999;
-            pointer-events: none;
-            transform: translateX(-100%);
-            transition: transform 0.35s cubic-bezier(.77,0,.18,1);
-        }
-        .page-transition-overlay.active {
-            transform: translateX(0);
-            pointer-events: all;
         }
     </style>
 </head>
 <body>
-    <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
-    <div class="background-pattern"></div>
-    
-    <div class="floating-orbs">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="wave-container">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
     </div>
 
     <div class="container">
-        <div class="logo-container" onmouseenter="createBubbles()" onmouseleave="stopBubbles()">
-            <div class="logo">3Dream Labz</div>
+        <h1 class="logo">3Dream Labz</h1>
+        <div class="tagline">AI-Powered 3D Creation Platform</div>
+        <div class="description">
+            Professional tools for creating immersive 3D experiences using cutting-edge artificial intelligence technology.
         </div>
-        <div class="title">Revolutionizing Creation</div>
-        <div class="subtitle">Next-generation AI platform for immersive 3D experiences</div>
+        
+        <div class="launch-section">
+            <div class="launch-date">Late September 2024</div>
+            <div class="launch-subtitle">Expected Launch</div>
+        </div>
         
         <div class="progress-section">
             <div class="progress-container">
                 <div class="progress-bar"></div>
             </div>
-            <div class="status">Launching Soon</div>
+            <div class="progress-text">85% Complete</div>
         </div>
-
-        <form
-          action="https://formspree.io/f/xkgzbydr"
-          method="POST"
-          class="email-form"
-          style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap;"
-        >
-          <input
-            type="email"
-            name="email"
-            class="email-input"
-            placeholder="Enter your email for early access"
-            required
-            style="background: rgba(255, 255, 255, 0.8); border: 2px solid rgba(148, 163, 184, 0.3); border-radius: 50px; padding: 16px 24px; font-size: 1rem; color: #334155; width: 320px; outline: none;"
-          />
-          <button
-            type="submit"
-            class="submit-btn"
-            style="background: linear-gradient(135deg, #10b981, #f59e0b); border: none; color: white; padding: 16px 32px; font-size: 1rem; font-weight: 600; border-radius: 50px; cursor: pointer;"
-          >
-            Join Waitlist
-          </button>
-        </form>
-
-        <button class="progress-btn" onclick="openProgressPage()">
-            <span class="btn-text">View Progress</span>
-            <span class="btn-loader" style="display: none;">
-                <span class="spinner"></span>
-                Loading Platform...
-            </span>
-        </button>
-
-        <p class="contact-info">
-            Questions? Reach out at <a href="mailto:dawud46meo@gmail.com">dawud46meo@gmail.com</a>
-        </p>
+        
+        <div class="email-section">
+            <form action="https://formspree.io/f/xkgzbydr" method="POST" class="email-form">
+                <input 
+                    type="email" 
+                    name="email" 
+                    class="email-input" 
+                    placeholder="Enter your email for early access"
+                    required
+                />
+                <button type="submit" class="submit-btn">
+                    Join Waitlist
+                </button>
+            </form>
+        </div>
+        
+        <div class="actions">
+            <button class="action-btn" onclick="window.location.href='front-page.html'">
+                View Development Progress
+            </button>
+        </div>
+        
+        <div class="footer">
+            Questions? Contact us at <a href="mailto:dawud46meo@gmail.com">dawud46meo@gmail.com</a>
+        </div>
     </div>
 
     <script>
-        let bubbleInterval;
-        let isBubblingActive = false;
-
         // Dark mode detection
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark');
         }
+        
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
             if (event.matches) {
                 document.documentElement.classList.add('dark');
@@ -639,108 +542,30 @@
             }
         });
 
-        function createBubbles() {
-            if (isBubblingActive) return;
-            isBubblingActive = true;
-            
-            const logoContainer = document.querySelector('.logo-container');
-            const logo = document.querySelector('.logo');
-            const rect = logo.getBoundingClientRect();
-            
-            // Continue creating bubbles from the perimeter
-            bubbleInterval = setInterval(() => {
-                if (!isBubblingActive) return;
-                createBubble(logoContainer, rect);
-            }, 200);
-        }
-
-        function stopBubbles() {
-            isBubblingActive = false;
-            if (bubbleInterval) {
-                clearInterval(bubbleInterval);
-            }
-        }
-
-        function createBubble(container, rect) {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble active';
-            
-            // Create rounded rectangle perimeter points
-            const width = rect.width + 40;
-            const height = rect.height + 40;
-            const borderRadius = 20;
-            
-            // Random position along the rounded rectangle perimeter
-            const side = Math.floor(Math.random() * 4);
-            let startX, startY, endX, endY;
-            
-            switch(side) {
-                case 0: // Top edge
-                    startX = borderRadius + Math.random() * (width - 2 * borderRadius);
-                    startY = -20;
-                    endX = (Math.random() - 0.5) * 150;
-                    endY = -100 - Math.random() * 50;
-                    break;
-                case 1: // Right edge
-                    startX = width;
-                    startY = borderRadius + Math.random() * (height - 2 * borderRadius);
-                    endX = 100 + Math.random() * 50;
-                    endY = (Math.random() - 0.5) * 150;
-                    break;
-                case 2: // Bottom edge
-                    startX = borderRadius + Math.random() * (width - 2 * borderRadius);
-                    startY = height;
-                    endX = (Math.random() - 0.5) * 150;
-                    endY = 100 + Math.random() * 50;
-                    break;
-                case 3: // Left edge
-                    startX = -20;
-                    startY = borderRadius + Math.random() * (height - 2 * borderRadius);
-                    endX = -100 - Math.random() * 50;
-                    endY = (Math.random() - 0.5) * 150;
-                    break;
-            }
-            
-            const size = 12 + Math.random() * 20;
-            
-            bubble.style.cssText = `
-                --bubble-x: ${endX}px;
-                --bubble-y: ${endY}px;
-                left: ${startX}px;
-                top: ${startY}px;
-                width: ${size}px;
-                height: ${size}px;
-            `;
-            
-            container.appendChild(bubble);
-            
+        // Animate progress bar from 0 to 85% on page load
+        document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                if (bubble.parentNode) {
-                    bubble.parentNode.removeChild(bubble);
-                }
-            }, 3000);
-        }
+                const progressBar = document.querySelector('.progress-bar');
+                progressBar.style.width = '85%';
+            }, 1000);
+        });
 
-        function openProgressPage() {
-            pageTransitionNavigate('front-page.html');
-        }
+        // Action button functions
+        // View Development Progress button now links to app.html
 
-        function pageTransitionNavigate(url) {
-            const overlay = document.getElementById('pageTransitionOverlay');
-            overlay.classList.add('active');
-            setTimeout(() => {
-                window.location.href = url;
-            }, 350); // Match the CSS transition duration
-        }
-
-        // Animate overlay away on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('pageTransitionOverlay');
-            overlay.style.transform = 'translateX(0)';
-            setTimeout(() => {
-                overlay.style.transition = 'transform 0.35s cubic-bezier(.77,0,.18,1)';
-                overlay.style.transform = 'translateX(-100%)';
-            }, 50);
+        // Add parallax effect to shapes
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed * 20;
+                const y = (mouseY - 0.5) * speed * 20;
+                
+                shape.style.transform += ` translate(${x}px, ${y}px)`;
+            });
         });
     </script>
 </body>

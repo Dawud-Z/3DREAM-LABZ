@@ -18,29 +18,169 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #000000;
+            background: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Subtle grid pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating geometric shapes */
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.05;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #f97316, #ea580c);
+            border-radius: 20px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            transform: rotate(45deg);
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #f97316, #ea580c);
+            border-radius: 50%;
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #f97316, #ea580c);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            top: 30%;
+            left: 70%;
+            animation-delay: 10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #f97316, #ea580c);
+            border-radius: 20px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 15s;
+            transform: rotate(30deg);
+        }
+
+        .shape:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #f97316, #ea580c);
+            border-radius: 50%;
+            top: 15%;
+            right: 30%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+                opacity: 0.05;
+            }
+            25% {
+                transform: translateY(-30px) translateX(20px) rotate(90deg);
+                opacity: 0.08;
+            }
+            50% {
+                transform: translateY(-60px) translateX(-20px) rotate(180deg);
+                opacity: 0.06;
+            }
+            75% {
+                transform: translateY(-30px) translateX(30px) rotate(270deg);
+                opacity: 0.09;
+            }
         }
         
         .gradient-text {
-            background: linear-gradient(90deg, #000000, #555555);
+            background: linear-gradient(90deg, #f97316, #ea580c);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+
         
         .hero-gradient {
-            background: radial-gradient(circle at center, rgba(240,240,240,1) 0%, rgba(255,255,255,1) 100%);
+            background: linear-gradient(135deg, #1f1f1f 0%, #0f0f0f 50%, #1f1f1f 100%);
+            position: relative;
         }
+
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(249, 115, 22, 0.1) 0%, transparent 50%, rgba(249, 115, 22, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        /* Smooth section transitions */
+        .section-transition {
+            position: relative;
+        }
+
+        .section-transition::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--section-bg));
+            pointer-events: none;
+        }
+
+
         
         .button-black {
-            background-color: #000;
+            background-color: #f97316;
             color: #fff;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .button-black:hover {
+            background-color: #ea580c;
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
@@ -59,14 +199,16 @@
         }
         
         .feature-card {
-            background-color: #ffffff;
+            background-color: #111827;
+            border: 1px solid #374151;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: #f97316;
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.2);
         }
         
         .animate-float {
@@ -89,16 +231,18 @@
         .shape-cube {
             width: 60px;
             height: 60px;
-            background: #000;
+            background: linear-gradient(45deg, #f97316, #ea580c);
             transition: all 0.3s ease;
             transform: rotate(45deg);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
         }
         
         .shape-sphere {
             width: 80px;
             height: 80px;
-            background: linear-gradient(145deg, #000000, #333333);
+            background: linear-gradient(145deg, #f97316, #ea580c);
             border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
         }
         
         .shape-pyramid {
@@ -106,7 +250,8 @@
             height: 0;
             border-left: 40px solid transparent;
             border-right: 40px solid transparent;
-            border-bottom: 70px solid #000;
+            border-bottom: 70px solid #f97316;
+            filter: drop-shadow(0 4px 15px rgba(249, 115, 22, 0.3));
         }
         
         /* Pricing card styles */
@@ -117,11 +262,12 @@
         
         .pricing-card:hover {
             transform: scale(1.03);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: #f97316;
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.2);
         }
         
         .pricing-popular {
-            border: 2px solid #000;
+            border: 2px solid #f97316;
         }
         
         /* Slide overlay styles */
@@ -142,29 +288,38 @@
 </head>
 <body>
     <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
+    <!-- Floating shapes background -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
     <!-- Header -->
-    <header class="fixed w-full bg-white z-50 shadow-sm">
+    <header class="fixed w-full bg-black/90 backdrop-blur-md z-50 shadow-lg border-b border-orange-500/30">
         <div class="container mx-auto px-6 py-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="logo-container mr-3" style="width: 56px; height: 56px;">
                         <img src="favicon.png" alt="3DREAM LABS" style="width: 84%; height: 84%; object-fit: contain; margin: 8%;" class="object-cover">
                     </div>
-                    <span class="text-xl font-bold tracking-tight" style="font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 1px;">
-                      3DREAM <span style="color: #FFD700; background: #f3f4f6; padding: 2px 10px; border-radius: 3px;">LABZ</span>
+                    <span class="text-xl font-bold tracking-tight text-white" style="font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 1px;">
+                      3DREAM <span style="color: #f97316; background: rgba(249, 115, 22, 0.1); padding: 2px 10px; border-radius: 3px;">LABZ</span>
                     </span>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="text-black hover:text-gray-700 nav-link">Features</a>
-                    <a href="#how-it-works" class="text-black hover:text-gray-700 nav-link">How It Works</a>
-                    <a href="#pricing" class="text-black hover:text-gray-700 nav-link">Pricing</a>
-                    <a href="app.html" class="button-black px-5 py-2 rounded-full font-medium">Get Started</a>
+                    <a href="#features" class="text-white hover:text-orange-400 nav-link transition-colors">Features</a>
+                    <a href="#how-it-works" class="text-white hover:text-orange-400 nav-link transition-colors">How It Works</a>
+                    <a href="#pricing" class="text-white hover:text-orange-400 nav-link transition-colors">Pricing</a>
+                    <a href="app.html" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full font-medium transition-colors shadow-lg">Get Started</a>
                 </div>
                 
                 <!-- Mobile menu button -->
                 <div class="flex md:hidden">
-                    <button id="mobile-menu-button" class="text-black focus:outline-none">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
                         <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                             <path d="M4 6h16M4 12h16m-7 6h7"></path>
                         </svg>
@@ -174,30 +329,30 @@
             
             <!-- Mobile menu -->
             <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
-                <a href="#features" class="block py-2 text-black hover:text-gray-700 nav-link">Features</a>
-                <a href="#how-it-works" class="block py-2 text-black hover:text-gray-700 nav-link">How It Works</a>
-                <a href="#pricing" class="block py-2 text-black hover:text-gray-700 nav-link">Pricing</a>
-                <a href="app.html" class="block mt-4 button-black px-5 py-2 rounded-full font-medium text-center">Get Started</a>
+                <a href="#features" class="block py-2 text-white hover:text-orange-400 nav-link transition-colors">Features</a>
+                <a href="#how-it-works" class="block py-2 text-white hover:text-orange-400 nav-link transition-colors">How It Works</a>
+                <a href="#pricing" class="block py-2 text-white hover:text-orange-400 nav-link transition-colors">Pricing</a>
+                <a href="app.html" class="block mt-4 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full font-medium text-center transition-colors shadow-lg">Get Started</a>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-gradient pt-32 pb-20 md:pt-40 md:pb-32">
-        <div class="container mx-auto px-6">
+    <section class="hero-gradient pt-32 pb-20 md:pt-40 md:pb-32 relative">
+        <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row items-center">
                 <div class="lg:w-1/2 lg:pr-10 mb-10 lg:mb-0">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                        Transform Ideas Into <span class="gradient-text">3D Reality</span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+                        Transform Ideas Into <span class="text-orange-400">3D Reality</span>
                     </h1>
-                    <p class="text-lg md:text-xl text-gray-700 mb-8">
+                    <p class="text-lg md:text-xl text-gray-300 mb-8">
                         Our AI-powered platform instantly converts images and descriptions into detailed 3D models ready for printing, gaming, or design.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="app.html" class="button-black px-8 py-4 rounded-full font-medium text-lg text-center">
+                        <a href="app.html" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-medium text-lg text-center transition-all duration-300 transform hover:scale-105 shadow-lg">
                             Start Creating Now
                         </a>
-                        <a href="#how-it-works" class="px-8 py-4 rounded-full font-medium text-lg border border-black text-black hover:bg-gray-100 transition duration-300 text-center nav-link">
+                        <a href="#how-it-works" class="px-8 py-4 rounded-full font-medium text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500 hover:text-white transition duration-300 text-center nav-link">
                             Learn More
                         </a>
                     </div>
@@ -215,7 +370,7 @@
                             <div class="shape-pyramid absolute bottom-10 left-40"></div>
                         </div>
                         <!-- Large 3D logo -->
-                        <div class="absolute w-48 h-48 rounded-full bg-white p-2 shadow-xl animate-float">
+                        <div class="absolute w-48 h-48 rounded-full bg-orange-500 p-2 shadow-xl animate-float" style="background-color: #f97316 !important;">
                             <div class="w-full h-full overflow-hidden rounded-full">
                                 <img src="favicon.png" alt="3DREAM LABS" style="width: 80%; height: 80%; object-fit: contain; margin: 10%;" class="object-cover">
                             </div>
@@ -227,11 +382,11 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
+    <section id="features" class="py-20 bg-gray-900 relative section-transition" style="--section-bg: #111827;">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
-                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Powerful Features</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto">
                     Our AI-powered platform offers everything you need to bring your ideas to life
                 </p>
             </div>
@@ -239,39 +394,39 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <!-- Feature 1 -->
                 <div class="feature-card rounded-xl p-8 text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center" style="background-color: rgba(249, 115, 22, 0.3); border: 2px solid rgba(249, 115, 22, 0.5);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #f97316;">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Image to 3D</h3>
-                    <p class="text-gray-700">
+                    <h3 class="text-xl font-semibold mb-3" style="color: #f97316;">Image to 3D</h3>
+                    <p class="text-gray-300">
                         Upload any image and watch as our AI transforms it into a detailed 3D model within seconds.
                     </p>
                 </div>
                 
                 <!-- Feature 2 -->
                 <div class="feature-card rounded-xl p-8 text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center" style="background-color: rgba(249, 115, 22, 0.3); border: 2px solid rgba(249, 115, 22, 0.5);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #f97316;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3 3v8a3 3 0 003 3z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Text to 3D</h3>
-                    <p class="text-gray-700">
+                    <h3 class="text-xl font-semibold mb-3" style="color: #f97316;">Text to 3D</h3>
+                    <p class="text-gray-300">
                         Describe your idea in words and our advanced AI will create a 3D model matching your description.
                     </p>
                 </div>
                 
                 <!-- Feature 3 -->
                 <div class="feature-card rounded-xl p-8 text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center" style="background-color: rgba(249, 115, 22, 0.3); border: 2px solid rgba(249, 115, 22, 0.5);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #f97316;">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Multiple Formats</h3>
-                    <p class="text-gray-700">
+                    <h3 class="text-xl font-semibold mb-3" style="color: #f97316;">Multiple Formats</h3>
+                    <p class="text-gray-300">
                         Export your 3D models in STL, OBJ, GLTF, and other popular formats for any application.
                     </p>
                 </div>
@@ -280,60 +435,60 @@
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="py-20 bg-gray-50">
+    <section id="how-it-works" class="py-20 bg-gray-800 section-transition" style="--section-bg: #1f2937;">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">How It Works</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto">
                     Creating 3D models has never been easier
                 </p>
             </div>
             
             <div class="flex flex-col md:flex-row justify-between items-center space-y-12 md:space-y-0 md:space-x-8">
                 <!-- Step 1 -->
-                <div class="flex flex-col items-center text-center max-w-xs">
-                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-2xl font-bold mb-6">1</div>
-                    <h3 class="text-xl font-semibold mb-3">Upload or Describe</h3>
-                    <p class="text-gray-700">
+                <div class="flex flex-col items-center text-center max-w-xs p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl hover:bg-white/10 transition-all duration-300">
+                    <div class="w-16 h-16 rounded-full text-white flex items-center justify-center text-2xl font-bold mb-6 shadow-lg" style="background-color: #f97316; border: 2px solid #f97316;">1</div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: #f97316;">Upload or Describe</h3>
+                    <p class="text-gray-300">
                         Either upload an image or write a detailed description of what you want to create.
                     </p>
                 </div>
                 
                 <!-- Arrow -->
                 <div class="hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </div>
                 
                 <!-- Step 2 -->
-                <div class="flex flex-col items-center text-center max-w-xs">
-                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-2xl font-bold mb-6">2</div>
-                    <h3 class="text-xl font-semibold mb-3">AI Processing</h3>
-                    <p class="text-gray-700">
+                <div class="flex flex-col items-center text-center max-w-xs p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl hover:bg-white/10 transition-all duration-300">
+                    <div class="w-16 h-16 rounded-full text-white flex items-center justify-center text-2xl font-bold mb-6 shadow-lg" style="background-color: #f97316; border: 2px solid #f97316;">2</div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: #f97316;">AI Processing</h3>
+                    <p class="text-gray-300">
                         Our advanced AI analyzes your input and creates a detailed 3D model within seconds.
                     </p>
                 </div>
                 
                 <!-- Arrow -->
                 <div class="hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </div>
                 
                 <!-- Step 3 -->
-                <div class="flex flex-col items-center text-center max-w-xs">
-                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-2xl font-bold mb-6">3</div>
-                    <h3 class="text-xl font-semibold mb-3">Download & Use</h3>
-                    <p class="text-gray-700">
+                <div class="flex flex-col items-center text-center max-w-xs p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl hover:bg-white/10 transition-all duration-300">
+                    <div class="w-16 h-16 rounded-full text-white flex items-center justify-center text-2xl font-bold mb-6 shadow-lg" style="background-color: #f97316; border: 2px solid #f97316;">3</div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: #f97316;">Download & Use</h3>
+                    <p class="text-gray-300">
                         Preview your 3D model and download it in your preferred format for 3D printing or other uses.
                     </p>
                 </div>
             </div>
             
             <div class="mt-16 text-center">
-                <a href="app.html" class="button-black px-8 py-4 rounded-full font-medium text-lg inline-block">
+                <a href="app.html" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-medium text-lg inline-block transition-all duration-300 transform hover:scale-105 shadow-lg">
                     Try It Yourself
                 </a>
             </div>
@@ -341,192 +496,192 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="py-20 bg-white">
+    <section id="pricing" class="py-20 bg-gray-900 section-transition" style="--section-bg: #111827;">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
-                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Simple, Transparent Pricing</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto">
                     Choose the plan that works best for your needs
                 </p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
                 <!-- Free Package -->
-                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black">
+                <div class="pricing-card bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Free Package</h3>
+                        <h3 class="text-xl font-bold mb-2 text-white">Free Package</h3>
                         <div class="flex items-baseline mb-4">
-                            <span class="text-3xl font-bold">$0</span>
-                            <span class="text-gray-500 ml-1">/month</span>
+                            <span class="text-3xl font-bold text-white">$0</span>
+                            <span class="text-gray-400 ml-1">/month</span>
                         </div>
                         <ul class="space-y-3 mb-6">
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>10 free tokens</span>
+                                <span class="text-gray-300">10 free tokens</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Basic resolution models</span>
+                                <span class="text-gray-300">Basic resolution models</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>1 export format (STL)</span>
+                                <span class="text-gray-300">1 export format (STL)</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Community support</span>
+                                <span class="text-gray-300">Community support</span>
                             </li>
                         </ul>
-                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                        <a href="app.html" class="block text-center bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md font-medium transition duration-300">
                             Subscribe
                         </a>
                     </div>
                 </div>
                 
                 <!-- Basic Package -->
-                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black">
+                <div class="pricing-card bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Basic Package</h3>
+                        <h3 class="text-xl font-bold mb-2 text-white">Basic Package</h3>
                         <div class="flex items-baseline mb-4">
-                            <span class="text-3xl font-bold">$2.99</span>
-                            <span class="text-gray-500 ml-1">/month</span>
+                            <span class="text-3xl font-bold text-white">$2.99</span>
+                            <span class="text-gray-400 ml-1">/month</span>
                         </div>
                         <ul class="space-y-3 mb-6">
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>50 tokens per month</span>
+                                <span class="text-gray-300">50 tokens per month</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Standard resolution models</span>
+                                <span class="text-gray-300">Standard resolution models</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>3 export formats</span>
+                                <span class="text-gray-300">3 export formats</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Email support</span>
+                                <span class="text-gray-300">Email support</span>
                             </li>
                         </ul>
-                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                        <a href="app.html" class="block text-center bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md font-medium transition duration-300">
                             Subscribe
                         </a>
                     </div>
                 </div>
                 
                 <!-- Silver Package -->
-                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black relative">
-                    <div class="absolute top-0 right-0 bg-black text-white px-4 py-1 text-sm font-bold">
+                <div class="pricing-card bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 relative">
+                    <div class="absolute top-0 right-0 bg-orange-500 text-white px-4 py-1 text-sm font-bold">
                         POPULAR
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Silver Package</h3>
+                        <h3 class="text-xl font-bold mb-2 text-white">Silver Package</h3>
                         <div class="flex items-baseline mb-4">
-                            <span class="text-3xl font-bold">$5.99</span>
-                            <span class="text-gray-500 ml-1">/month</span>
+                            <span class="text-3xl font-bold text-white">$5.99</span>
+                            <span class="text-gray-400 ml-1">/month</span>
                         </div>
                         <ul class="space-y-3 mb-6">
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>200 tokens per month</span>
+                                <span class="text-gray-300">200 tokens per month</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>High resolution models</span>
+                                <span class="text-gray-300">High resolution models</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>All export formats</span>
+                                <span class="text-gray-300">All export formats</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Priority support</span>
+                                <span class="text-gray-300">Priority support</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Texture mapping</span>
+                                <span class="text-gray-300">Texture mapping</span>
                             </li>
                         </ul>
-                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                        <a href="app.html" class="block text-center bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md font-medium transition duration-300">
                             Subscribe
                         </a>
                     </div>
                 </div>
                 
                 <!-- Gold Package -->
-                <div class="pricing-card bg-white rounded-lg overflow-hidden border-2 border-black">
+                <div class="pricing-card bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Gold Package</h3>
+                        <h3 class="text-xl font-bold mb-2 text-white">Gold Package</h3>
                         <div class="flex items-baseline mb-4">
-                            <span class="text-3xl font-bold">$17.99</span>
-                            <span class="text-gray-500 ml-1">/month</span>
+                            <span class="text-3xl font-bold text-white">$17.99</span>
+                            <span class="text-gray-400 ml-1">/month</span>
                         </div>
                         <ul class="space-y-3 mb-6">
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>1,000 tokens a month</span>
+                                <span class="text-gray-300">1,000 tokens a month</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Ultra-high resolution models</span>
+                                <span class="text-gray-300">Ultra-high resolution models</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>All export formats</span>
+                                <span class="text-gray-300">All export formats</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>24/7 dedicated support</span>
+                                <span class="text-gray-300">24/7 dedicated support</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>Advanced texture mapping</span>
+                                <span class="text-gray-300">Advanced texture mapping</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-orange-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span>API access</span>
+                                <span class="text-gray-300">API access</span>
                             </li>
                         </ul>
-                        <a href="app.html" class="block text-center bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition duration-300">
+                        <a href="app.html" class="block text-center bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-md font-medium transition duration-300">
                             Subscribe
                         </a>
                     </div>
@@ -536,15 +691,15 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-black section-transition" style="--section-bg: #000000;">
         <div class="container mx-auto px-6">
-            <div class="bg-white rounded-2xl p-10 md:p-16 shadow-lg">
+            <div class="bg-gray-900 border border-orange-500/30 rounded-2xl p-10 md:p-16 shadow-2xl">
                 <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Create Amazing 3D Models?</h2>
-                    <p class="text-lg text-gray-700 mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to Create Amazing 3D Models?</h2>
+                    <p class="text-lg text-gray-300 mb-10">
                         Join thousands of creators who are already using 3DREAM LABS to bring their ideas to life.
                     </p>
-                    <a href="app.html" class="button-black px-10 py-5 rounded-full font-medium text-xl inline-block">
+                    <a href="app.html" class="bg-orange-500 hover:bg-orange-600 text-white px-10 py-5 rounded-full font-medium text-xl inline-block transition-all duration-300 transform hover:scale-105 shadow-lg">
                         Start Creating for Free
                     </a>
                 </div>
@@ -553,25 +708,25 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-12">
+    <footer class="bg-gray-900 border-t border-orange-500/30 py-12 section-transition" style="--section-bg: #111827;">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="flex items-center mb-6 md:mb-0">
                     <div class="logo-container mr-3">
                         <img src="favicon.png" alt="3DREAM LABS" style="width: 84%; height: 84%; object-fit: contain; margin: 8%;" class="object-cover">
                     </div>
-                    <span class="text-xl font-bold tracking-tight">3DREAM LABS</span>
+                    <span class="text-xl font-bold tracking-tight text-white">3DREAM LABS</span>
                 </div>
                 
                 <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
-                    <a href="#features" class="text-gray-600 hover:text-black nav-link">Features</a>
-                    <a href="#how-it-works" class="text-gray-600 hover:text-black nav-link">How It Works</a>
-                    <a href="#pricing" class="text-gray-600 hover:text-black nav-link">Pricing</a>
-                    <a href="app.html" class="text-gray-600 hover:text-black">Create Now</a>
+                    <a href="#features" class="text-gray-400 hover:text-orange-400 nav-link transition-colors">Features</a>
+                    <a href="#how-it-works" class="text-gray-400 hover:text-orange-400 nav-link transition-colors">How It Works</a>
+                    <a href="#pricing" class="text-gray-400 hover:text-orange-400 nav-link transition-colors">Pricing</a>
+                    <a href="app.html" class="text-gray-400 hover:text-orange-400 transition-colors">Create Now</a>
                 </div>
             </div>
             
-            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-500">
+            <div class="mt-8 pt-8 border-t border-orange-500/20 text-center text-gray-500">
                 <p>© 2025 3DREAM LABS. All rights reserved.</p>
             </div>
         </div>
@@ -621,6 +776,27 @@
                 overlay.style.transition = 'transform 0.35s cubic-bezier(.77,0,.18,1)';
                 overlay.style.transform = 'translateX(-100%)';
             }, 50);
+
+            // Enhanced floating animation for demo shapes
+            const demoShapes = document.querySelectorAll('.shape-cube, .shape-sphere, .shape-pyramid');
+            demoShapes.forEach((shape, index) => {
+                shape.style.animationDelay = `${index * 0.5}s`;
+            });
+        });
+
+        // Add parallax effect to floating background shapes
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed * 20;
+                const y = (mouseY - 0.5) * speed * 20;
+                
+                shape.style.transform += ` translate(${x}px, ${y}px)`;
+            });
         });
     </script>
 </body>

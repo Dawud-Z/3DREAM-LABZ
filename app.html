@@ -1502,6 +1502,30 @@ body {
 </div>
 </div>
 
+<!-- Inference Steps -->
+<div class="mb-4">
+<label class="block text-sm font-medium mb-2 text-gray-700">Steps</label>
+<div class="custom-select-wrapper">
+  <div class="custom-select">
+    <div class="custom-select__trigger">
+      <span id="selected-steps">64 steps</span>
+      <div class="custom-select__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="custom-options">
+      <span class="custom-option" data-value="16">16 steps (Fast)</span>
+      <span class="custom-option" data-value="32">32 steps (Balanced)</span>
+      <span class="custom-option selected" data-value="64">64 steps (High Quality)</span>
+      <span class="custom-option" data-value="128">128 steps (Ultra)</span>
+    </div>
+  </div>
+  <input type="hidden" id="inference-steps" name="inference-steps" value="64">
+</div>
+</div>
+
 <!-- Generate button and token counter -->
 <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
   <div class="flex space-x-2">
@@ -2156,9 +2180,15 @@ if (fileInput) {
 async function callBackendAPI(prompt, format = 'stl', image = null) {
     try {
         logToUI("Calling backend API...", "info");
-        console.log('[DEBUG] callBackendAPI called with:', { prompt, format, image });
+        // Gather steps and quality from UI
+        const stepsRaw = document.getElementById('inference-steps')?.value;
+        const steps = stepsRaw ? parseInt(stepsRaw, 10) : 64;
+        const quality = document.getElementById('quality-level')?.value || 'high';
+        console.log('[DEBUG] callBackendAPI called with:', { prompt, format, steps, quality, hasImage: !!image });
         const requestBody = {
             prompt: prompt,
+            num_inference_steps: steps,
+            quality: quality,
         };
         // Use the provided image or the globally stored one
         const base64Image = image || window.uploadedImageBase64;
@@ -2196,8 +2226,10 @@ async function generateAIModel() {
         startProcessingTimer(); // Start the seconds counter!
         const prompt = document.getElementById('description').value;
         const format = document.getElementById('export-format').value;
+        const steps = parseInt(document.getElementById('inference-steps')?.value || '64', 10);
         // Use the globally stored base64 image
         const imageBase64 = window.uploadedImageBase64 || null;
+        console.log(`[DEBUG] generateAIModel -> steps: ${steps}`);
         const result = await callBackendAPI(prompt, format, imageBase64);
         await handleAIResponse(result);
     } catch (error) {
@@ -3745,10 +3777,20 @@ function initCustomSelects() {
         const selectTrigger = this.closest('.custom-select').querySelector('.custom-select__trigger span');
         selectTrigger.textContent = this.textContent;
         
-        // Update the hidden input value
-        const format = this.getAttribute('data-value');
-        document.getElementById('export-format').value = format;
-        document.getElementById('download-format').textContent = `Download ${format.toUpperCase()}`;
+        // Update the hidden input value for this specific select
+        const value = this.getAttribute('data-value');
+        const wrapper = this.closest('.custom-select-wrapper');
+        const hiddenInput = wrapper ? wrapper.querySelector('input[type="hidden"]') : null;
+        if (hiddenInput) {
+          hiddenInput.value = value;
+          // If this is the export format select, also update download button label
+          if (hiddenInput.id === 'export-format') {
+            const downloadFormat = document.getElementById('download-format');
+            if (downloadFormat) {
+              downloadFormat.textContent = `Download ${value.toUpperCase()}`;
+            }
+          }
+        }
         
         // Close the dropdown
         this.closest('.custom-select').classList.remove('open');
@@ -4936,6 +4978,15 @@ async function generatePreview(prompt, format = 'stl', image = null) {
       prompt: prompt,
       format: format.toLowerCase()
     };
+    // Include steps and quality if available
+    const stepsVal = document.getElementById('inference-steps')?.value;
+    const qualityVal = document.getElementById('quality-level')?.value;
+    if (stepsVal) {
+      requestBody.num_inference_steps = parseInt(stepsVal, 10);
+    }
+    if (qualityVal) {
+      requestBody.quality = qualityVal;
+    }
     
     // If there's an image, we'll use a descriptive text prompt for Point-E
     if (image) {
