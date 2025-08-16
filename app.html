@@ -100,7 +100,127 @@ body {
   }
 }
 
-/* 3D Processing Animation */
+/* Eclipse Loading Animation */
+.eclipse-loading-container {
+  background: #000000;
+  border-radius: 8px;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+}
+
+.eclipse-animation {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 40px;
+}
+
+.eclipse-circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #000000;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.eclipse-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #00ffff 60deg,
+    #ffff00 120deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  animation: eclipse-rotate 3s linear infinite;
+  filter: blur(8px);
+  opacity: 0.9;
+}
+
+.eclipse-rim {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #00bfff 60deg,
+    #ffd700 120deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  animation: eclipse-rotate 3s linear infinite;
+  opacity: 0.8;
+}
+
+.eclipse-inner-shadow {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border-radius: 50%;
+  background: #000000;
+  box-shadow: inset 0 0 20px rgba(0, 191, 255, 0.3);
+}
+
+@keyframes eclipse-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading Text Animation */
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  background: linear-gradient(
+    45deg,
+    #00bfff 0%,
+    #ffd700 25%,
+    #00bfff 50%,
+    #ffd700 75%,
+    #00bfff 100%
+  );
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 2s ease-in-out infinite;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 3D Processing Animation (old) */
 .processing-container {
   background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
   border-radius: 8px;
@@ -233,7 +353,7 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: 0.5rem;
-  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  background: #000000; /* Changed to black */
 }
 
 /* File input styling */
@@ -1575,27 +1695,22 @@ body {
 <!-- Right panel: 3D preview -->
 <div class="bg-gray-800 p-6 rounded-lg border border-gray-600 shadow-sm h-full">
 <h2 class="text-xl font-semibold mb-4 text-white">3D Preview</h2>
-<div id="preview-container" class="w-full h-64 md:h-96 bg-gray-700 flex items-center justify-center">
+<div id="preview-container" class="w-full h-64 md:h-96 bg-black flex items-center justify-center">
 <div id="initial-state" class="text-center p-6">
 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
 </svg>
 <p class="text-gray-400">Upload an image or enter a description to generate a 3D model</p>
 </div>
-<div id="loading-state" class="hidden processing-container">
-<div class="processing-animation">
-<div class="orbit-container">
-<div class="orbit-element"></div>
-<div class="orbit-element"></div>
-<div class="orbit-element"></div>
-<div class="orbit-element"></div>
+<div id="loading-state" class="hidden eclipse-loading-container">
+<div class="eclipse-animation">
+<div class="eclipse-glow"></div>
+<div class="eclipse-rim"></div>
+<div class="eclipse-circle">
+<div class="eclipse-inner-shadow"></div>
 </div>
-<div class="center-element"></div>
 </div>
-<p class="text-gray-300 text-center mb-4 font-medium">AI is generating your 3D model</p>
-<div class="processing-counter" id="processing-counter">
-processing | 0.0/270s
-</div>
+<div class="loading-text">Loading...</div>
 </div>
 <div id="model-viewer" class="hidden w-full h-full"></div>
 </div>
