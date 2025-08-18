@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <script src="https://cdn.tailwindcss.com" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/STLLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/exporters/STLExporter.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/exporters/OBJExporter.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/exporters/GLTFExporter.js"></script>
@@ -353,7 +355,64 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: 0.5rem;
-  background: #000000; /* Changed to black */
+  background: #000000;
+}
+
+/* 3D Preview Styles */
+.preview-controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.preview-controls button {
+  background-color: #4b5563;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.preview-controls button:hover {
+  background-color: #6b7280;
+}
+
+.preview-controls button.active {
+  background-color: #f97316;
+}
+
+.preview-info {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.preview-instructions {
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.preview-stats {
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
 }
 
 /* File input styling */
@@ -864,6 +923,28 @@ body {
 .header-visible {
   transform: translateY(0);
 }
+
+/* Fullscreen styles */
+.fullscreen-viewer {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background: #000000 !important;
+}
+
+.fullscreen-viewer .preview-controls {
+  top: 2rem;
+  right: 2rem;
+}
+
+.fullscreen-viewer .preview-info {
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+}
 </style>
 
 <!-- How It Works diagram styles (updated) -->
@@ -1150,11 +1231,6 @@ body {
         white-space: nowrap;
     }
 </style>
-
-<!-- Three.js and dependencies -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body class="bg-gray-900 text-white">
 <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
@@ -1694,25 +1770,43 @@ body {
 
 <!-- Right panel: 3D preview -->
 <div class="bg-gray-800 p-6 rounded-lg border border-gray-600 shadow-sm h-full">
-<h2 class="text-xl font-semibold mb-4 text-white">3D Preview</h2>
-<div id="preview-container" class="w-full h-64 md:h-96 bg-black flex items-center justify-center">
-<div id="initial-state" class="text-center p-6">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-</svg>
-<p class="text-gray-400">Upload an image or enter a description to generate a 3D model</p>
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-semibold text-orange-500">3D Preview</h2>
 </div>
-<div id="loading-state" class="hidden eclipse-loading-container">
-<div class="eclipse-animation">
-<div class="eclipse-glow"></div>
-<div class="eclipse-rim"></div>
-<div class="eclipse-circle">
-<div class="eclipse-inner-shadow"></div>
-</div>
-</div>
-<div class="loading-text">Loading...</div>
-</div>
-<div id="model-viewer" class="hidden w-full h-full"></div>
+<div id="preview-container" class="w-full h-64 md:h-96 bg-black relative">
+  <!-- Control buttons -->
+  <div class="preview-controls">
+    <button id="reset-view-btn" class="hover:bg-gray-600 transition-colors">Reset View</button>
+    <button id="wireframe-btn" class="hover:bg-gray-600 transition-colors">Wireframe</button>
+    <button id="fullscreen-btn" class="hover:bg-gray-600 transition-colors">Fullscreen</button>
+  </div>
+
+  <!-- 3D Canvas -->
+  <div id="threejs-canvas" class="w-full h-full"></div>
+
+  <!-- Bottom info -->
+  <div class="preview-info">
+    <div class="preview-instructions">
+      Mouse: Rotate | Wheel: Zoom | Right-click: Pan
+    </div>
+    <div class="preview-stats">
+      Vertices: <span id="vertex-count">24</span> &nbsp; Faces: <span id="face-count">12</span>
+    </div>
+  </div>
+
+
+
+  <!-- Loading state -->
+  <div id="loading-state" class="hidden eclipse-loading-container absolute inset-0">
+    <div class="eclipse-animation">
+      <div class="eclipse-glow"></div>
+      <div class="eclipse-rim"></div>
+      <div class="eclipse-circle">
+        <div class="eclipse-inner-shadow"></div>
+      </div>
+    </div>
+    <div class="loading-text">Generating 3D Model...</div>
+  </div>
 </div>
 
 <!-- Download options - initially hidden -->
@@ -2013,8 +2107,6 @@ POPULAR
 </div>
 </section>
 
-
-
 <!-- How It Works section - initially hidden -->
 <section id="howitworks-section" class="hidden space-y-6">
   <div class="diagram-container">
@@ -2090,6 +2182,7 @@ POPULAR
 </main>
 </div>
 
+<!-- Hidden 3D model viewer for fullscreen -->
 <div id="model-viewer" style="display: none;"></div>
 
 <script>
@@ -2100,179 +2193,199 @@ let processingTimer = null;
 let processingStartTime = 0;
 
 // Backend API endpoint - using local server
-const API_URL = 'https://0e0875688040.ngrok-free.app';  // Using the correct port
+const API_URL = 'https://0e0875688040.ngrok-free.app';
 console.log("API URL configured as:", API_URL);
 
 // Store the current 3D model for export
 let currentModel = null;
 
-// Initialize Three.js scene
-let scene, camera, renderer, cube, animationId;
+// Initialize Three.js scene for 3D preview
+let scene, camera, renderer, controls, cube, animationId;
+let isWireframe = false;
+let isFullscreen = false;
+let currentGrid = null;
 
-// Initialize Three.js scene
+// Initialize Three.js
 function initThreeJS() {
   try {
     // Create scene
     scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
     
     // Create camera
-    camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 5;
+    const container = document.getElementById('threejs-canvas');
+    const containerRect = container.getBoundingClientRect();
+    camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 1000);
+    camera.position.set(4, 4, 4);
     
     // Create renderer
-    const container = document.getElementById('model-viewer');
-    if (!container) return; // Safety check
-    
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setClearColor(0x1a1a1a, 1);
-    container.innerHTML = '';
+    renderer.setSize(containerRect.width, containerRect.height);
+    renderer.setClearColor(0x000000, 1);
     container.appendChild(renderer.domElement);
     
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      if (renderer && container) {
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-      }
-    });
-    
-    // Add ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
     
-    // Add directional light
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(1, 1, 1);
+    directionalLight.position.set(10, 10, 5);
     scene.add(directionalLight);
     
-    // Add another directional light from the opposite side for better visibility
     const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
-    backLight.position.set(-1, -1, -1);
+    backLight.position.set(-10, -10, -5);
     scene.add(backLight);
+    
+    // Add grid
+    createGrid();
+    
+    // Create demo cube
+    createDemoCube();
+    
+    // Add orbit controls
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = true;
+    controls.enableZoom = true;
+    controls.enableRotate = true;
+    
+    // Handle window resize
+    window.addEventListener('resize', onWindowResize);
+    
+    // Start render loop
+    animate();
+    
+    console.log("Three.js initialized successfully");
   } catch (e) {
     console.error("Error initializing Three.js:", e);
   }
 }
 
-// Create a demo model (improved version)
-function createDemoModel() {
-  try {
-    // Clear any existing model
-    if (cube) {
-      scene.remove(cube);
-    }
-    
-    // Create a 3D model (simple vase/cup shape)
-    const segments = 32;
-    const height = 4;
-    const radiusTop = 1.2;
-    const radiusBottom = 0.8;
-    const geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, segments);
-    
-    // Create a group to hold the model parts
-    const group = new THREE.Group();
-    
-    // Create the main body
-    const material = new THREE.MeshStandardMaterial({
-      color: 0xf97316,
-      metalness: 0.3,
-      roughness: 0.4,
-    });
-    
-    cube = new THREE.Mesh(geometry, material);
-    group.add(cube);
-    
-    // Add a handle
-    const handleRadius = 0.2;
-    const handleTube = 0.05;
-    const handleLength = 0.9;
-    const handleGeometry = new THREE.TorusGeometry(handleRadius, handleTube, 16, 32, Math.PI);
-    const handle = new THREE.Mesh(handleGeometry, material);
-    handle.position.set(radiusTop + handleRadius - 0.2, 0, 0);
-    handle.rotation.set(Math.PI/2, 0, 0);
-    group.add(handle);
-    
-    // Add the group to the scene
-    scene.add(group);
-    cube = group; // Set the group as the main object to manipulate
-    
-    // Position the camera to see the model well
-    camera.position.set(0, 0, 6);
-    camera.lookAt(0, 0, 0);
-    
-    // Animate the model
-    function animate() {
-      animationId = requestAnimationFrame(animate);
-      if (cube) {
-        cube.rotation.y += 0.01;
-      }
-      if (renderer && scene && camera) {
-        renderer.render(scene, camera);
-      }
-    }
-    
-    animate();
-  } catch (e) {
-    console.error("Error creating 3D model:", e);
-  }
+// Create grid
+function createGrid() {
+  const gridHelper = new THREE.GridHelper(20, 20, 0x444444, 0x444444);
+  scene.add(gridHelper);
+  currentGrid = gridHelper;
 }
 
-// Start processing timer
-function startProcessingTimer() {
-  processingStartTime = Date.now();
-  const processingCounter = document.getElementById('processing-counter');
+// Create demo cube (orange cube like in the image)
+function createDemoCube() {
+  const geometry = new THREE.BoxGeometry(2, 2, 2);
+  const material = new THREE.MeshStandardMaterial({ 
+    color: 0xf97316, // Orange color
+    metalness: 0.3,
+    roughness: 0.4
+  });
   
-  processingTimer = setInterval(() => {
-    const elapsed = (Date.now() - processingStartTime) / 1000;
-    if (processingCounter) {
-      processingCounter.textContent = `processing | ${elapsed.toFixed(1)}/60s`;
-    }
-  }, 100);
+  cube = new THREE.Mesh(geometry, material);
+  cube.position.set(0, 1, 0); // Position above the grid
+  scene.add(cube);
+  
+  // Update stats
+  updateStats(geometry);
 }
 
-// Stop processing timer
-function stopProcessingTimer() {
-  if (processingTimer) {
-    clearInterval(processingTimer);
-    processingTimer = null;
+// Update vertex and face count
+function updateStats(geometry) {
+  const vertices = geometry.attributes.position.count;
+  const faces = geometry.index ? geometry.index.count / 3 : vertices / 3;
+  
+  document.getElementById('vertex-count').textContent = vertices;
+  document.getElementById('face-count').textContent = Math.floor(faces);
+}
+
+// Handle window resize
+function onWindowResize() {
+  if (!camera || !renderer) return;
+  
+  const container = document.getElementById('threejs-canvas');
+  if (!container) return;
+  
+  const containerRect = container.getBoundingClientRect();
+  camera.aspect = containerRect.width / containerRect.height;
+  camera.updateProjectionMatrix();
+  renderer.setSize(containerRect.width, containerRect.height);
+}
+
+// Animation loop
+function animate() {
+  animationId = requestAnimationFrame(animate);
+  
+  if (controls) controls.update();
+  if (renderer && scene && camera) {
+    renderer.render(scene, camera);
   }
 }
 
-// Log to the AI logs area
-function logToUI(message, type = 'info') {
-  try {
-    const logsContent = document.getElementById('logs-content');
-    if (!logsContent) return;
+// 3D Preview Control Functions
+function resetView() {
+  if (camera && controls) {
+    camera.position.set(4, 4, 4);
+    camera.lookAt(0, 0, 0);
+    controls.reset();
+  }
+}
+
+function toggleWireframe() {
+  if (!cube) return;
+  
+  isWireframe = !isWireframe;
+  
+  if (cube.material) {
+    cube.material.wireframe = isWireframe;
+  }
+  
+  // Update button appearance
+  const wireframeBtn = document.getElementById('wireframe-btn');
+  if (wireframeBtn) {
+    if (isWireframe) {
+      wireframeBtn.classList.add('active');
+    } else {
+      wireframeBtn.classList.remove('active');
+    }
+  }
+}
+
+function toggleFullscreen() {
+  const previewContainer = document.getElementById('preview-container');
+  
+  if (!isFullscreen) {
+    // Enter fullscreen
+    previewContainer.classList.add('fullscreen-viewer');
+    isFullscreen = true;
     
-    // Get current timestamp
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString();
+    // Update renderer size for fullscreen
+    setTimeout(() => {
+      if (renderer) {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      }
+    }, 100);
     
-    // Create log entry
-    const logLine = document.createElement('div');
-    logLine.className = 'log-line';
+    // Update button text
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    if (fullscreenBtn) {
+      fullscreenBtn.textContent = 'Exit Fullscreen';
+      fullscreenBtn.classList.add('active');
+    }
+  } else {
+    // Exit fullscreen
+    previewContainer.classList.remove('fullscreen-viewer');
+    isFullscreen = false;
     
-    // Time
-    const timeSpan = document.createElement('span');
-    timeSpan.className = 'log-time';
-    timeSpan.textContent = `[${timeStr}]`;
-    logLine.appendChild(timeSpan);
+    // Restore normal size
+    setTimeout(() => {
+      onWindowResize();
+    }, 100);
     
-    // Message with appropriate class
-    const msgSpan = document.createElement('span');
-    msgSpan.className = `log-${type}`;
-    msgSpan.textContent = message;
-    logLine.appendChild(msgSpan);
-    
-    // Add to logs
-    logsContent.appendChild(logLine);
-    
-    // Scroll to bottom
-    logsContent.scrollTop = logsContent.scrollHeight;
-  } catch (e) {
-    console.error("Error writing to log UI:", e);
+    // Update button text
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    if (fullscreenBtn) {
+      fullscreenBtn.textContent = 'Fullscreen';
+      fullscreenBtn.classList.remove('active');
+    }
   }
 }
 
@@ -2369,8 +2482,6 @@ async function generateAIModel() {
     }
 }
 
-
-
 // Handle Point-E responses and load 3D model files (UPDATED)
 async function handleAIResponse(result) {
     try {
@@ -2404,9 +2515,9 @@ async function handleAIResponse(result) {
                 // Create URL for the blob
                 const modelUrl = URL.createObjectURL(blob);
                 
-                console.log('Updating viewer with model...');
-                // Update the viewer with the new model
-                updateViewer(modelUrl);
+                console.log('Loading model in 3D preview...');
+                // Load the model in the 3D preview
+                await loadSTLModel(modelUrl);
                 
                 logToUI("✅ 3D model generated successfully!", "success");
                 return;
@@ -2426,7 +2537,7 @@ async function handleAIResponse(result) {
                 const modelUrl = URL.createObjectURL(blob);
                 console.log('Created model URL:', modelUrl);
                 
-                updateViewer(modelUrl);
+                await loadSTLModel(modelUrl);
                 logToUI("✅ 3D model generated successfully!", "success");
                 return;
             } catch (error) {
@@ -2445,7 +2556,7 @@ async function handleAIResponse(result) {
                     const modelUrl = URL.createObjectURL(blob);
                     console.log('Created model URL from Hunyuan3D data');
                     
-                    updateViewer(modelUrl);
+                    await loadSTLModel(modelUrl);
                     logToUI("✅ 3D model generated successfully!", "success");
                     return;
                 } else if (result.data.model_data) {
@@ -2458,7 +2569,7 @@ async function handleAIResponse(result) {
                     const blob = new Blob([bytes], { type: 'application/octet-stream' });
                     const modelUrl = URL.createObjectURL(blob);
                     
-                    updateViewer(modelUrl);
+                    await loadSTLModel(modelUrl);
                     logToUI("✅ 3D model generated successfully!", "success");
                     return;
                 }
@@ -2487,7 +2598,7 @@ async function handleAIResponse(result) {
                 const stlBlob = await stlResponse.blob();
                 const modelUrl = URL.createObjectURL(stlBlob);
                 
-                updateViewer(modelUrl);
+                await loadSTLModel(modelUrl);
                 logToUI("✅ 3D model generated successfully!", "success");
                 return;
             } catch (error) {
@@ -2504,236 +2615,152 @@ async function handleAIResponse(result) {
         console.error('Error in handleAIResponse:', error);
         logToUI(`Error processing response: ${error.message}`, "error");
         
-        // Generate fallback if everything fails
-        const fallbackData = generateFallbackModel();
-        createModelFromAIData(fallbackData);
+        // Keep the demo cube on error
+        logToUI("Keeping demo cube visible", "info");
     }
 }
 
-// Generate a fallback model if AI response parsing fails
-function generateFallbackModel() {
-  logToUI("Generating fallback model...", "warn");
-  
-  // Create a simple shape with some interesting features
-  const vertices = [];
-  const faces = [];
-  
-  // Create a polyhedron (octahedron-like)
-  const radius = 2;
-  
-  // Add vertices
-  vertices.push([0, radius, 0]);  // top
-  vertices.push([0, -radius, 0]); // bottom
-  
-  // Add equatorial vertices
-  const numPoints = 8;
-  for (let i = 0; i < numPoints; i++) {
-    const angle = (i / numPoints) * Math.PI * 2;
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
-    vertices.push([x, 0, z]);
-  }
-  
-  // Create faces - connect top and bottom to equatorial vertices
-  for (let i = 0; i < numPoints; i++) {
-    const next = (i + 1) % numPoints + 2; // +2 because 0,1 are top/bottom
-    const curr = i + 2;
-    
-    // Top face
-    faces.push([0, curr, next]);
-    
-    // Bottom face
-    faces.push([1, next, curr]);
-  }
-  
-  return {
-    vertices: vertices,
-    faces: faces,
-    details: {
-      size: [radius*2, radius*2, radius*2],
-      color: "#f97316",
-      complexity: 3
+// Load STL model into the 3D preview
+async function loadSTLModel(modelUrl) {
+    try {
+        logToUI("Loading STL model into 3D preview...", "info");
+        
+        // Remove current cube
+        if (cube) {
+            scene.remove(cube);
+            cube = null;
+        }
+        
+        // Load STL file
+        const loader = new THREE.STLLoader();
+        
+        // Fetch and parse the STL file
+        const response = await fetch(modelUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const geometry = loader.parse(arrayBuffer);
+        
+        // Create material (preserve wireframe state)
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0xf97316, // Orange color
+            metalness: 0.3,
+            roughness: 0.4,
+            wireframe: isWireframe
+        });
+        
+        // Create mesh
+        cube = new THREE.Mesh(geometry, material);
+        
+        // Center and scale the model
+        geometry.computeBoundingBox();
+        const box = geometry.boundingBox;
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        // Center the geometry
+        geometry.translate(-center.x, -center.y, -center.z);
+        
+        // Scale to fit in view (max size of 4 units)
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 4 / maxDim;
+        cube.scale.set(scale, scale, scale);
+        
+        // Position above the grid
+        cube.position.set(0, size.y * scale / 2, 0);
+        
+        // Add to scene
+        scene.add(cube);
+        
+        // Update stats
+        updateStats(geometry);
+        
+        // Update UI
+        showModelGenerated();
+        
+        logToUI("STL model loaded successfully!", "success");
+        
+    } catch (error) {
+        console.error('Error loading STL model:', error);
+        logToUI(`Error loading STL model: ${error.message}`, "error");
+        
+        // Fallback to demo cube
+        createDemoCube();
     }
-  };
 }
 
-// Create 3D model from AI-generated data
-function createModelFromAIData(modelData) {
-  try {
-    logToUI("Creating 3D model from AI data...", "info");
-    
-    // Update UI for model creation
-    const initialState = document.getElementById('initial-state');
+// Show UI state when model is generated
+function showModelGenerated() {
+    // Hide loading state
     const loadingState = document.getElementById('loading-state');
-    const modelViewer = document.getElementById('model-viewer');
+    const initialState = document.getElementById('initial-state');
     const generateText = document.getElementById('generate-text');
     const generatingText = document.getElementById('generating-text');
     const downloadOptions = document.getElementById('download-options');
     
-    if (initialState) initialState.classList.add('hidden');
     if (loadingState) loadingState.classList.add('hidden');
-    if (modelViewer) modelViewer.classList.remove('hidden');
+    if (initialState) initialState.classList.add('hidden');
     if (generateText) generateText.classList.remove('hidden');
     if (generatingText) generatingText.classList.add('hidden');
     if (downloadOptions) downloadOptions.classList.remove('hidden');
     
     // Stop processing timer
     stopProcessingTimer();
-    
-    // Clear any existing model
-    clearScene();
-    
-    // Get container dimensions for renderer resizing
-    const container = document.getElementById('model-viewer');
-    if (container) {
-      renderer.setSize(container.clientWidth, container.clientHeight);
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
+}
+
+// Start processing timer
+function startProcessingTimer() {
+  processingStartTime = Date.now();
+  const processingCounter = document.getElementById('processing-counter');
+  
+  processingTimer = setInterval(() => {
+    const elapsed = (Date.now() - processingStartTime) / 1000;
+    if (processingCounter) {
+      processingCounter.textContent = `processing | ${elapsed.toFixed(1)}/60s`;
     }
-    
-    // Create geometry from vertices and faces
-    if (modelData.vertices && modelData.faces) {
-      const geometry = new THREE.BufferGeometry();
-      
-      // Convert vertices array to Float32Array for Three.js
-      const verticesFlat = new Float32Array(modelData.vertices.length * 3);
-      for (let i = 0; i < modelData.vertices.length; i++) {
-        verticesFlat[i * 3] = modelData.vertices[i][0];
-        verticesFlat[i * 3 + 1] = modelData.vertices[i][1];
-        verticesFlat[i * 3 + 2] = modelData.vertices[i][2];
-      }
-      
-      geometry.setAttribute('position', new THREE.BufferAttribute(verticesFlat, 3));
-      
-      // Convert faces to indices for Three.js
-      if (modelData.faces.length > 0) {
-        const indices = [];
-        
-        for (const face of modelData.faces) {
-          if (face.length >= 3) {
-            indices.push(face[0], face[1], face[2]);
-          }
-        }
-        
-        if (indices.length > 0) {
-          geometry.setIndex(indices);
-        } else {
-          logToUI("No valid faces found in model data", "error");
-          throw new Error("No valid faces in model data");
-        }
-      }
-      
-      // Compute normals for proper lighting
-      geometry.computeVertexNormals();
-      
-      // Create material - use color from AI if provided
-      let materialColor = 0xf97316; // Default orange color
-      if (modelData.details && modelData.details.color) {
-        try {
-          // Convert hex string to integer color value
-          const hexColor = modelData.details.color.replace('#', '0x');
-          materialColor = parseInt(hexColor, 16);
-        } catch (e) {
-          console.error("Error parsing color:", e);
-        }
-      }
-      
-      const material = new THREE.MeshStandardMaterial({
-        color: materialColor,
-        metalness: 0.3,
-        roughness: 0.4,
-      });
-      
-      // Create mesh
-      cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
-      
-      // Center the model
-      geometry.computeBoundingBox();
-      const center = new THREE.Vector3();
-      geometry.boundingBox.getCenter(center);
-      geometry.translate(-center.x, -center.y, -center.z);
-      
-      // Scale the model to fit the view
-      const boundingBox = new THREE.Box3().setFromObject(cube);
-      const size = new THREE.Vector3();
-      boundingBox.getSize(size);
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 3 / maxDim;
-      cube.scale.set(scale, scale, scale);
-      
-      // Position the camera
-      camera.position.z = 5;
-      
-      // Force a render immediately to make sure the model appears
-      if (renderer && scene && camera) {
-        renderer.render(scene, camera);
-      }
-      
-      // Animate the model
-      function animate() {
-        animationId = requestAnimationFrame(animate);
-        if (cube) {
-          cube.rotation.y += 0.01;
-        }
-        if (renderer && scene && camera) {
-          renderer.render(scene, camera);
-        }
-      }
-      
-      animate();
-      
-      logToUI("3D model created successfully!", "success");
-    } else {
-      // Fallback if no vertices/faces data
-      logToUI("Invalid model data, using fallback", "warn");
-      console.error("Invalid model data:", modelData);
-      createDemoModel();
-    }
-  } catch (e) {
-    logToUI(`Error creating model: ${e.message}`, "error");
-    console.error("Error creating model from AI data:", e);
-    createDemoModel();
+  }, 100);
+}
+
+// Stop processing timer
+function stopProcessingTimer() {
+  if (processingTimer) {
+    clearInterval(processingTimer);
+    processingTimer = null;
   }
 }
 
-// Clear scene helper function
-function clearScene() {
+// Log to the AI logs area
+function logToUI(message, type = 'info') {
   try {
-    // Remove existing models
-    if (cube) {
-      scene.remove(cube);
-      cube = null;
-    }
+    const logsContent = document.getElementById('logs-content');
+    if (!logsContent) return;
     
-    // Clear animation
-    if (animationId) {
-      cancelAnimationFrame(animationId);
-      animationId = null;
-    }
-  } catch (error) {
-    console.error("Error clearing scene:", error);
+    // Get current timestamp
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString();
+    
+    // Create log entry
+    const logLine = document.createElement('div');
+    logLine.className = 'log-line';
+    
+    // Time
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'log-time';
+    timeSpan.textContent = `[${timeStr}]`;
+    logLine.appendChild(timeSpan);
+    
+    // Message with appropriate class
+    const msgSpan = document.createElement('span');
+    msgSpan.className = `log-${type}`;
+    msgSpan.textContent = message;
+    logLine.appendChild(msgSpan);
+    
+    // Add to logs
+    logsContent.appendChild(logLine);
+    
+    // Scroll to bottom
+    logsContent.scrollTop = logsContent.scrollHeight;
+  } catch (e) {
+    console.error("Error writing to log UI:", e);
   }
-}
-
-// Initialize viewport observer
-let observer;
-try {
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const modelViewer = document.getElementById('model-viewer');
-        if (modelViewer && modelViewer.style.display !== 'none') {
-          if (animationId) cancelAnimationFrame(animationId);
-          createDemoModel();
-        }
-      } else {
-        if (animationId) cancelAnimationFrame(animationId);
-      }
-    });
-  }, { threshold: 0.1 });
-} catch (e) {
-  console.error("Error creating IntersectionObserver:", e);
 }
 
 // Check if user has already rated the app
@@ -2835,17 +2862,6 @@ function showSection(sectionName) {
   // Hide mobile menu after selection
   const mobileMenu = document.getElementById('mobile-menu');
   if (mobileMenu) mobileMenu.classList.add('hidden');
-  // Observe model viewer if showing app section
-  if (sectionName === 'app' && typeof observer !== 'undefined') {
-    const previewContainer = document.getElementById('preview-container');
-    if (previewContainer) observer.observe(previewContainer);
-  } else if (typeof observer !== 'undefined') {
-    const previewContainer = document.getElementById('preview-container');
-    if (previewContainer) observer.unobserve(previewContainer);
-    if (typeof animationId !== 'undefined' && animationId) {
-      cancelAnimationFrame(animationId);
-    }
-  }
 }
 
 // Header scroll behavior
@@ -3638,8 +3654,6 @@ function updateUIForAuthState() {
       if (loggedOutElements) loggedOutElements.classList.remove('hidden');
       if (loggedInElements) loggedInElements.classList.add('hidden');
       if (loginRequiredBanner) loginRequiredBanner.classList.remove('hidden');
-      if (adminBtn) adminBtn.classList.add('hidden');
-      if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
       
       // Reset token display
       if (document.getElementById('token-count')) {
@@ -3897,6 +3911,9 @@ function clearFileUpload() {
   if (fileUpload) fileUpload.value = '';
   if (fileName) fileName.textContent = 'PNG, JPG, WEBP up to 10MB';
   if (imagePreviewWrapper) imagePreviewWrapper.classList.add('hidden');
+  
+  // Clear the global base64 image
+  window.uploadedImageBase64 = null;
 }
 
 // Custom select/dropdown functionality
@@ -3952,8 +3969,8 @@ function initCustomSelects() {
 
 // Check if user has enough tokens to generate a model
 function hasEnoughTokens() {
-      // If user is owner, they have unlimited tokens
-    if (userIsOwner) return true;
+  // If user is owner, they have unlimited tokens
+  if (userIsOwner) return true;
   
   // Get the token count from the UI
   const tokenCountElement = document.getElementById('token-count');
@@ -4030,6 +4047,22 @@ document.addEventListener('DOMContentLoaded', function() {
     console.error("Error initializing custom selects:", e);
   }
   
+  // 3D Preview Control Event Listeners
+  const resetViewBtn = document.getElementById('reset-view-btn');
+  if (resetViewBtn) {
+    resetViewBtn.addEventListener('click', resetView);
+  }
+  
+  const wireframeBtn = document.getElementById('wireframe-btn');
+  if (wireframeBtn) {
+    wireframeBtn.addEventListener('click', toggleWireframe);
+  }
+  
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+  }
+  
   // Initialize the star rating system
   document.querySelectorAll('.star').forEach(star => {
     star.addEventListener('click', function() {
@@ -4093,7 +4126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Directly add all event listeners with try-catch blocks to isolate failures
+  // All other event listeners (continuing from existing code)...
   
   // Login button in header
   const loginBtn = document.getElementById('login-btn');
@@ -4179,8 +4212,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  
-  
   // Mobile navigation buttons
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   if (mobileMenuBtn) {
@@ -4226,8 +4257,6 @@ document.addEventListener('DOMContentLoaded', function() {
       showSection('help');
     });
   }
-  
-  
   
   // Create first model button
   const createFirstModelBtn = document.getElementById('create-first-model');
@@ -4773,13 +4802,11 @@ document.addEventListener('DOMContentLoaded', function() {
       // Show loading state
       const initialState = document.getElementById('initial-state');
       const loadingState = document.getElementById('loading-state');
-      const modelViewer = document.getElementById('model-viewer');
       const generateText = document.getElementById('generate-text');
       const generatingText = document.getElementById('generating-text');
       
       if (initialState) initialState.classList.add('hidden');
       if (loadingState) loadingState.classList.remove('hidden');
-      if (modelViewer) modelViewer.classList.add('hidden');
       if (generateText) generateText.classList.add('hidden');
       if (generatingText) generatingText.classList.remove('hidden');
       
@@ -4850,11 +4877,11 @@ document.addEventListener('DOMContentLoaded', function() {
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       // Reset UI
-      const modelViewer = document.getElementById('model-viewer');
+      const loadingState = document.getElementById('loading-state');
       const initialState = document.getElementById('initial-state');
       const downloadOptions = document.getElementById('download-options');
       
-      if (modelViewer) modelViewer.classList.add('hidden');
+      if (loadingState) loadingState.classList.add('hidden');
       if (initialState) initialState.classList.remove('hidden');
       if (downloadOptions) downloadOptions.classList.add('hidden');
       
@@ -4863,12 +4890,18 @@ document.addEventListener('DOMContentLoaded', function() {
       if (description) description.value = '';
       clearFileUpload();
       
-      // Reset Three.js
-      if (animationId) cancelAnimationFrame(animationId);
+      // Reset to demo cube
       if (cube) {
         scene.remove(cube);
         cube = null;
       }
+      createDemoCube();
+      
+      // Reset button states
+      const generateText = document.getElementById('generate-text');
+      const generatingText = document.getElementById('generating-text');
+      if (generateText) generateText.classList.remove('hidden');
+      if (generatingText) generatingText.classList.add('hidden');
       
       // Clear current model
       currentModel = null;
@@ -4888,7 +4921,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const downloadBtn = document.getElementById('download-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', async () => {
-      if (!currentModel) {
+      if (!cube) {
         showAlert('Download Error', 'No model available for download. Please generate a model first.');
         return;
       }
@@ -4896,39 +4929,31 @@ document.addEventListener('DOMContentLoaded', function() {
       const format = document.getElementById('export-format').value || 'stl';
       
       try {
-        // Download from backend in the specified format
-        await downloadModelFromBackend(currentModel.prompt, format);
+        // Export using Three.js exporters
+        logToUI(`Exporting model as ${format.toUpperCase()}...`, "info");
+        const blob = await exportModel(format);
         
-      } catch (error) {
-        console.error("Error downloading model:", error);
-        
-        // Fallback to Three.js export
-        logToUI("Attempting fallback export using Three.js...", "warn");
-        try {
-          const blob = await exportModel(format);
+        if (blob) {
+          // Create download link
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `3DModel.${format.toLowerCase()}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
           
-          if (blob) {
-            // Create download link
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `3DModel.${format.toLowerCase()}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showAlert('Download Complete', `Your ${format.toUpperCase()} file has been downloaded using fallback method.`);
-            logToUI(`Model downloaded in ${format.toUpperCase()} format (fallback)`, "success");
-          } else {
-            showAlert('Export Error', `Failed to export model as ${format.toUpperCase()}.`);
-            logToUI(`Failed to export model as ${format.toUpperCase()}`, "error");
-          }
-        } catch (fallbackError) {
-          console.error("Fallback export error:", fallbackError);
-          showAlert('Export Error', 'Both primary and fallback download methods failed. Please try again.');
-          logToUI(`Fallback export also failed: ${fallbackError.message}`, "error");
+          showAlert('Download Complete', `Your ${format.toUpperCase()} file has been downloaded.`);
+          logToUI(`Model downloaded in ${format.toUpperCase()} format`, "success");
+        } else {
+          showAlert('Export Error', `Failed to export model as ${format.toUpperCase()}.`);
+          logToUI(`Failed to export model as ${format.toUpperCase()}`, "error");
         }
+      } catch (error) {
+        console.error("Download error:", error);
+        showAlert('Export Error', 'Failed to download model. Please try again.');
+        logToUI(`Download failed: ${error.message}`, "error");
       }
     });
   }
@@ -5119,507 +5144,6 @@ function handleEditProfilePicUpload(file) {
   reader.readAsDataURL(file);
 }
 
-async function generatePreview(prompt, format = 'stl', image = null) {
-  try {
-    logToUI("Starting AI model generation...", "info");
-    logToUI(`Target format: ${format.toUpperCase()}`, "info");
-    
-    // Prepare request body
-    const requestBody = {
-      prompt: prompt,
-      format: format.toLowerCase()
-    };
-    // Include steps and quality if available
-    const stepsVal = document.getElementById('inference-steps')?.value;
-    const qualityVal = document.getElementById('quality-level')?.value;
-    if (stepsVal) {
-      requestBody.num_inference_steps = parseInt(stepsVal, 10);
-    }
-    if (qualityVal) {
-      requestBody.quality = qualityVal;
-    }
-    
-    // If there's an image, we'll use a descriptive text prompt for Point-E
-    if (image) {
-      logToUI("Converting image input to text prompt for Point-E", "info");
-      requestBody.prompt = prompt || "a detailed 3D object";
-    }
-    
-    logToUI(`Sending POST request to: ${API_URL}/generate`, "info");
-    logToUI(`Request body: ${JSON.stringify(requestBody)}`, "info");
-    
-    const response = await fetch(`${API_URL}/generate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'  // Skip ngrok browser warning
-      },
-      body: JSON.stringify(requestBody)
-    });
-    
-    logToUI(`Received response with status: ${response.status}`, "info");
-    
-    if (!response.ok) {
-      let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.error || errorData.message || errorMessage;
-        logToUI(`API error details: ${JSON.stringify(errorData)}`, "error");
-      } catch (e) {
-        logToUI(`Could not parse error response as JSON`, "warn");
-        // Try to get response as text
-        try {
-          const errorText = await response.text();
-          logToUI(`Error response text: ${errorText}`, "error");
-          if (errorText.includes("ngrok")) {
-            errorMessage = "ngrok tunnel issue - please check if your Colab is still running";
-          }
-        } catch (textError) {
-          logToUI(`Could not read response as text either`, "error");
-        }
-      }
-      throw new Error(errorMessage);
-    }
-    
-    // Get the response as JSON
-    const result = await response.json();
-    logToUI("Received 3D model data from Point-E API", "success");
-    logToUI(`Response data keys: ${Object.keys(result).join(', ')}`, "info");
-    
-    // Store the current model info for export
-    currentModel = {
-      prompt: prompt,
-      format: format,
-      timestamp: Date.now()
-    };
-    
-    return result;
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      logToUI('Request timed out after 60 seconds', "error");
-      throw new Error('Model generation timed out. Please try a simpler prompt or try again later.');
-    }
-    logToUI(`Error in AI model generation: ${error.message}`, "error");
-    throw error;
-  }
-}
-
-// Add a close button and download button to the viewer
-function addViewerControls() {
-    const container = document.getElementById('model-viewer');
-    if (container) {
-        // Remove any existing buttons
-        const existingButtons = container.querySelectorAll('.viewer-button');
-        existingButtons.forEach(button => button.remove());
-        
-        // Create close button
-        const closeButton = document.createElement('button');
-        closeButton.className = 'viewer-button close-button';
-        closeButton.innerHTML = '×';
-        closeButton.style.position = 'fixed';
-        closeButton.style.top = '20px';
-        closeButton.style.right = '20px';
-        closeButton.style.zIndex = '10000';
-        closeButton.style.background = '#f97316';
-        closeButton.style.color = '#fff';
-        closeButton.style.border = 'none';
-        closeButton.style.borderRadius = '50%';
-        closeButton.style.width = '40px';
-        closeButton.style.height = '40px';
-        closeButton.style.fontSize = '24px';
-        closeButton.style.cursor = 'pointer';
-        closeButton.onclick = hideViewer;
-        container.appendChild(closeButton);
-        
-        // Create download button
-        const downloadButton = document.createElement('button');
-        downloadButton.className = 'viewer-button download-button';
-        downloadButton.innerHTML = '⬇️';
-        downloadButton.style.position = 'fixed';
-        downloadButton.style.top = '20px';
-        downloadButton.style.right = '70px';
-        downloadButton.style.zIndex = '10000';
-        downloadButton.style.background = '#f97316';
-        downloadButton.style.color = '#fff';
-        downloadButton.style.border = 'none';
-        downloadButton.style.borderRadius = '50%';
-        downloadButton.style.width = '40px';
-        downloadButton.style.height = '40px';
-        downloadButton.style.fontSize = '20px';
-        downloadButton.style.cursor = 'pointer';
-        downloadButton.onclick = downloadModel;
-        container.appendChild(downloadButton);
-    }
-}
-
-// Function to download the current model
-function downloadModel() {
-    if (window.currentModelUrl) {
-        const link = document.createElement('a');
-        link.href = window.currentModelUrl;
-        link.download = 'generated-model.stl';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-}
-
-// Update the 3D viewer with a new model
-function updateViewer(modelUrl) {
-    try {
-        console.log('Starting updateViewer with URL:', modelUrl);
-        
-        // Store the model URL for download
-        window.currentModelUrl = modelUrl;
-        
-        // Get the container and ensure it's properly positioned
-        const container = document.getElementById('model-viewer');
-        if (!container) {
-            throw new Error("Model viewer container not found");
-        }
-        console.log('Found model-viewer container');
-        
-        // Show the viewer first
-        showViewer();
-        
-        // Set container styles for full viewport coverage
-        container.style.display = 'block';
-        container.style.position = 'fixed';
-        container.style.top = '0';
-        container.style.left = '0';
-        container.style.width = '100vw';
-        container.style.height = '100vh';
-        container.style.zIndex = '9999';
-        container.style.backgroundColor = '#1a1a1a';
-        container.style.overflow = 'hidden';
-        console.log('Set viewer container styles');
-        
-        // Clear existing scene and renderer
-        if (window.currentScene) {
-            console.log('Clearing existing scene');
-            window.currentScene.clear();
-        }
-        if (window.currentRenderer) {
-            console.log('Disposing existing renderer');
-            window.currentRenderer.dispose();
-        }
-        
-        // Create new scene
-        console.log('Creating new scene');
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x1a1a1a);
-        
-        // Enhanced lighting setup
-        console.log('Setting up lights');
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-        scene.add(ambientLight);
-        
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
-        
-        const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
-        backLight.position.set(-1, -1, -1);
-        scene.add(backLight);
-        
-        // Create camera with wider FOV
-        console.log('Setting up camera');
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 20);
-        
-        // Create renderer with proper settings
-        console.log('Creating renderer');
-        const renderer = new THREE.WebGLRenderer({ 
-            antialias: true,
-            alpha: true,
-            preserveDrawingBuffer: true
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setClearColor(0x1a1a1a, 1);
-        container.innerHTML = '';
-        container.appendChild(renderer.domElement);
-        console.log('Renderer created and added to container');
-        
-        // Store renderer reference
-        window.currentRenderer = renderer;
-        
-        // Handle window resize
-        const handleResize = () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        };
-        window.addEventListener('resize', handleResize);
-        
-        // Load STL model
-        console.log('Loading STL model from URL:', modelUrl);
-        const loader = new THREE.STLLoader();
-        
-        // First try to fetch the STL file
-        fetch(modelUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch STL file: ${response.status} ${response.statusText}`);
-                }
-                return response.arrayBuffer();
-            })
-            .then(buffer => {
-                console.log('STL file fetched, size:', buffer.byteLength);
-                const geometry = loader.parse(buffer);
-                console.log('STL parsed successfully');
-                
-                const material = new THREE.MeshPhongMaterial({ 
-                    color: 0xf97316, // Orange color instead of blue
-                    specular: 0x111111,
-                    shininess: 30
-                });
-                
-                const mesh = new THREE.Mesh(geometry, material);
-                console.log('Created mesh from geometry');
-                
-                // Calculate bounding box and center
-                geometry.computeBoundingBox();
-                const box = geometry.boundingBox;
-                const center = box.getCenter(new THREE.Vector3());
-                const size = box.getSize(new THREE.Vector3());
-                
-                // Center the model
-                mesh.position.set(-center.x, -center.y, -center.z);
-                
-                // Calculate proper scale to fit viewport
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 15 / maxDim;
-                mesh.scale.set(scale, scale, scale);
-                console.log('Centered and scaled model');
-                
-                // Add to scene
-                scene.add(mesh);
-                console.log('Added mesh to scene');
-                
-                // Fix orientation - rotate 90 degrees around X axis to face forward instead of up
-                mesh.rotation.x = -Math.PI / 2; // -90 degrees
-                console.log('Applied 90-degree rotation to fix orientation');
-                
-                // Set up orbit controls (disabled for user interaction)
-                const controls = new THREE.OrbitControls(camera, renderer.domElement);
-                controls.enabled = false; // Disable user controls
-                controls.enableDamping = true;
-                controls.dampingFactor = 0.05;
-                controls.minDistance = 10;
-                controls.maxDistance = 30;
-                controls.target.set(0, 0, 0);
-                console.log('Set up orbit controls (disabled)');
-                
-                // Animation loop with automatic rotation
-                function animate() {
-                    requestAnimationFrame(animate);
-                    
-                    // Rotate the mesh on Z axis for spinning effect
-                    mesh.rotation.z += 0.01; // Adjust speed by changing this value
-                    
-                    controls.update();
-                    renderer.render(scene, camera);
-                }
-                animate();
-                console.log('Started animation loop with automatic rotation');
-                
-                // Store scene reference
-                window.currentScene = scene;
-                
-                // Reset button state and ensure viewer is visible
-                resetGenerateButton();
-                showViewer();
-                
-                logToUI("3D model loaded successfully!", "success");
-            })
-            .catch(error => {
-                console.error('Error loading STL model:', error);
-                throw error;
-            });
-        
-    } catch (error) {
-        console.error('Error in updateViewer:', error);
-        logToUI(`Error updating viewer: ${error.message}`, "error");
-        resetGenerateButton();
-    }
-}
-
-// Function to properly hide the 3D viewer
-function hideViewer() {
-    console.log('Hiding viewer');
-    const container = document.getElementById('model-viewer');
-    if (container) {
-        container.style.display = 'none';
-        container.style.visibility = 'hidden';
-        container.style.opacity = '0';
-        container.style.pointerEvents = 'none';
-    }
-}
-
-// Call addViewerControls when the viewer is shown
-function showViewer() {
-    console.log('Showing viewer');
-    const container = document.getElementById('model-viewer');
-    if (container) {
-        container.style.display = 'block';
-        container.style.visibility = 'visible';
-        container.style.opacity = '1';
-        container.style.pointerEvents = 'auto';
-        addViewerControls();
-    }
-}
-
-// Function to reset the generate button state
-function resetGenerateButton() {
-    console.log('Resetting generate button state...');
-    const generateButton = document.getElementById('generate-button');
-    if (generateButton) {
-        generateButton.disabled = false;
-        generateButton.textContent = 'Generate 3D Model';
-        generateButton.classList.remove('loading');
-    }
-}
-
-// Update the generateModel function
-async function generateModel() {
-    try {
-        const generateButton = document.getElementById('generate-button');
-        if (generateButton) {
-            generateButton.disabled = true;
-            generateButton.textContent = 'Generating...';
-            generateButton.classList.add('loading');
-        }
-        
-        // Hide viewer while generating
-        hideViewer();
-        
-        // Get the prompt
-        const promptInput = document.getElementById('prompt-input');
-        const prompt = promptInput ? promptInput.value : '';
-        
-        if (!prompt) {
-            throw new Error('Please enter a description');
-        }
-        
-        logToUI("Processing text description for 3D model generation...", "info");
-        
-        // Call the API
-        console.log('Calling backend API...');
-        const response = await callBackendAPI(prompt);
-        
-        // Process the response
-        console.log('Processing API response...');
-        handleAIResponse(response);
-        
-    } catch (error) {
-        console.error('Error in generateModel:', error);
-        logToUI(`Error generating model: ${error.message}`, "error");
-        resetGenerateButton();
-    }
-}
-
-// Add CSS for proper viewer container
-const style = document.createElement('style');
-style.textContent = `
-    #model-viewer {
-        display: none;
-        visibility: hidden;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
-        background: #1a1a1a;
-        transition: opacity 0.3s ease;
-    }
-    
-    #model-viewer.active {
-        display: block;
-        visibility: visible;
-        opacity: 1;
-    }
-    
-    .loading {
-        position: relative;
-        pointer-events: none;
-    }
-    
-    .loading::after {
-        content: '';
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 50%;
-        left: 50%;
-        margin: -10px 0 0 -10px;
-        border: 2px solid #fff;
-        border-top-color: transparent;
-        border-radius: 50%;
-        animation: button-loading-spinner 1s linear infinite;
-    }
-    
-    @keyframes button-loading-spinner {
-        from {
-            transform: rotate(0turn);
-        }
-        to {
-            transform: rotate(1turn);
-        }
-    }
-`;
-document.head.appendChild(style);
-// ... existing code ...
-
-// Test function to check what parameters the Kaggle API supports
-async function testKaggleParameters() {
-    try {
-        console.log('🧪 Testing Kaggle API parameters...');
-        
-        const testParams = {
-            prompt: "test shark",
-            format: "stl",
-            // Standard Shap-E parameters
-            guidance_scale: 15.0,
-            num_inference_steps: 64,
-            height: 256,
-            width: 256,
-            num_frames: 1,
-            fps: 1
-        };
-        
-        console.log('Sending test parameters:', testParams);
-        
-        const response = await fetch(`${API_URL}/test-params`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
-            body: JSON.stringify(testParams)
-        });
-
-        const data = await response.json();
-        console.log('Test response:', data);
-        
-        if (data.success) {
-            console.log('✅ Parameters accepted by Kaggle API');
-            return true;
-        } else {
-            console.log('❌ Parameters rejected by Kaggle API');
-            return false;
-        }
-    } catch (error) {
-        console.error('❌ Test failed:', error);
-        return false;
-    }
-}
-
-// Call our Point-E API to generate 3D models (UPDATED)
-
 // 3DREAM LABZ Particle Effects
 document.addEventListener('DOMContentLoaded', function() {
     const dreamText = document.getElementById('dreamText');
@@ -5672,7 +5196,6 @@ window.addEventListener('DOMContentLoaded', () => {
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/146722646.js"></script>
 <!-- End of HubSpot Embed Code -->
-
 
 <footer class="w-full text-center py-4 bg-gray-900 text-white border-t border-gray-700">
   © 2025 3Dream Labs. All rights reserved.
