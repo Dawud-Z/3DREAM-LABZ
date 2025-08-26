@@ -2304,9 +2304,9 @@ async function loadDefaultModel() {
     // Center the geometry
     geometry.translate(-center.x, -center.y, -center.z);
     
-    // Scale to fit in view (max size of 4 units)
+    // Scale to fit in view (max size of 2 units) - CHANGED from 4 to 2 to make smaller
     const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = 4 / maxDim;
+    const scale = 2 / maxDim;
     cube.scale.set(scale, scale, scale);
     
     // Position above the grid
