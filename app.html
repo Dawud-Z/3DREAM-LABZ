@@ -2210,51 +2210,76 @@ function initThreeJS() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
     
-    // Create camera
-    const container = document.getElementById('threejs-canvas');
-    const containerRect = container.getBoundingClientRect();
-    camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 1000);
-    camera.position.set(4, 4, 4);
+    // Wait for container to be ready
+    setTimeout(() => {
+      const container = document.getElementById('threejs-canvas');
+      if (!container) {
+        console.error("Three.js container not found");
+        return;
+      }
+      
+      // Get container dimensions, with fallback values
+      const containerRect = container.getBoundingClientRect();
+      const width = containerRect.width || 800;
+      const height = containerRect.height || 600;
+      
+      console.log("Container dimensions:", width, "x", height);
+      
+      // Create camera
+      camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+      camera.position.set(4, 4, 4);
+      
+      // Create renderer
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setClearColor(0x000000, 1);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      
+      // Clear container and add canvas
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+      
+      // Add lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(10, 10, 5);
+      scene.add(directionalLight);
+      
+      const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+      backLight.position.set(-10, -10, -5);
+      scene.add(backLight);
+      
+      // Add grid
+      createGrid();
+      
+      // Load default model
+      loadDefaultModel();
+      
+      // Add orbit controls
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.enablePan = true;
+      controls.enableZoom = true;
+      controls.enableRotate = true;
+      
+      // Handle window resize
+      window.addEventListener('resize', onWindowResize);
+      
+      // Start render loop
+      animate();
+      
+      // Force initial render and resize
+      setTimeout(() => {
+        onWindowResize();
+        renderer.render(scene, camera);
+      }, 100);
+      
+      console.log("Three.js initialized successfully");
+    }, 100);
     
-    // Create renderer
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(containerRect.width, containerRect.height);
-    renderer.setClearColor(0x000000, 1);
-    container.appendChild(renderer.domElement);
-    
-    // Add lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-    
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(10, 10, 5);
-    scene.add(directionalLight);
-    
-    const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
-    backLight.position.set(-10, -10, -5);
-    scene.add(backLight);
-    
-    // Add grid
-    createGrid();
-    
-    // Load default model
-    loadDefaultModel();
-    
-    // Add orbit controls
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enablePan = true;
-    controls.enableZoom = true;
-    controls.enableRotate = true;
-    
-    // Handle window resize
-    window.addEventListener('resize', onWindowResize);
-    
-    // Start render loop
-    animate();
-    
-    console.log("Three.js initialized successfully");
   } catch (e) {
     console.error("Error initializing Three.js:", e);
   }
