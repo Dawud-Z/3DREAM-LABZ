@@ -1794,8 +1794,6 @@ body {
     </div>
   </div>
 
-
-
   <!-- Loading state -->
   <div id="loading-state" class="hidden eclipse-loading-container absolute inset-0">
     <div class="eclipse-animation">
@@ -1809,8 +1807,8 @@ body {
   </div>
 </div>
 
-<!-- Download options - initially hidden -->
-<div id="download-options" class="mt-4 hidden">
+<!-- Download options - always visible -->
+<div id="download-options" class="mt-4">
 <div class="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0 sm:space-x-3">
 <button id="download-btn" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md transition-colors flex items-center justify-center">
 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -2239,8 +2237,8 @@ function initThreeJS() {
     // Add grid
     createGrid();
     
-    // Create demo cube
-    createDemoCube();
+    // Load default model
+    loadDefaultModel();
     
     // Add orbit controls
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -2269,8 +2267,73 @@ function createGrid() {
   currentGrid = gridHelper;
 }
 
-// Create demo cube (orange cube like in the image)
-function createDemoCube() {
+// Load default STL model from repository
+async function loadDefaultModel() {
+  try {
+    console.log("Loading default model.stl...");
+    
+    // Load STL file from repository
+    const loader = new THREE.STLLoader();
+    
+    // Fetch the STL file
+    const response = await fetch('./model.stl');
+    if (!response.ok) {
+      throw new Error(`Failed to load model.stl: ${response.status}`);
+    }
+    
+    const arrayBuffer = await response.arrayBuffer();
+    const geometry = loader.parse(arrayBuffer);
+    
+    // Create material (same orange color as before)
+    const material = new THREE.MeshStandardMaterial({ 
+      color: 0xf97316, // Orange color
+      metalness: 0.3,
+      roughness: 0.4,
+      wireframe: isWireframe
+    });
+    
+    // Create mesh
+    cube = new THREE.Mesh(geometry, material);
+    
+    // Center and scale the model
+    geometry.computeBoundingBox();
+    const box = geometry.boundingBox;
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    
+    // Center the geometry
+    geometry.translate(-center.x, -center.y, -center.z);
+    
+    // Scale to fit in view (max size of 4 units)
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 4 / maxDim;
+    cube.scale.set(scale, scale, scale);
+    
+    // Position above the grid
+    cube.position.set(0, size.y * scale / 2, 0);
+    
+    // Add to scene
+    scene.add(cube);
+    
+    // Update stats
+    updateStats(geometry);
+    
+    console.log("Default model loaded successfully");
+    logToUI("Default 3D model loaded and ready for download", "success");
+    
+  } catch (error) {
+    console.error('Error loading default model:', error);
+    logToUI(`Failed to load default model: ${error.message}`, "error");
+    
+    // Fallback to demo cube if model.stl fails to load
+    createFallbackCube();
+  }
+}
+
+// Fallback cube in case model.stl doesn't load
+function createFallbackCube() {
+  console.log("Creating fallback cube...");
+  
   const geometry = new THREE.BoxGeometry(2, 2, 2);
   const material = new THREE.MeshStandardMaterial({ 
     color: 0xf97316, // Orange color
@@ -2284,6 +2347,8 @@ function createDemoCube() {
   
   // Update stats
   updateStats(geometry);
+  
+  logToUI("Fallback cube loaded (model.stl not found)", "info");
 }
 
 // Update vertex and face count
@@ -2694,13 +2759,11 @@ function showModelGenerated() {
     const initialState = document.getElementById('initial-state');
     const generateText = document.getElementById('generate-text');
     const generatingText = document.getElementById('generating-text');
-    const downloadOptions = document.getElementById('download-options');
     
     if (loadingState) loadingState.classList.add('hidden');
     if (initialState) initialState.classList.add('hidden');
     if (generateText) generateText.classList.remove('hidden');
     if (generatingText) generatingText.classList.add('hidden');
-    if (downloadOptions) downloadOptions.classList.remove('hidden');
     
     // Stop processing timer
     stopProcessingTimer();
@@ -4879,11 +4942,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Reset UI
       const loadingState = document.getElementById('loading-state');
       const initialState = document.getElementById('initial-state');
-      const downloadOptions = document.getElementById('download-options');
       
       if (loadingState) loadingState.classList.add('hidden');
       if (initialState) initialState.classList.remove('hidden');
-      if (downloadOptions) downloadOptions.classList.add('hidden');
       
       // Clear inputs
       const description = document.getElementById('description');
