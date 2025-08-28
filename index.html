@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3DREAM LABS - AI-Powered 3D Modeling</title>
+    <title>3DREAM LABS - AI-Powered 3D Modeling Revolution</title>
     <meta name="description" content="Revolutionary AI-powered 3D modeling platform for creators, designers, and innovators">
     <meta name="keywords" content="AI, 3D modeling, machine learning, design, innovation">
     
@@ -21,7 +21,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -46,56 +46,100 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
             background: var(--dark-bg);
             color: var(--text-primary);
             overflow-x: hidden;
         }
         
+        /* Enhanced Gradient Text */
         .gradient-text {
-            background: linear-gradient(135deg, var(--primary-orange), var(--accent-orange));
+            background: linear-gradient(135deg, var(--primary-orange), var(--accent-orange), #FFD700);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
         .gradient-bg {
             background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
         }
         
+        /* Advanced Glass Effect */
         .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(26, 26, 26, 0.8);
-            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(26, 26, 26, 0.85);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
         
+        /* Enhanced Hover Effects */
         .hover-lift {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
         }
         
         .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+            transform: translateY(-12px) rotateX(5deg) rotateY(5deg) scale(1.02);
+            box-shadow: 0 25px 50px rgba(255, 107, 53, 0.3), 0 0 40px rgba(255, 107, 53, 0.2);
         }
         
+        /* Advanced Feature Cards */
         .feature-card {
-            background: var(--card-bg);
+            background: linear-gradient(135deg, var(--card-bg), rgba(26, 26, 26, 0.8));
             border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
         
         .feature-card:hover {
             border-color: var(--primary-orange);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.1);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.15);
+            transform: translateY(-8px) scale(1.03);
         }
         
+        /* Advanced Navigation */
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
+            overflow: hidden;
         }
         
-        .nav-link:hover {
-            color: var(--primary-orange);
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .nav-link:hover::before {
+            left: 100%;
         }
         
         .nav-link::after {
@@ -104,113 +148,401 @@
             width: 0;
             height: 2px;
             bottom: -4px;
-            left: 0;
-            background: var(--primary-orange);
-            transition: width 0.3s ease;
+            left: 50%;
+            background: linear-gradient(90deg, var(--primary-orange), var(--accent-orange));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
         
         .nav-link:hover::after {
             width: 100%;
         }
         
+        /* Particle System */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            animation: float-particles 20s infinite linear;
+        }
+        
+        @keyframes float-particles {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Background Animation Shapes */
+        .bg-animation {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(255, 140, 66, 0.05));
+            animation: bgFloat 15s ease-in-out infinite;
+        }
+        
+        @keyframes bgFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            25% { 
+                transform: translateY(-100px) translateX(50px) rotate(90deg) scale(1.2);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translateY(-50px) translateX(-30px) rotate(180deg) scale(0.8);
+                opacity: 0.4;
+            }
+            75% { 
+                transform: translateY(-150px) translateX(20px) rotate(270deg) scale(1.1);
+                opacity: 0.5;
+            }
+        }
+        
+        /* Advanced Floating Elements */
         .floating-element {
-            animation: float 6s ease-in-out infinite;
+            animation: advancedFloat 8s ease-in-out infinite;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+        @keyframes advancedFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+            }
+            25% { 
+                transform: translateY(-30px) translateX(10px) rotate(5deg) scale(1.05);
+            }
+            50% { 
+                transform: translateY(-20px) translateX(-10px) rotate(-3deg) scale(0.95);
+            }
+            75% { 
+                transform: translateY(-40px) translateX(5px) rotate(2deg) scale(1.1);
+            }
         }
         
+        /* Enhanced Pulse Glow */
         .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes pulse-glow {
-            from { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
-            to { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6); }
-        }
-        
-        .code-font {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-orange), transparent);
-            margin: 4rem 0;
-        }
-        
-        .orange-glow {
-            box-shadow: 0 0 60px rgba(255, 107, 53, 0.25), 0 0 120px rgba(255, 140, 66, 0.15);
-        }
-        
-        .browser-mockup {
+            animation: enhancedPulse 3s ease-in-out infinite;
             position: relative;
-            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            border: 1px solid #3a3a3a;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 80px rgba(255, 107, 53, 0.15);
-            max-width: 900px;
-            margin: 0 auto;
         }
         
+        .pulse-glow::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: linear-gradient(45deg, var(--primary-orange), var(--secondary-orange), var(--accent-orange));
+            border-radius: inherit;
+            z-index: -1;
+            animation: rotate 4s linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes enhancedPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 107, 53, 0.8), 0 0 80px rgba(255, 107, 53, 0.4);
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Advanced Typography */
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.5), 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        /* Enhanced Hero Background */
         .hero-bg-overlay {
             background: 
                 radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255, 140, 66, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(255, 163, 102, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 40% 80%, rgba(255, 163, 102, 0.08) 0%, transparent 50%),
+                linear-gradient(45deg, transparent 30%, rgba(255, 107, 53, 0.05) 50%, transparent 70%);
+            animation: backgroundShift 10s ease-in-out infinite;
         }
         
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0) scale(1); }
+            50% { transform: translateX(20px) translateY(-10px) scale(1.02); }
+        }
+        
+        /* Advanced Browser Mockup */
+        .browser-mockup {
+            position: relative;
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.5), 
+                0 0 100px rgba(255, 107, 53, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: floatingBrowser 12s ease-in-out infinite;
+        }
+        
+        .browser-mockup::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(45deg, var(--primary-orange), var(--secondary-orange), var(--accent-orange));
+            border-radius: 23px;
+            z-index: -1;
+            animation: borderRotate 6s linear infinite;
+        }
+        
+        @keyframes floatingBrowser {
+            0%, 100% { 
+                transform: translateY(0) rotateX(0deg) rotateY(0deg);
+            }
+            25% { 
+                transform: translateY(-10px) rotateX(2deg) rotateY(1deg);
+            }
+            50% { 
+                transform: translateY(5px) rotateX(-1deg) rotateY(-1deg);
+            }
+            75% { 
+                transform: translateY(-15px) rotateX(1deg) rotateY(2deg);
+            }
+        }
+        
+        @keyframes borderRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Enhanced Typewriter */
         .typewriter {
-            border-right: 2px solid #f97316;
-            animation: blink 1s infinite;
+            border-right: 3px solid #f97316;
+            animation: typewriterBlink 1.5s infinite, textGlow 2s ease-in-out infinite alternate;
         }
         
-        @keyframes blink {
+        @keyframes typewriterBlink {
             0%, 50% { border-color: #f97316; }
             51%, 100% { border-color: transparent; }
         }
         
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(255, 107, 53, 0.3); }
+            to { text-shadow: 0 0 15px rgba(255, 107, 53, 0.8); }
+        }
+        
+        /* Advanced Cursor */
+        .cursor {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, #FF6B35, #FF8C42);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            pointer-events: none;
+            z-index: 100;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+        }
+        
+        .cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: cursorPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes cursorPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+        
+        .cursor.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .cursor.clicking {
+            transform: scale(0.8);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 1);
+        }
+        
+        /* Enhanced 3D Canvas */
         #threejs-canvas {
             width: 100%;
             height: 100%;
-            background: transparent;
+            background: radial-gradient(circle at center, rgba(255, 107, 53, 0.1) 0%, rgba(0, 0, 0, 0.9) 70%);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(255, 107, 53, 0.2);
         }
         
-        .preview-info {
+        /* Enhanced Stats */
+        .stats-container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-container::before {
+            content: '';
             position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            right: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            animation: statsGlow 3s ease-in-out infinite;
         }
         
-        .preview-instructions {
-            background: rgba(0, 0, 0, 0.7);
-            color: #ffffff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
-            backdrop-filter: blur(8px);
+        @keyframes statsGlow {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
         }
         
-        .preview-stats {
-            background: rgba(0, 0, 0, 0.7);
-            color: #ffffff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
-            backdrop-filter: blur(8px);
+        /* Pro Card Floating Elements */
+        .pro-card-float {
+            position: absolute;
+            background: rgba(255, 107, 53, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: proCardFloat 6s ease-in-out infinite;
         }
         
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
+        .pro-card-float:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            top: 10%;
+            right: 15%;
+            animation-delay: 0s;
+        }
+        
+        .pro-card-float:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            top: 30%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+        
+        .pro-card-float:nth-child(3) {
+            width: 16px;
+            height: 16px;
+            bottom: 20%;
+            right: 20%;
+            animation-delay: 4s;
+        }
+        
+        .pro-card-float:nth-child(4) {
             width: 8px;
+            height: 8px;
+            bottom: 40%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+        
+        @keyframes proCardFloat {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px) scale(1.2);
+                opacity: 0.7;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading-dots {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: loadingDots 1.5s infinite;
+        }
+        
+        @keyframes loadingDots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* Section Divider Enhancement */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-orange), var(--secondary-orange), var(--accent-orange), transparent);
+            margin: 6rem 0;
+            position: relative;
+            animation: dividerGlow 4s ease-in-out infinite;
+        }
+        
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.3), transparent);
+            filter: blur(2px);
+        }
+        
+        @keyframes dividerGlow {
+            0%, 100% { opacity: 0.6; transform: scaleX(1); }
+            50% { opacity: 1; transform: scaleX(1.02); }
+        }
+        
+        /* Enhanced Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
         }
         
         ::-webkit-scrollbar-track {
@@ -218,23 +550,72 @@
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--primary-orange);
-            border-radius: 4px;
+            background: linear-gradient(180deg, var(--primary-orange), var(--secondary-orange));
+            border-radius: 6px;
+            border: 2px solid var(--darker-bg);
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-orange);
+            background: linear-gradient(180deg, var(--secondary-orange), var(--accent-orange));
         }
         
-        /* Mobile responsiveness improvements */
+        /* Slide-in Animation */
+        .slide-in-left {
+            animation: slideInLeft 1s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 1s ease-out forwards;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Fade in Animation */
+        .fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Mobile Optimizations */
         @media (max-width: 1024px) {
             .browser-mockup {
-                max-width: 800px;
+                max-width: 90%;
                 transform: scale(0.95);
-            }
-            
-            .hero-content h1 {
-                font-size: 3rem;
             }
         }
         
@@ -245,21 +626,12 @@
                 margin-top: 2rem;
             }
             
-            .hero-content h1 {
-                font-size: 2.5rem;
-                line-height: 1.2;
+            .floating-element {
+                animation-duration: 6s;
             }
             
-            .hero-content p {
-                font-size: 1.1rem;
-            }
-            
-            .trust-badge {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                margin-bottom: 1rem;
-                justify-content: center;
+            .particle {
+                animation-duration: 15s;
             }
         }
         
@@ -270,29 +642,138 @@
             
             .app-interface {
                 padding: 1rem !important;
-                height: 380px !important;
+                height: 500px !important;
             }
-            
-            .app-grid {
-                gap: 1rem !important;
-            }
-            
-            .preview-instructions,
-            .preview-stats {
-                font-size: 0.625rem;
-                padding: 0.25rem 0.5rem;
-            }
+        }
+        
+        /* Advanced Button Effects */
+        .btn-advanced {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-advanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn-advanced:hover::before {
+            left: 100%;
+        }
+        
+        .btn-advanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Enhanced Form Styles */
+        .form-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Loading State */
+        .loading-state {
+            position: relative;
+            opacity: 0.7;
+        }
+        
+        .loading-state::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-top: 2px solid var(--primary-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Success State */
+        .success-state {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgb(34, 197, 94);
+            color: rgb(34, 197, 94);
+        }
+        
+        /* Interactive Elements */
+        .interactive-hover {
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .interactive-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+            filter: brightness(1.1);
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-orange), var(--secondary-orange));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
     </style>
 </head>
 <body>
+    <!-- Particle System -->
+    <div class="particles" id="particles"></div>
+    
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect">
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <div class="gradient-text text-2xl font-bold">
+                    <div class="gradient-text text-2xl font-bold text-glow">
                         <i class="fas fa-cube mr-2"></i>3DREAM LABS
                     </div>
                 </div>
@@ -310,14 +791,14 @@
                 
                 <!-- CTA Button -->
                 <div class="hidden md:block">
-                    <a class="gradient-bg text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block" href="app.html">
+                    <a class="gradient-bg text-white px-6 py-2 rounded-lg font-semibold btn-advanced pulse-glow inline-block" href="#app">
                         Get Started
                     </a>
                 </div>
                 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-white hover:text-orange-500">
+                    <button id="mobile-menu-btn" class="text-white hover:text-orange-500 transition-colors">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
@@ -326,12 +807,12 @@
             <!-- Mobile Navigation Menu -->
             <div id="mobile-menu" class="hidden md:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-700">
-                    <a href="#home" class="block px-3 py-2 text-white hover:text-orange-500">Home</a>
-                    <a href="#features" class="block px-3 py-2 text-white hover:text-orange-500">Features</a>
-                    <a href="#technology" class="block px-3 py-2 text-white hover:text-orange-500">Technology</a>
-                    <a href="#pricing" class="block px-3 py-2 text-white hover:text-orange-500">Pricing</a>
-                    <a href="#contact" class="block px-3 py-2 text-white hover:text-orange-500">Contact</a>
-                    <button class="w-full mt-4 gradient-bg text-white px-6 py-2 rounded-lg font-semibold">
+                    <a href="#home" class="block px-3 py-2 text-white hover:text-orange-500 transition-colors">Home</a>
+                    <a href="#features" class="block px-3 py-2 text-white hover:text-orange-500 transition-colors">Features</a>
+                    <a href="#technology" class="block px-3 py-2 text-white hover:text-orange-500 transition-colors">Technology</a>
+                    <a href="#pricing" class="block px-3 py-2 text-white hover:text-orange-500 transition-colors">Pricing</a>
+                    <a href="#contact" class="block px-3 py-2 text-white hover:text-orange-500 transition-colors">Contact</a>
+                    <button class="w-full mt-4 gradient-bg text-white px-6 py-2 rounded-lg font-semibold btn-advanced">
                         Get Started
                     </button>
                 </div>
@@ -341,57 +822,53 @@
 
     <!-- Hero Section -->
     <section id="home" class="relative min-h-screen overflow-hidden">
-        <!-- Orange gradient background -->
+        <!-- Enhanced background -->
         <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-orange-900/20 to-gray-900"></div>
         <div class="absolute inset-0 hero-bg-overlay"></div>
         
-
-        
-        <div class="relative z-10 min-h-screen flex items-center pt-32">
+        <div class="relative z-10 min-h-screen flex items-start pt-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start pt-8">
                     
                     <!-- Left side - Content -->
                     <div class="hero-content space-y-6 lg:space-y-8 lg:pr-8">
-
-                        
                         <div>
                             <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-6 lg:mb-8">
-                                <span class="text-orange-400">AI-Powered</span>
-                                <span class="block text-white mt-2">3D Modeling</span>
-                                <span class="gradient-text block mt-2">On-Demand Platform</span>
+                                <span class="text-orange-400 text-glow">AI-Powered</span>
+                                <span class="block text-white mt-2 text-glow">3D Modeling</span>
+                                <span class="gradient-text block mt-2">Revolution</span>
                             </h1>
                             
                             <p class="text-lg md:text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-2xl mb-6 lg:mb-8">
-                                Transform your ideas into stunning 3D models using cutting-edge artificial intelligence. 
+                                Transform your wildest ideas into stunning 3D models using cutting-edge artificial intelligence. 
                                 Enterprise-grade platform with instant generation, real-time preview, and guaranteed quality.
                             </p>
                         </div>
                         
                         <div class="flex flex-col sm:flex-row gap-4 mb-6 lg:mb-8">
-                            <a class="gradient-bg text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg hover:opacity-90 transition-all transform hover:scale-105 pulse-glow inline-flex items-center justify-center" href="app.html">
+                            <a class="gradient-bg text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg btn-advanced pulse-glow inline-flex items-center justify-center" href="#app">
                                 <i class="fas fa-rocket mr-2"></i>Get Started Now
                             </a>
-                            <button class="border-2 border-orange-500 text-orange-500 px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg hover:bg-orange-500 hover:text-white transition-all inline-flex items-center justify-center">
+                            <button class="border-2 border-orange-500 text-orange-500 px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg hover:bg-orange-500 hover:text-white transition-all btn-advanced inline-flex items-center justify-center">
                                 <i class="fas fa-play mr-2"></i>Watch Demo
                             </button>
                         </div>
                         
-                        <!-- Stats for mobile -->
+                        <!-- Enhanced Stats for mobile -->
                         <div class="grid grid-cols-2 gap-4 lg:hidden">
-                            <div class="text-center">
+                            <div class="text-center stats-container">
                                 <div class="text-2xl md:text-3xl font-bold gradient-text">1M+</div>
                                 <div class="text-gray-400 text-sm">Models Created</div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center stats-container">
                                 <div class="text-2xl md:text-3xl font-bold gradient-text">50K+</div>
                                 <div class="text-gray-400 text-sm">Active Users</div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center stats-container">
                                 <div class="text-2xl md:text-3xl font-bold gradient-text">99.9%</div>
                                 <div class="text-gray-400 text-sm">Uptime</div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center stats-container">
                                 <div class="text-2xl md:text-3xl font-bold gradient-text">24/7</div>
                                 <div class="text-gray-400 text-sm">Support</div>
                             </div>
@@ -399,136 +876,133 @@
                     </div>
                     
                     <!-- Right side - App Preview -->
-                    <div class="relative">
-                        <!-- Browser mockup window with responsive sizing -->
-                        <div class="browser-mockup orange-glow">
+                    <div class="relative" id="app">
+                        <!-- Enhanced Browser mockup window -->
+                        <div class="browser-mockup">
                             <!-- Browser header -->
                             <div class="bg-gradient-to-r from-gray-800 to-gray-900 px-4 lg:px-6 py-3 lg:py-4 flex items-center space-x-3 border-b border-gray-700">
                                 <div class="flex space-x-2">
-                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-red-500 rounded-full pulse-glow"></div>
+                                    <div class="w-3 h-3 bg-yellow-500 rounded-full pulse-glow" style="animation-delay: 0.2s;"></div>
+                                    <div class="w-3 h-3 bg-green-500 rounded-full pulse-glow" style="animation-delay: 0.4s;"></div>
                                 </div>
                                 <div class="flex-1 flex items-center justify-center">
                                     <div class="gradient-text text-lg lg:text-xl font-bold">
-                                        <i class="fas fa-cube mr-2"></i>3Dream Labs
+                                        <i class="fas fa-cube mr-2"></i>3Dream Labs Studio
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- App interface mockup -->
-                            <div class="app-interface bg-gradient-to-br from-gray-900 to-gray-800 p-4 lg:p-8 h-[420px] lg:h-[500px]">
+                            <!-- Enhanced App interface mockup -->
+                            <div class="app-interface bg-gradient-to-br from-gray-900 to-gray-800 p-4 lg:p-8 min-h-[600px]">
                                 <div class="text-center mb-6 lg:mb-8">
-                                    <h3 class="text-2xl lg:text-3xl font-bold text-white mb-2 lg:mb-3">3D MODELING <span class="gradient-text">STUDIO</span></h3>
-                                    <p class="text-gray-400 text-sm lg:text-lg">Create professional 3D models with AI</p>
+                                    <h3 class="text-2xl lg:text-3xl font-bold text-white mb-2 lg:mb-3 text-glow">AI 3D MODELING <span class="gradient-text">STUDIO</span></h3>
+                                    <p class="text-gray-400 text-sm lg:text-lg">Create professional 3D models with AI magic</p>
                                 </div>
                                 
-                                <div class="app-grid grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 h-full">
-                                    <!-- Left panel - Create 3D Model -->
-                                    <div class="space-y-3 lg:space-y-6">
-                                        <h4 class="text-white text-lg lg:text-xl font-bold mb-2 lg:mb-4">Create 3D Model</h4>
-                                        
-                                        <div class="flex space-x-2 lg:space-x-3">
-                                            <div class="bg-gray-700 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-lg font-semibold text-center flex-1 text-sm lg:text-base">
-                                                Upload Image
-                                            </div>
-                                            <div class="bg-orange-500 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-lg font-semibold text-center flex-1 text-sm lg:text-base">
-                                                Text Description
-                                            </div>
+                                <!-- Create 3D Model Section -->
+                                <div class="space-y-4 lg:space-y-6 mb-8">
+                                    <h4 class="text-white text-lg lg:text-xl font-bold mb-2 lg:mb-4 flex items-center">
+                                        <i class="fas fa-magic mr-2 text-orange-500"></i>Create 3D Model
+                                    </h4>
+                                    
+                                    <!-- Enhanced Text input area with typewriter effect -->
+                                    <div class="bg-gray-800 rounded-lg p-3 lg:p-4 min-h-[80px] lg:min-h-[120px] border border-gray-700 hover:border-orange-500 transition-all duration-300">
+                                        <div class="text-gray-400 text-xs lg:text-sm mb-2 flex items-center">
+                                            <i class="fas fa-edit mr-2"></i>Describe your 3D model:
                                         </div>
-                                        
-                                        <!-- Text input area with typewriter effect -->
-                                        <div class="bg-gray-800 rounded-lg p-3 lg:p-4 min-h-[80px] lg:min-h-[120px]">
-                                            <div class="text-gray-400 text-xs lg:text-sm mb-2">Describe your 3D model:</div>
-                                            <div class="text-white text-sm lg:text-lg">
-                                                <span id="typewriter-text" class="typewriter">make a ferrari</span>
-                                            </div>
+                                        <div class="text-white text-sm lg:text-lg">
+                                            <span id="typewriter-text" class="typewriter"></span>
                                         </div>
-                                        
-
-                                        
-                                        <div>
-                                            <label class="text-gray-300 text-xs lg:text-sm mb-2 lg:mb-3 block">Quality Level</label>
-                                            <div class="bg-orange-500 text-white px-3 lg:px-4 py-2 lg:py-3 rounded-lg flex items-center justify-between text-sm lg:text-base">
-                                                <span>High Quality</span>
-                                                <i class="fas fa-chevron-down"></i>
-                                            </div>
-                                        </div>
-                                        
-                                        <button class="w-full bg-orange-500 text-white py-3 lg:py-4 rounded-lg font-bold text-sm lg:text-lg">
-                                            Generate 3D Model
-                                        </button>
                                     </div>
                                     
-                                    <!-- Right panel - 3D Preview with STL -->
-                                    <div class="bg-black rounded-lg p-3 lg:p-6 relative">
-                                        <div class="text-center mb-3 lg:mb-6">
-                                            <h4 class="text-orange-500 font-bold text-sm lg:text-lg">3D Preview</h4>
+                                    <!-- Enhanced Generate Button -->
+                                    <button id="generate-btn" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 lg:py-4 rounded-lg font-bold text-sm lg:text-lg relative btn-advanced pulse-glow">
+                                        <span class="flex items-center justify-center">
+                                            <i class="fas fa-bolt mr-2"></i>
+                                            <span id="btn-text">Generate 3D Model</span>
+                                        </span>
+                                    </button>
+                                    
+                                    <!-- Progress Bar -->
+                                    <div id="progress-container" class="hidden">
+                                        <div class="progress-bar">
+                                            <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
                                         </div>
-                                        
-                                        <!-- 3D Canvas -->
-                                        <div id="threejs-canvas" class="w-full h-40 lg:h-64"></div>
-                                        
-                                        <!-- Bottom info -->
-                                        <div class="preview-info">
-                                            <div class="preview-instructions">
-                                                Mouse: Rotate | Wheel: Zoom
-                                            </div>
-                                            <div class="preview-stats">
-                                                Vertices: <span id="vertex-count">24580</span> | Faces: <span id="face-count">12290</span>
-                                            </div>
+                                        <div class="text-sm text-gray-400 mt-2 text-center">
+                                            <span id="progress-text">Initializing AI...</span>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Bottom section -->
-                                <div class="absolute bottom-4 lg:bottom-8 left-4 lg:left-8 right-4 lg:right-8 flex justify-center items-center">
-                                    <button class="bg-orange-500 text-white px-4 lg:px-8 py-2 lg:py-3 rounded-lg font-semibold flex items-center text-sm lg:text-base">
-                                        <i class="fas fa-download mr-2"></i>Download STL
-                                    </button>
+                                <!-- 3D Preview Section - Now Below -->
+                                <div class="bg-black rounded-lg p-3 lg:p-6 relative border border-gray-700 hover:border-orange-500 transition-all duration-300">
+                                    <div class="text-center mb-3 lg:mb-6">
+                                        <h4 class="text-orange-500 font-bold text-sm lg:text-lg flex items-center justify-center">
+                                            <i class="fas fa-cube mr-2"></i>3D Preview
+                                        </h4>
+                                    </div>
+                                    
+                                    <!-- Enhanced 3D Canvas with orange glow background -->
+                                    <div id="threejs-canvas" class="w-full h-64 lg:h-80"></div>
+                                    
+                                    <!-- Enhanced Model Stats -->
+                                    <div class="mt-4 grid grid-cols-2 gap-4 text-xs lg:text-sm">
+                                        <div class="stats-container text-center">
+                                            <div class="text-orange-500 font-semibold">Vertices</div>
+                                            <div id="vertex-count" class="text-white">0</div>
+                                        </div>
+                                        <div class="stats-container text-center">
+                                            <div class="text-orange-500 font-semibold">Faces</div>
+                                            <div id="face-count" class="text-white">0</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Floating elements for visual appeal -->
-                        <div class="absolute -top-4 lg:-top-8 -right-4 lg:-right-8 w-8 lg:w-12 h-8 lg:h-12 bg-orange-500 rounded-full opacity-40 floating-element"></div>
-                        <div class="absolute -bottom-4 lg:-bottom-8 -left-4 lg:-left-8 w-10 lg:w-16 h-10 lg:h-16 bg-orange-600 rounded-full opacity-30 floating-element" style="animation-delay: -2s;"></div>
+                        <!-- Enhanced floating elements -->
+                        <div class="absolute -top-8 -right-8 w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full opacity-60 floating-element shadow-lg"></div>
+                        <div class="absolute -bottom-8 -left-8 w-16 h-16 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full opacity-40 floating-element shadow-lg" style="animation-delay: -2s;"></div>
+                        <div class="absolute top-1/2 -right-12 w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full opacity-50 floating-element shadow-lg" style="animation-delay: -4s;"></div>
                     </div>
                 </div>
                 
-                <!-- Stats row at bottom for desktop -->
-                <div class="hidden lg:grid grid-cols-4 gap-8 max-w-3xl mx-auto mt-16 lg:mt-20">
-                    <div class="text-center">
+                <!-- Enhanced Stats row at bottom for desktop -->
+                <div class="hidden lg:grid grid-cols-4 gap-8 max-w-4xl mx-auto mt-16 lg:mt-20">
+                    <div class="text-center stats-container">
                         <div class="text-3xl lg:text-4xl font-bold gradient-text">1M+</div>
                         <div class="text-gray-400">Models Created</div>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center stats-container">
                         <div class="text-3xl lg:text-4xl font-bold gradient-text">50K+</div>
                         <div class="text-gray-400">Active Users</div>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center stats-container">
                         <div class="text-3xl lg:text-4xl font-bold gradient-text">99.9%</div>
                         <div class="text-gray-400">Uptime</div>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center stats-container">
                         <div class="text-3xl lg:text-4xl font-bold gradient-text">24/7</div>
                         <div class="text-gray-400">Support</div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
-            <i class="fas fa-chevron-down text-orange-500 text-2xl"></i>
-        </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-20 bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Enhanced Features Section -->
+    <section id="features" class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-orange-900/5 to-gray-900"></div>
+        <!-- Background Animation Elements -->
+        <div class="bg-animation">
+            <div class="bg-shape" style="width: 200px; height: 200px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+            <div class="bg-shape" style="width: 150px; height: 150px; top: 60%; right: 10%; animation-delay: 5s;"></div>
+            <div class="bg-shape" style="width: 100px; height: 100px; bottom: 20%; left: 15%; animation-delay: 10s;"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-glow">
                     Powerful <span class="gradient-text">AI Features</span>
                 </h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -537,69 +1011,64 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="feature-card p-8 rounded-2xl hover-lift">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6">
+                <!-- Enhanced Feature Cards -->
+                <div class="feature-card p-8 rounded-2xl hover-lift interactive-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6 pulse-glow">
                         <i class="fas fa-brain text-2xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">AI-Powered Generation</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-glow">AI-Powered Generation</h3>
                     <p class="text-gray-400 leading-relaxed">
-                        Transform text descriptions into detailed 3D models using our advanced neural networks
+                        Transform text descriptions into detailed 3D models using our advanced neural networks and machine learning algorithms
                     </p>
                 </div>
                 
-                <!-- Feature 2 -->
-                <div class="feature-card p-8 rounded-2xl hover-lift">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6">
+                <div class="feature-card p-8 rounded-2xl hover-lift interactive-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6 pulse-glow" style="animation-delay: 0.2s;">
                         <i class="fas fa-bolt text-2xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Lightning Fast</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-glow">Lightning Fast</h3>
                     <p class="text-gray-400 leading-relaxed">
-                        Generate complex 3D models in seconds, not hours. Our optimized algorithms deliver incredible speed
+                        Generate complex 3D models in seconds, not hours. Our optimized algorithms deliver incredible speed and efficiency
                     </p>
                 </div>
                 
-                <!-- Feature 3 -->
-                <div class="feature-card p-8 rounded-2xl hover-lift">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6">
+                <div class="feature-card p-8 rounded-2xl hover-lift interactive-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6 pulse-glow" style="animation-delay: 0.4s;">
                         <i class="fas fa-palette text-2xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Style Transfer</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-glow">Style Transfer</h3>
                     <p class="text-gray-400 leading-relaxed">
-                        Apply artistic styles and textures to your models with intelligent style transfer technology
+                        Apply artistic styles and textures to your models with intelligent style transfer technology and AI enhancement
                     </p>
                 </div>
                 
-                <!-- Feature 4 -->
-                <div class="feature-card p-8 rounded-2xl hover-lift">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6">
+                <div class="feature-card p-8 rounded-2xl hover-lift interactive-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6 pulse-glow" style="animation-delay: 0.6s;">
                         <i class="fas fa-cloud text-2xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Cloud Processing</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-glow">Cloud Processing</h3>
                     <p class="text-gray-400 leading-relaxed">
-                        Leverage powerful cloud GPUs for intensive 3D modeling tasks without hardware limitations
+                        Leverage powerful cloud GPUs for intensive 3D modeling tasks without hardware limitations or local processing
                     </p>
                 </div>
                 
-                <!-- Feature 5 -->
-                <div class="feature-card p-8 rounded-2xl hover-lift">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6">
+                <div class="feature-card p-8 rounded-2xl hover-lift interactive-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6 pulse-glow" style="animation-delay: 0.8s;">
                         <i class="fas fa-users text-2xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Collaboration</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-glow">Real-time Collaboration</h3>
                     <p class="text-gray-400 leading-relaxed">
-                        Work together in real-time with your team on complex 3D projects from anywhere
+                        Work together in real-time with your team on complex 3D projects from anywhere in the world
                     </p>
                 </div>
                 
-                <!-- Feature 6 -->
-                <div class="feature-card p-8 rounded-2xl hover-lift">
-                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6">
+                <div class="feature-card p-8 rounded-2xl hover-lift interactive-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mb-6 pulse-glow" style="animation-delay: 1s;">
                         <i class="fas fa-download text-2xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Export Formats</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-glow">Universal Export</h3>
                     <p class="text-gray-400 leading-relaxed">
-                        Export to all major 3D formats including OBJ, FBX, GLTF, and more for maximum compatibility
+                        Export to all major 3D formats including OBJ, FBX, GLTF, STL and more for maximum compatibility
                     </p>
                 </div>
             </div>
@@ -608,12 +1077,18 @@
 
     <div class="section-divider"></div>
 
-    <!-- Technology Section -->
-    <section id="technology" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Enhanced Technology Section -->
+    <section id="technology" class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-orange-900/5 to-gray-900"></div>
+        <!-- Background Animation Elements -->
+        <div class="bg-animation">
+            <div class="bg-shape" style="width: 180px; height: 180px; top: 20%; right: 5%; animation-delay: 3s;"></div>
+            <div class="bg-shape" style="width: 120px; height: 120px; bottom: 30%; left: 10%; animation-delay: 8s;"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                <div class="slide-in-left">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-glow">
                         Cutting-Edge <span class="gradient-text">Technology</span>
                     </h2>
                     <p class="text-xl text-gray-300 mb-8 leading-relaxed">
@@ -622,52 +1097,55 @@
                     </p>
                     
                     <div class="space-y-6">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <div class="flex items-start space-x-4 interactive-hover slide-in-up" style="animation-delay: 0.2s;">
+                            <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center flex-shrink-0 mt-1 pulse-glow">
                                 <i class="fas fa-check text-sm text-white"></i>
                             </div>
                             <div>
-                                <h4 class="text-lg font-semibold mb-2">Neural Radiance Fields (NeRF)</h4>
-                                <p class="text-gray-400">Advanced volumetric rendering for photorealistic 3D scenes</p>
+                                <h4 class="text-lg font-semibold mb-2 text-glow">Neural Radiance Fields (NeRF)</h4>
+                                <p class="text-gray-400">Advanced volumetric rendering for photorealistic 3D scenes with unprecedented detail</p>
                             </div>
                         </div>
                         
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <div class="flex items-start space-x-4 interactive-hover slide-in-up" style="animation-delay: 0.4s;">
+                            <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center flex-shrink-0 mt-1 pulse-glow" style="animation-delay: 0.2s;">
                                 <i class="fas fa-check text-sm text-white"></i>
                             </div>
                             <div>
-                                <h4 class="text-lg font-semibold mb-2">Diffusion Models</h4>
-                                <p class="text-gray-400">State-of-the-art generative AI for complex 3D geometry</p>
+                                <h4 class="text-lg font-semibold mb-2 text-glow">Diffusion Models</h4>
+                                <p class="text-gray-400">State-of-the-art generative AI for complex 3D geometry and texture synthesis</p>
                             </div>
                         </div>
                         
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <div class="flex items-start space-x-4 interactive-hover slide-in-up" style="animation-delay: 0.6s;">
+                            <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center flex-shrink-0 mt-1 pulse-glow" style="animation-delay: 0.4s;">
                                 <i class="fas fa-check text-sm text-white"></i>
                             </div>
                             <div>
-                                <h4 class="text-lg font-semibold mb-2">Real-time Ray Tracing</h4>
-                                <p class="text-gray-400">Instant high-quality rendering with global illumination</p>
+                                <h4 class="text-lg font-semibold mb-2 text-glow">Real-time Ray Tracing</h4>
+                                <p class="text-gray-400">Instant high-quality rendering with global illumination and photorealistic materials</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="relative">
-                    <!-- Tech visualization placeholder -->
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 relative overflow-hidden">
+                <div class="relative slide-in-right">
+                    <!-- Enhanced Tech visualization -->
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 relative overflow-hidden feature-card">
                         <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-orange-600/5"></div>
                         <div class="relative z-10">
                             <div class="code-font text-sm text-gray-300 space-y-2">
-                                <div class="text-orange-500">// AI Model Generation</div>
+                                <div class="text-orange-500 text-glow">// AI Model Generation Pipeline</div>
                                 <div><span class="text-blue-400">const</span> model = <span class="text-green-400">await</span> generate3D({</div>
-                                <div class="pl-4">prompt: <span class="text-yellow-400">"futuristic robot"</span>,</div>
-                                <div class="pl-4">style: <span class="text-yellow-400">"cyberpunk"</span>,</div>
-                                <div class="pl-4">quality: <span class="text-yellow-400">"ultra"</span></div>
+                                <div class="pl-4">prompt: <span class="text-yellow-400">"sleek sports car"</span>,</div>
+                                <div class="pl-4">style: <span class="text-yellow-400">"futuristic"</span>,</div>
+                                <div class="pl-4">quality: <span class="text-yellow-400">"ultra-hd"</span>,</div>
+                                <div class="pl-4">materials: <span class="text-yellow-400">"metallic"</span></div>
                                 <div>});</div>
-                                <div class="mt-4 text-green-400">✓ Model generated in 2.3s</div>
+                                <div class="mt-4 text-green-400">✓ Neural network initialized</div>
+                                <div class="text-green-400">✓ Model generated in 1.8s</div>
                                 <div class="text-green-400">✓ 4K textures applied</div>
+                                <div class="text-green-400">✓ Ray tracing enabled</div>
                                 <div class="text-green-400">✓ Ready for export</div>
                             </div>
                         </div>
@@ -679,11 +1157,18 @@
 
     <div class="section-divider"></div>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-20 bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Enhanced Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-orange-900/5 to-gray-900"></div>
+        <!-- Background Animation Elements -->
+        <div class="bg-animation">
+            <div class="bg-shape" style="width: 160px; height: 160px; top: 15%; left: 8%; animation-delay: 2s;"></div>
+            <div class="bg-shape" style="width: 140px; height: 140px; bottom: 25%; right: 12%; animation-delay: 7s;"></div>
+            <div class="bg-shape" style="width: 90px; height: 90px; top: 70%; left: 20%; animation-delay: 12s;"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-glow">
                     Choose Your <span class="gradient-text">Plan</span>
                 </h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -692,10 +1177,10 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Starter Plan -->
-                <div class="feature-card p-8 rounded-2xl relative">
+                <!-- Enhanced Starter Plan -->
+                <div class="feature-card p-8 rounded-2xl relative hover-lift interactive-hover fade-in">
                     <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Starter</h3>
+                        <h3 class="text-2xl font-bold mb-2 text-glow">Starter</h3>
                         <p class="text-gray-400 mb-4">Perfect for beginners</p>
                         <div class="text-4xl font-bold">
                             <span class="gradient-text">$29</span>
@@ -722,21 +1207,21 @@
                         </li>
                     </ul>
                     
-                    <button class="w-full border-2 border-orange-500 text-orange-500 py-3 rounded-xl font-semibold hover:bg-orange-500 hover:text-white transition-all">
+                    <button class="w-full border-2 border-orange-500 text-orange-500 py-3 rounded-xl font-semibold hover:bg-orange-500 hover:text-white transition-all btn-advanced">
                         Get Started
                     </button>
                 </div>
                 
-                <!-- Pro Plan -->
-                <div class="feature-card p-8 rounded-2xl relative border-orange-500">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <span class="gradient-bg text-white px-6 py-2 rounded-full text-sm font-semibold">
-                            Most Popular
-                        </span>
-                    </div>
+                <!-- Enhanced Pro Plan with Floating Elements -->
+                <div class="feature-card p-8 rounded-2xl relative hover-lift interactive-hover fade-in border-2 border-orange-500" style="animation-delay: 0.2s;">
+                    <!-- Floating Elements Inside Pro Card -->
+                    <div class="pro-card-float"></div>
+                    <div class="pro-card-float"></div>
+                    <div class="pro-card-float"></div>
+                    <div class="pro-card-float"></div>
                     
-                    <div class="text-center mb-8 mt-4">
-                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2 text-glow">Pro</h3>
                         <p class="text-gray-400 mb-4">For professional creators</p>
                         <div class="text-4xl font-bold">
                             <span class="gradient-text">$99</span>
@@ -767,15 +1252,15 @@
                         </li>
                     </ul>
                     
-                    <button class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-all">
+                    <button class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-all btn-advanced">
                         Start Pro Trial
                     </button>
                 </div>
                 
-                <!-- Enterprise Plan -->
-                <div class="feature-card p-8 rounded-2xl relative">
+                <!-- Enhanced Enterprise Plan -->
+                <div class="feature-card p-8 rounded-2xl relative hover-lift interactive-hover fade-in" style="animation-delay: 0.4s;">
                     <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <h3 class="text-2xl font-bold mb-2 text-glow">Enterprise</h3>
                         <p class="text-gray-400 mb-4">For large teams</p>
                         <div class="text-4xl font-bold">
                             <span class="gradient-text">Custom</span>
@@ -805,7 +1290,7 @@
                         </li>
                     </ul>
                     
-                    <button class="w-full border-2 border-orange-500 text-orange-500 py-3 rounded-xl font-semibold hover:bg-orange-500 hover:text-white transition-all">
+                    <button class="w-full border-2 border-orange-500 text-orange-500 py-3 rounded-xl font-semibold hover:bg-orange-500 hover:text-white transition-all btn-advanced">
                         Contact Sales
                     </button>
                 </div>
@@ -813,11 +1298,17 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+    <!-- Enhanced Contact Section -->
+    <section id="contact" class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-orange-900/5 to-gray-900"></div>
+        <!-- Background Animation Elements -->
+        <div class="bg-animation">
+            <div class="bg-shape" style="width: 220px; height: 220px; top: 10%; right: 8%; animation-delay: 4s;"></div>
+            <div class="bg-shape" style="width: 110px; height: 110px; bottom: 15%; left: 12%; animation-delay: 9s;"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 slide-in-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-glow">
                     Get In <span class="gradient-text">Touch</span>
                 </h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -826,92 +1317,92 @@
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
-                <!-- Contact Info -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-8">Let's Build Something Amazing</h3>
+                <!-- Enhanced Contact Info -->
+                <div class="slide-in-left">
+                    <h3 class="text-2xl font-bold mb-8 text-glow">Let's Build Something Amazing</h3>
                     
                     <div class="space-y-6">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <div class="flex items-center space-x-4 interactive-hover fade-in">
+                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center pulse-glow">
                                 <i class="fas fa-envelope text-white"></i>
                             </div>
                             <div>
                                 <p class="text-gray-400">Email us at</p>
-                                <p class="text-xl font-semibold">hello@3dreamlabs.ai</p>
+                                <p class="text-xl font-semibold text-glow">hello@3dreamlabs.ai</p>
                             </div>
                         </div>
                         
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <div class="flex items-center space-x-4 interactive-hover fade-in" style="animation-delay: 0.2s;">
+                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center pulse-glow" style="animation-delay: 0.2s;">
                                 <i class="fas fa-phone text-white"></i>
                             </div>
                             <div>
                                 <p class="text-gray-400">Call us at</p>
-                                <p class="text-xl font-semibold">+1 (555) 123-DREAM</p>
+                                <p class="text-xl font-semibold text-glow">+1 (555) 123-DREAM</p>
                             </div>
                         </div>
                         
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <div class="flex items-center space-x-4 interactive-hover fade-in" style="animation-delay: 0.4s;">
+                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center pulse-glow" style="animation-delay: 0.4s;">
                                 <i class="fas fa-map-marker-alt text-white"></i>
                             </div>
                             <div>
                                 <p class="text-gray-400">Visit us at</p>
-                                <p class="text-xl font-semibold">San Francisco, CA</p>
+                                <p class="text-xl font-semibold text-glow">San Francisco, CA</p>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Social Links -->
-                    <div class="mt-12">
+                    <!-- Enhanced Social Links -->
+                    <div class="mt-12 fade-in" style="animation-delay: 0.6s;">
                         <p class="text-gray-400 mb-4">Follow us</p>
                         <div class="flex space-x-4">
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors interactive-hover">
                                 <i class="fab fa-twitter text-white"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors interactive-hover">
                                 <i class="fab fa-linkedin text-white"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors interactive-hover">
                                 <i class="fab fa-github text-white"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-orange-500 transition-colors interactive-hover">
                                 <i class="fab fa-discord text-white"></i>
                             </a>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Contact Form -->
-                <div class="feature-card p-8 rounded-2xl">
-                    <form class="space-y-6">
+                <!-- Enhanced Contact Form -->
+                <div class="feature-card p-8 rounded-2xl slide-in-right">
+                    <form class="space-y-6" id="contact-form">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">First Name</label>
-                                <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
+                                <input type="text" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Last Name</label>
-                                <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
+                                <input type="text" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
                             </div>
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
+                            <input type="email" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">Company</label>
-                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
+                            <input type="text" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white text-base">
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white resize-none text-base"></textarea>
+                            <textarea rows="4" class="form-input w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white resize-none text-base"></textarea>
                         </div>
                         
-                        <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all">
+                        <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all btn-advanced pulse-glow">
                             Send Message
                         </button>
                     </form>
@@ -920,106 +1411,165 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-black border-t border-gray-800 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <!-- Enhanced Footer -->
+    <footer class="bg-black border-t border-gray-800 py-12 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-orange-900/5 to-gray-900"></div>
+        <!-- Background Animation Elements -->
+        <div class="bg-animation">
+            <div class="bg-shape" style="width: 130px; height: 130px; top: 20%; left: 15%; animation-delay: 6s;"></div>
+            <div class="bg-shape" style="width: 80px; height: 80px; bottom: 30%; right: 20%; animation-delay: 11s;"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 slide-in-up">
                 <!-- Logo and Description -->
                 <div class="col-span-1 md:col-span-2">
-                    <div class="gradient-text text-2xl font-bold mb-4">
+                    <div class="gradient-text text-2xl font-bold mb-4 text-glow">
                         <i class="fas fa-cube mr-2"></i>3DREAM LABS
                     </div>
                     <p class="text-gray-400 max-w-md leading-relaxed">
                         Pioneering the future of 3D creation through artificial intelligence. 
-                        Transform your creative vision into reality.
+                        Transform your creative vision into reality with cutting-edge technology.
                     </p>
                 </div>
                 
                 <!-- Quick Links -->
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <h4 class="text-white font-semibold mb-4 text-glow">Product</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">Features</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">API</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">Documentation</a></li>
+                        <li><a href="#features" class="hover:text-orange-500 transition-colors interactive-hover">Features</a></li>
+                        <li><a href="#pricing" class="hover:text-orange-500 transition-colors interactive-hover">Pricing</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors interactive-hover">API</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors interactive-hover">Documentation</a></li>
                     </ul>
                 </div>
                 
                 <!-- Company -->
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <h4 class="text-white font-semibold mb-4 text-glow">Company</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">About</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">Blog</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">Careers</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors interactive-hover">About</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors interactive-hover">Blog</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors interactive-hover">Careers</a></li>
+                        <li><a href="#contact" class="hover:text-orange-500 transition-colors interactive-hover">Contact</a></li>
                     </ul>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center fade-in" style="animation-delay: 0.6s;">
                 <p class="text-gray-400 text-sm">
-                    © 2024 3Dream Labs. All rights reserved.
+                    © 2024 3Dream Labs. All rights reserved. Powered by AI.
                 </p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-orange-500 text-sm transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-orange-500 text-sm transition-colors">Terms of Service</a>
-                    <a href="#" class="text-gray-400 hover:text-orange-500 text-sm transition-colors">Cookie Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500 text-sm transition-colors interactive-hover">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500 text-sm transition-colors interactive-hover">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500 text-sm transition-colors interactive-hover">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Enhanced JavaScript -->
     <script>
-        // Three.js variables
+        // Enhanced Three.js variables
         let scene, camera, renderer, controls, carModel;
+        let modelLoaded = false;
+        let animationId;
         
-        // Initialize Three.js scene
+        // Particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                
+                particlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 25000);
+            }
+            
+            // Create initial particles
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createParticle, i * 1000);
+            }
+            
+            // Continuously create new particles
+            setInterval(createParticle, 2000);
+        }
+        
+        // Enhanced Three.js initialization
         function initThreeJS() {
             const container = document.getElementById('threejs-canvas');
             if (!container) return;
             
-            // Create scene
+            // Create scene with enhanced settings
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x000000);
+            scene.fog = new THREE.Fog(0x000000, 10, 50);
             
             // Get container dimensions
             const rect = container.getBoundingClientRect();
             const width = rect.width || 400;
             const height = rect.height || 300;
             
-            // Create camera
+            // Create camera with better positioning
             camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            camera.position.set(0, 2, 5);
+            camera.position.set(3, 3, 6);
             
-            // Create renderer
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            // Create renderer with enhanced settings
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: true, 
+                alpha: true,
+                powerPreference: "high-performance"
+            });
             renderer.setSize(width, height);
-            renderer.setClearColor(0x000000, 1);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x000000, 0);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
             
             // Add renderer to container
             container.appendChild(renderer.domElement);
             
-            // Add lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            // Enhanced lighting setup with brighter ambient lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
             scene.add(ambientLight);
             
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
             directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
             scene.add(directionalLight);
             
-            const pointLight = new THREE.PointLight(0xff6b35, 0.5, 100);
-            pointLight.position.set(-10, 5, -5);
-            scene.add(pointLight);
+            const pointLight1 = new THREE.PointLight(0xff6b35, 1.0, 50);
+            pointLight1.position.set(-10, 5, -5);
+            scene.add(pointLight1);
             
-            // Add grid
-            const gridHelper = new THREE.GridHelper(20, 20, 0x444444, 0x444444);
+            const pointLight2 = new THREE.PointLight(0xff8c42, 0.8, 30);
+            pointLight2.position.set(8, -3, 8);
+            scene.add(pointLight2);
+            
+            // Add additional fill light for brightness
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
+            fillLight.position.set(-5, -5, 5);
+            scene.add(fillLight);
+            
+            // Enhanced grid
+            const gridHelper = new THREE.GridHelper(20, 20, 0x555555, 0x333333);
+            gridHelper.material.opacity = 0.3;
+            gridHelper.material.transparent = true;
             scene.add(gridHelper);
             
-            // Add orbit controls
+            // Enhanced orbit controls
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
@@ -1027,10 +1577,9 @@
             controls.enableRotate = true;
             controls.enablePan = false;
             controls.autoRotate = true;
-            controls.autoRotateSpeed = 2.0;
-            
-            // Load car STL
-            loadCarSTL();
+            controls.autoRotateSpeed = 1.5;
+            controls.maxDistance = 15;
+            controls.minDistance = 2;
             
             // Handle window resize
             window.addEventListener('resize', onWindowResize);
@@ -1039,82 +1588,216 @@
             animate();
         }
         
-        // Load car.stl file
+        // Enhanced car STL loading - try to load actual STL first
         function loadCarSTL() {
             const loader = new THREE.STLLoader();
             
-            loader.load('./car.stl', function(geometry) {
-                // Create translucent material
-                const material = new THREE.MeshStandardMaterial({
+            // Show loading state
+            updateProgressBar(0, "Loading 3D model...");
+            showProgress();
+            
+            // Try to load the actual car.stl file
+            loader.load('./car.stl', 
+                function(geometry) {
+                    updateProgressBar(60, "Processing geometry...");
+                    
+                    setTimeout(() => {
+                        // Enhanced material with multiple effects
+                        const material = new THREE.MeshStandardMaterial({
+                            color: 0xff6b35,
+                            metalness: 0.8,
+                            roughness: 0.2,
+                            transparent: true,
+                            opacity: 0.9,
+                            envMapIntensity: 1.5,
+                            emissive: 0x221100,
+                            emissiveIntensity: 0.1
+                        });
+                        
+                        updateProgressBar(80, "Applying materials...");
+                        
+                        setTimeout(() => {
+                            // Create mesh
+                            carModel = new THREE.Mesh(geometry, material);
+                            carModel.castShadow = true;
+                            carModel.receiveShadow = true;
+                            
+                            // Enhanced geometry processing
+                            geometry.computeBoundingBox();
+                            geometry.computeVertexNormals();
+                            const box = geometry.boundingBox;
+                            const center = box.getCenter(new THREE.Vector3());
+                            const size = box.getSize(new THREE.Vector3());
+                            
+                            // Center and scale
+                            geometry.translate(-center.x, -center.y, -center.z);
+                            const maxDim = Math.max(size.x, size.y, size.z);
+                            const scale = 3 / maxDim;
+                            carModel.scale.set(scale, scale, scale);
+                            carModel.position.set(0, 0.5, 0);
+                            carModel.rotation.x = -Math.PI / 2;
+                            
+                            updateProgressBar(95, "Finalizing...");
+                            
+                            setTimeout(() => {
+                                // Add to scene
+                                scene.add(carModel);
+                                
+                                // Update stats with enhanced formatting
+                                const vertices = geometry.attributes.position.count;
+                                const faces = geometry.index ? geometry.index.count / 3 : vertices / 3;
+                                
+                                document.getElementById('vertex-count').textContent = vertices.toLocaleString();
+                                document.getElementById('face-count').textContent = Math.floor(faces).toLocaleString();
+                                
+                                updateProgressBar(100, "Complete!");
+                                
+                                setTimeout(() => {
+                                    hideProgress();
+                                    setButtonState('success');
+                                }, 500);
+                                
+                                console.log('Car STL loaded successfully');
+                            }, 300);
+                        }, 500);
+                    }, 300);
+                }, 
+                function(progress) {
+                    if (progress.total > 0) {
+                        const percentage = Math.min((progress.loaded / progress.total * 50), 50);
+                        updateProgressBar(percentage, "Downloading model...");
+                    }
+                },
+                function(error) {
+                    console.error('Error loading car.stl:', error);
+                    console.log('Falling back to procedural car model');
+                    // Fallback to creating procedural model
+                    createFallbackCar();
+                }
+            );
+        }
+        
+        // Enhanced fallback car - create a sophisticated car shape
+        function createFallbackCar() {
+            updateProgressBar(50, "Creating fallback model...");
+            
+            setTimeout(() => {
+                const group = new THREE.Group();
+                
+                // Car body - main chassis
+                const bodyGeometry = new THREE.BoxGeometry(4, 1, 2);
+                const bodyMaterial = new THREE.MeshStandardMaterial({
                     color: 0xff6b35,
+                    metalness: 0.8,
+                    roughness: 0.2,
+                    emissive: 0x221100,
+                    emissiveIntensity: 0.1
+                });
+                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+                body.position.set(0, 0.5, 0);
+                body.castShadow = true;
+                body.receiveShadow = true;
+                group.add(body);
+                
+                // Car roof/cabin
+                const roofGeometry = new THREE.BoxGeometry(2.5, 0.8, 1.8);
+                const roofMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xff8c42,
                     metalness: 0.7,
-                    roughness: 0.3,
-                    transparent: true,
-                    opacity: 0.85,
-                    envMapIntensity: 1.0
+                    roughness: 0.3
+                });
+                const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+                roof.position.set(0, 1.4, 0);
+                roof.castShadow = true;
+                group.add(roof);
+                
+                // Wheels
+                const wheelGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 16);
+                const wheelMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x222222,
+                    metalness: 0.1,
+                    roughness: 0.8
                 });
                 
-                // Create mesh
-                carModel = new THREE.Mesh(geometry, material);
+                // Create 4 wheels
+                const wheelPositions = [
+                    [1.2, 0.4, -1.2], [1.2, 0.4, 1.2], 
+                    [-1.2, 0.4, -1.2], [-1.2, 0.4, 1.2]
+                ];
                 
-                // Center and scale the model
-                geometry.computeBoundingBox();
-                const box = geometry.boundingBox;
-                const center = box.getCenter(new THREE.Vector3());
-                const size = box.getSize(new THREE.Vector3());
+                wheelPositions.forEach(pos => {
+                    const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+                    wheel.position.set(pos[0], pos[1], pos[2]);
+                    wheel.rotation.z = Math.PI / 2;
+                    wheel.castShadow = true;
+                    group.add(wheel);
+                });
                 
-                // Center the geometry
-                geometry.translate(-center.x, -center.y, -center.z);
+                carModel = group;
+                carModel.position.set(0, 0, 0);
                 
-                // Scale to fit nicely in the preview (about 3 units max)
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 3 / maxDim;
-                carModel.scale.set(scale, scale, scale);
+                updateProgressBar(80, "Applying materials...");
                 
-                // Position the car slightly above the grid
-                carModel.position.set(0, 0.5, 0);
-                
-                // Add to scene
-                scene.add(carModel);
-                
-                // Update stats
-                const vertices = geometry.attributes.position.count;
-                const faces = geometry.index ? geometry.index.count / 3 : vertices / 3;
-                
-                document.getElementById('vertex-count').textContent = vertices.toLocaleString();
-                document.getElementById('face-count').textContent = Math.floor(faces).toLocaleString();
-                
-                console.log('Car STL loaded successfully');
-            }, 
-            function(progress) {
-                console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
-            },
-            function(error) {
-                console.error('Error loading car.stl:', error);
-                // Fallback to a simple cube if STL fails to load
-                createFallbackCar();
-            });
+                setTimeout(() => {
+                    // Add to scene
+                    scene.add(carModel);
+                    
+                    // Update stats for the procedural model
+                    document.getElementById('vertex-count').textContent = '2,847';
+                    document.getElementById('face-count').textContent = '1,924';
+                    
+                    updateProgressBar(100, "Complete!");
+                    
+                    setTimeout(() => {
+                        hideProgress();
+                        setButtonState('success');
+                    }, 500);
+                    
+                    console.log('Fallback car model created successfully');
+                }, 300);
+            }, 200);
         }
         
-        // Fallback car if STL doesn't load
-        function createFallbackCar() {
-            const geometry = new THREE.BoxGeometry(2, 0.8, 4);
-            const material = new THREE.MeshStandardMaterial({
-                color: 0xff6b35,
-                metalness: 0.7,
-                roughness: 0.3,
-                transparent: true,
-                opacity: 0.85
-            });
-            
-            carModel = new THREE.Mesh(geometry, material);
-            carModel.position.set(0, 0.5, 0);
-            scene.add(carModel);
-            
-            console.log('Fallback car created');
+        // Progress bar functions
+        function showProgress() {
+            document.getElementById('progress-container').classList.remove('hidden');
+            setButtonState('loading');
         }
         
-        // Handle window resize
+        function hideProgress() {
+            document.getElementById('progress-container').classList.add('hidden');
+        }
+        
+        function updateProgressBar(percentage, text) {
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = text;
+        }
+        
+        function setButtonState(state) {
+            const btn = document.getElementById('generate-btn');
+            const btnText = document.getElementById('btn-text');
+            
+            btn.classList.remove('loading-state', 'success-state');
+            
+            switch(state) {
+                case 'loading':
+                    btn.classList.add('loading-state');
+                    btnText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
+                    break;
+                case 'success':
+                    btn.classList.add('success-state');
+                    btnText.innerHTML = '<i class="fas fa-check mr-2"></i>Model Generated!';
+                    setTimeout(() => {
+                        btnText.innerHTML = '<i class="fas fa-bolt mr-2"></i>Generate 3D Model';
+                        btn.classList.remove('success-state');
+                    }, 3000);
+                    break;
+                default:
+                    btnText.innerHTML = '<i class="fas fa-bolt mr-2"></i>Generate 3D Model';
+            }
+        }
+        
+        // Enhanced window resize handler
         function onWindowResize() {
             if (!camera || !renderer) return;
             
@@ -1127,27 +1810,38 @@
             renderer.setSize(rect.width, rect.height);
         }
         
-        // Animation loop
+        // Enhanced animation loop
         function animate() {
-            requestAnimationFrame(animate);
+            animationId = requestAnimationFrame(animate);
             
             if (controls) controls.update();
+            
+            // Add model rotation animation
+            if (carModel) {
+                carModel.rotation.y += 0.01;
+                // Add subtle bobbing motion
+                carModel.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+            }
+            
             if (renderer && scene && camera) {
                 renderer.render(scene, camera);
             }
         }
         
-        // Mobile menu toggle
+        // Enhanced mobile menu
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
             });
         }
         
-        // Smooth scrolling for navigation links
+        // Enhanced smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1157,13 +1851,17 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    // Close mobile menu if open
-                    if (mobileMenu) mobileMenu.classList.add('hidden');
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
                 }
             });
         });
         
-        // Add scroll effect to navigation
+        // Enhanced navigation scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 100) {
@@ -1173,7 +1871,7 @@
             }
         });
         
-        // Intersection Observer for animations
+        // Enhanced intersection observer
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1184,33 +1882,37 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('animate-in');
                 }
             });
         }, observerOptions);
         
-        // Observe elements for animation
-        document.querySelectorAll('.feature-card, .hover-lift').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        // Observe elements for enhanced animations
+        document.querySelectorAll('.feature-card, .hover-lift, .stats-container, .slide-in-left, .slide-in-right, .slide-in-up, .fade-in').forEach(el => {
+            if (!el.style.opacity) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+            }
             observer.observe(el);
         });
         
-        // Form submission handler
-        document.querySelector('form').addEventListener('submit', (e) => {
+        // Enhanced form submission
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            // Create custom success modal
+            
+            // Enhanced success modal
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
             modal.innerHTML = `
-                <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-gray-700">
+                <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-orange-500 feature-card">
                     <div class="text-center">
-                        <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
                             <i class="fas fa-check text-2xl text-white"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                        <p class="text-gray-300 mb-6">Thank you for your message! We'll get back to you soon.</p>
-                        <button class="gradient-bg text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity" onclick="this.closest('.fixed').remove()">
+                        <h3 class="text-2xl font-bold text-white mb-2 text-glow">Message Sent!</h3>
+                        <p class="text-gray-300 mb-6">Thank you for your message! We'll get back to you within 24 hours.</p>
+                        <button class="gradient-bg text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity btn-advanced" onclick="this.closest('.fixed').remove()">
                             Close
                         </button>
                     </div>
@@ -1218,13 +1920,18 @@
             `;
             document.body.appendChild(modal);
             
-            // Reset form
+            // Reset form with animation
             e.target.reset();
+            const inputs = e.target.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.classList.add('success-state');
+                setTimeout(() => input.classList.remove('success-state'), 2000);
+            });
         });
         
-        // Typewriter effect for "make a ferrari"
+        // Fixed typewriter effect - correct text
         function typeWriter() {
-            const text = "make a ferrari";
+            const text = "sleek sports car with carbon fiber details";
             const typewriterElement = document.getElementById('typewriter-text');
             if (!typewriterElement) return;
             
@@ -1235,31 +1942,132 @@
                 if (i < text.length) {
                     typewriterElement.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, 150);
+                    setTimeout(type, 80 + Math.random() * 100); // Variable typing speed
                 } else {
-                    // Reset after 3 seconds and repeat
                     setTimeout(() => {
-                        i = 0;
-                        typewriterElement.textContent = '';
-                        setTimeout(type, 500);
-                    }, 3000);
+                        showCursorAnimation();
+                    }, 1500);
                 }
             }
             
-            // Start after 1 second delay
-            setTimeout(type, 1000);
+            setTimeout(type, 1500);
         }
         
-        // Initialize everything when DOM is loaded
+        // Enhanced cursor animation
+        function showCursorAnimation() {
+            const generateBtn = document.getElementById('generate-btn');
+            if (!generateBtn) return;
+            
+            const cursor = document.createElement('div');
+            cursor.className = 'cursor';
+            document.body.appendChild(cursor);
+            
+            const btnRect = generateBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+            
+            // Enhanced cursor movement
+            cursor.style.left = `${btnCenterX - 300}px`;
+            cursor.style.top = `${btnCenterY - 50}px`;
+            
+            setTimeout(() => {
+                cursor.classList.add('show');
+                
+                // Smooth curve animation to button
+                cursor.style.transition = 'all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                cursor.style.left = `${btnCenterX - 12}px`;
+                cursor.style.top = `${btnCenterY - 12}px`;
+                
+                setTimeout(() => {
+                    cursor.classList.add('clicking');
+                    
+                    setTimeout(() => {
+                        generateBtn.click();
+                        loadCarSTL();
+                        
+                        setTimeout(() => {
+                            cursor.remove();
+                        }, 800);
+                    }, 300);
+                }, 2000);
+            }, 200);
+        }
+        
+        // Animation restart cycle
+        function resetAnimation() {
+            setTimeout(() => {
+                if (carModel && scene) {
+                    scene.remove(carModel);
+                    carModel = null;
+                }
+                
+                // Reset stats
+                document.getElementById('vertex-count').textContent = '0';
+                document.getElementById('face-count').textContent = '0';
+                
+                // Restart cycle
+                typeWriter();
+            }, 12000);
+        }
+        
+        // Enhanced initialization
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Three.js with a slight delay to ensure container is ready
+            // Initialize particle system
+            createParticles();
+            
+            // Initialize Three.js
             setTimeout(() => {
                 initThreeJS();
-            }, 100);
+            }, 200);
             
             // Start typewriter effect
-            typeWriter();
+            setTimeout(() => {
+                typeWriter();
+                resetAnimation();
+            }, 1000);
+            
+            // Enhanced button click handler
+            document.getElementById('generate-btn').addEventListener('click', function() {
+                if (!carModel) {
+                    loadCarSTL();
+                }
+            });
         });
+        
+        // Enhanced dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // Performance optimization
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (reducedMotion.matches) {
+            // Disable animations for users who prefer reduced motion
+            document.documentElement.style.setProperty('--animation-duration', '0s');
+        }
+        
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Application error:', e.error);
+        });
+        
+        // Enhanced performance monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    console.log('Page load time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+                }, 0);
+            });
+        }
     </script>
 </body>
 </html>
