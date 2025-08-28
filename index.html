@@ -364,49 +364,6 @@
             to { text-shadow: 0 0 15px rgba(255, 107, 53, 0.8); }
         }
         
-        /* Advanced Cursor */
-        .cursor {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: radial-gradient(circle, #FF6B35, #FF8C42);
-            border-radius: 50%;
-            opacity: 0;
-            transform: scale(0.5);
-            pointer-events: none;
-            z-index: 100;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
-        }
-        
-        .cursor::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            animation: cursorPulse 1s ease-in-out infinite;
-        }
-        
-        @keyframes cursorPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-        
-        .cursor.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .cursor.clicking {
-            transform: scale(0.8);
-            box-shadow: 0 0 30px rgba(255, 107, 53, 1);
-        }
-        
         /* Enhanced 3D Canvas */
         #threejs-canvas {
             width: 100%;
@@ -854,6 +811,26 @@
                             </button>
                         </div>
                         
+                        <!-- Enhanced Stats for desktop -->
+                        <div class="hidden lg:grid grid-cols-2 gap-4 mb-6 lg:mb-8">
+                            <div class="text-center stats-container">
+                                <div class="text-2xl lg:text-3xl font-bold gradient-text">1M+</div>
+                                <div class="text-gray-400">Models Created</div>
+                            </div>
+                            <div class="text-center stats-container">
+                                <div class="text-2xl lg:text-3xl font-bold gradient-text">50K+</div>
+                                <div class="text-gray-400">Active Users</div>
+                            </div>
+                            <div class="text-center stats-container">
+                                <div class="text-2xl lg:text-3xl font-bold gradient-text">99.9%</div>
+                                <div class="text-gray-400">Uptime</div>
+                            </div>
+                            <div class="text-center stats-container">
+                                <div class="text-2xl lg:text-3xl font-bold gradient-text">24/7</div>
+                                <div class="text-gray-400">Support</div>
+                            </div>
+                        </div>
+                        
                         <!-- Enhanced Stats for mobile -->
                         <div class="grid grid-cols-2 gap-4 lg:hidden">
                             <div class="text-center stats-container">
@@ -935,7 +912,7 @@
                                     </div>
                                 </div>
                                 
-                                <!-- 3D Preview Section - Now Below -->
+                                <!-- 3D Preview Section - Always Visible -->
                                 <div class="bg-black rounded-lg p-3 lg:p-6 relative border border-gray-700 hover:border-orange-500 transition-all duration-300">
                                     <div class="text-center mb-3 lg:mb-6">
                                         <h4 class="text-orange-500 font-bold text-sm lg:text-lg flex items-center justify-center">
@@ -968,25 +945,7 @@
                     </div>
                 </div>
                 
-                <!-- Enhanced Stats row at bottom for desktop -->
-                <div class="hidden lg:grid grid-cols-4 gap-8 max-w-4xl mx-auto mt-16 lg:mt-20">
-                    <div class="text-center stats-container">
-                        <div class="text-3xl lg:text-4xl font-bold gradient-text">1M+</div>
-                        <div class="text-gray-400">Models Created</div>
-                    </div>
-                    <div class="text-center stats-container">
-                        <div class="text-3xl lg:text-4xl font-bold gradient-text">50K+</div>
-                        <div class="text-gray-400">Active Users</div>
-                    </div>
-                    <div class="text-center stats-container">
-                        <div class="text-3xl lg:text-4xl font-bold gradient-text">99.9%</div>
-                        <div class="text-gray-400">Uptime</div>
-                    </div>
-                    <div class="text-center stats-container">
-                        <div class="text-3xl lg:text-4xl font-bold gradient-text">24/7</div>
-                        <div class="text-gray-400">Support</div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -1137,7 +1096,7 @@
                             <div class="code-font text-sm text-gray-300 space-y-2">
                                 <div class="text-orange-500 text-glow">// AI Model Generation Pipeline</div>
                                 <div><span class="text-blue-400">const</span> model = <span class="text-green-400">await</span> generate3D({</div>
-                                <div class="pl-4">prompt: <span class="text-yellow-400">"sleek sports car"</span>,</div>
+                                <div class="pl-4">prompt: <span class="text-yellow-400">"sleek ferrari"</span>,</div>
                                 <div class="pl-4">style: <span class="text-yellow-400">"futuristic"</span>,</div>
                                 <div class="pl-4">quality: <span class="text-yellow-400">"ultra-hd"</span>,</div>
                                 <div class="pl-4">materials: <span class="text-yellow-400">"metallic"</span></div>
@@ -1474,6 +1433,7 @@
         let scene, camera, renderer, controls, carModel;
         let modelLoaded = false;
         let animationId;
+        let hasGenerated = false;
         
         // Particle system
         function createParticles() {
@@ -1586,95 +1546,117 @@
             
             // Start animation loop
             animate();
+            
+            // Load 3D model immediately on page load
+            loadCarSTL();
         }
         
         // Enhanced car STL loading - try to load actual STL first
         function loadCarSTL() {
+            if (hasGenerated) return;
+            hasGenerated = true;
+            
             const loader = new THREE.STLLoader();
             
             // Show loading state
             updateProgressBar(0, "Loading 3D model...");
             showProgress();
             
-            // Try to load the actual car.stl file
-            loader.load('./car.stl', 
-                function(geometry) {
-                    updateProgressBar(60, "Processing geometry...");
-                    
-                    setTimeout(() => {
-                        // Enhanced material with multiple effects
-                        const material = new THREE.MeshStandardMaterial({
-                            color: 0xff6b35,
-                            metalness: 0.8,
-                            roughness: 0.2,
-                            transparent: true,
-                            opacity: 0.9,
-                            envMapIntensity: 1.5,
-                            emissive: 0x221100,
-                            emissiveIntensity: 0.1
-                        });
-                        
-                        updateProgressBar(80, "Applying materials...");
+            // Try to load the actual car.stl file with multiple paths
+            const stlPaths = ['./car.stl', 'car.stl', '../car.stl', '/car.stl'];
+            let pathIndex = 0;
+            
+            function tryLoadSTL() {
+                if (pathIndex >= stlPaths.length) {
+                    console.log('All STL paths failed, creating fallback car model');
+                    createFallbackCar();
+                    return;
+                }
+                
+                const currentPath = stlPaths[pathIndex];
+                console.log(`Trying to load STL from: ${currentPath}`);
+                
+                loader.load(currentPath, 
+                    function(geometry) {
+                        console.log('STL loaded successfully from:', currentPath);
+                        updateProgressBar(60, "Processing geometry...");
                         
                         setTimeout(() => {
-                            // Create mesh
-                            carModel = new THREE.Mesh(geometry, material);
-                            carModel.castShadow = true;
-                            carModel.receiveShadow = true;
+                            // Enhanced material with multiple effects
+                            const material = new THREE.MeshStandardMaterial({
+                                color: 0xff6b35,
+                                metalness: 0.8,
+                                roughness: 0.2,
+                                transparent: true,
+                                opacity: 0.9,
+                                envMapIntensity: 1.5,
+                                emissive: 0x221100,
+                                emissiveIntensity: 0.1
+                            });
                             
-                            // Enhanced geometry processing
-                            geometry.computeBoundingBox();
-                            geometry.computeVertexNormals();
-                            const box = geometry.boundingBox;
-                            const center = box.getCenter(new THREE.Vector3());
-                            const size = box.getSize(new THREE.Vector3());
-                            
-                            // Center and scale
-                            geometry.translate(-center.x, -center.y, -center.z);
-                            const maxDim = Math.max(size.x, size.y, size.z);
-                            const scale = 3 / maxDim;
-                            carModel.scale.set(scale, scale, scale);
-                            carModel.position.set(0, 0.5, 0);
-                            carModel.rotation.x = -Math.PI / 2;
-                            
-                            updateProgressBar(95, "Finalizing...");
+                            updateProgressBar(80, "Applying materials...");
                             
                             setTimeout(() => {
-                                // Add to scene
-                                scene.add(carModel);
+                                // Create mesh
+                                carModel = new THREE.Mesh(geometry, material);
+                                carModel.castShadow = true;
+                                carModel.receiveShadow = true;
                                 
-                                // Update stats with enhanced formatting
-                                const vertices = geometry.attributes.position.count;
-                                const faces = geometry.index ? geometry.index.count / 3 : vertices / 3;
+                                // Enhanced geometry processing
+                                geometry.computeBoundingBox();
+                                geometry.computeVertexNormals();
+                                const box = geometry.boundingBox;
+                                const center = box.getCenter(new THREE.Vector3());
+                                const size = box.getSize(new THREE.Vector3());
                                 
-                                document.getElementById('vertex-count').textContent = vertices.toLocaleString();
-                                document.getElementById('face-count').textContent = Math.floor(faces).toLocaleString();
+                                // Center and scale
+                                geometry.translate(-center.x, -center.y, -center.z);
+                                const maxDim = Math.max(size.x, size.y, size.z);
+                                const scale = 3 / maxDim;
+                                carModel.scale.set(scale, scale, scale);
+                                carModel.position.set(0, 0.5, 0);
+                                carModel.rotation.x = -Math.PI / 2;
                                 
-                                updateProgressBar(100, "Complete!");
+                                updateProgressBar(95, "Finalizing...");
                                 
                                 setTimeout(() => {
-                                    hideProgress();
-                                    setButtonState('success');
-                                }, 500);
-                                
-                                console.log('Car STL loaded successfully');
-                            }, 300);
-                        }, 500);
-                    }, 300);
-                }, 
-                function(progress) {
-                    if (progress.total > 0) {
-                        const percentage = Math.min((progress.loaded / progress.total * 50), 50);
-                        updateProgressBar(percentage, "Downloading model...");
+                                    // Add to scene
+                                    scene.add(carModel);
+                                    
+                                    // Update stats with enhanced formatting
+                                    const vertices = geometry.attributes.position.count;
+                                    const faces = geometry.index ? geometry.index.count / 3 : vertices / 3;
+                                    
+                                    document.getElementById('vertex-count').textContent = vertices.toLocaleString();
+                                    document.getElementById('face-count').textContent = Math.floor(faces).toLocaleString();
+                                    
+                                    updateProgressBar(100, "Complete!");
+                                    
+                                    setTimeout(() => {
+                                        hideProgress();
+                                        setButtonState('success');
+                                    }, 500);
+                                    
+                                    console.log('Car STL loaded successfully');
+                                }, 300);
+                            }, 500);
+                        }, 300);
+                    }, 
+                    function(progress) {
+                        if (progress.total > 0) {
+                            const percentage = Math.min((progress.loaded / progress.total * 50), 50);
+                            updateProgressBar(percentage, "Downloading model...");
+                        }
+                    },
+                    function(error) {
+                        console.error(`Error loading ${currentPath}:`, error);
+                        pathIndex++;
+                        setTimeout(tryLoadSTL, 100); // Try next path
                     }
-                },
-                function(error) {
-                    console.error('Error loading car.stl:', error);
-                    console.log('Falling back to procedural car model');
-                    // Fallback to creating procedural model
-                    createFallbackCar();
-                }
-            );
+                );
+            }
+            
+            tryLoadSTL();
         }
         
         // Enhanced fallback car - create a sophisticated car shape
@@ -1816,11 +1798,11 @@
             
             if (controls) controls.update();
             
-            // Add model rotation animation
+            // Add model rotation animation - horizontal rotation
             if (carModel) {
-                carModel.rotation.y += 0.01;
+                carModel.rotation.z += 0.01;
                 // Add subtle bobbing motion
-                carModel.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+                carModel.position.y = Math.sin(Date.now() * 0.001) * 0.1 + 0.5;
             }
             
             if (renderer && scene && camera) {
@@ -1929,9 +1911,9 @@
             });
         });
         
-        // Fixed typewriter effect - correct text
+        // Enhanced typewriter effect - faster and smoother
         function typeWriter() {
-            const text = "sleek sports car with carbon fiber details";
+            const text = "sleek ferrari with intricate details";
             const typewriterElement = document.getElementById('typewriter-text');
             if (!typewriterElement) return;
             
@@ -1942,72 +1924,11 @@
                 if (i < text.length) {
                     typewriterElement.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, 80 + Math.random() * 100); // Variable typing speed
-                } else {
-                    setTimeout(() => {
-                        showCursorAnimation();
-                    }, 1500);
+                    setTimeout(type, 40 + Math.random() * 30);
                 }
             }
             
-            setTimeout(type, 1500);
-        }
-        
-        // Enhanced cursor animation
-        function showCursorAnimation() {
-            const generateBtn = document.getElementById('generate-btn');
-            if (!generateBtn) return;
-            
-            const cursor = document.createElement('div');
-            cursor.className = 'cursor';
-            document.body.appendChild(cursor);
-            
-            const btnRect = generateBtn.getBoundingClientRect();
-            const btnCenterX = btnRect.left + btnRect.width / 2;
-            const btnCenterY = btnRect.top + btnRect.height / 2;
-            
-            // Enhanced cursor movement
-            cursor.style.left = `${btnCenterX - 300}px`;
-            cursor.style.top = `${btnCenterY - 50}px`;
-            
-            setTimeout(() => {
-                cursor.classList.add('show');
-                
-                // Smooth curve animation to button
-                cursor.style.transition = 'all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                cursor.style.left = `${btnCenterX - 12}px`;
-                cursor.style.top = `${btnCenterY - 12}px`;
-                
-                setTimeout(() => {
-                    cursor.classList.add('clicking');
-                    
-                    setTimeout(() => {
-                        generateBtn.click();
-                        loadCarSTL();
-                        
-                        setTimeout(() => {
-                            cursor.remove();
-                        }, 800);
-                    }, 300);
-                }, 2000);
-            }, 200);
-        }
-        
-        // Animation restart cycle
-        function resetAnimation() {
-            setTimeout(() => {
-                if (carModel && scene) {
-                    scene.remove(carModel);
-                    carModel = null;
-                }
-                
-                // Reset stats
-                document.getElementById('vertex-count').textContent = '0';
-                document.getElementById('face-count').textContent = '0';
-                
-                // Restart cycle
-                typeWriter();
-            }, 12000);
+            setTimeout(type, 1000);
         }
         
         // Enhanced initialization
@@ -2015,7 +1936,7 @@
             // Initialize particle system
             createParticles();
             
-            // Initialize Three.js
+            // Initialize Three.js and immediately load model
             setTimeout(() => {
                 initThreeJS();
             }, 200);
@@ -2023,12 +1944,11 @@
             // Start typewriter effect
             setTimeout(() => {
                 typeWriter();
-                resetAnimation();
             }, 1000);
             
             // Enhanced button click handler
             document.getElementById('generate-btn').addEventListener('click', function() {
-                if (!carModel) {
+                if (!hasGenerated) {
                     loadCarSTL();
                 }
             });
@@ -2050,7 +1970,6 @@
         // Performance optimization
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         if (reducedMotion.matches) {
-            // Disable animations for users who prefer reduced motion
             document.documentElement.style.setProperty('--animation-duration', '0s');
         }
         
