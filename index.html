@@ -1870,7 +1870,11 @@
                     const maxDim = Math.max(size.x, size.y, size.z);
                     const scale = 3 / maxDim;
                     carModel.scale.set(scale, scale, scale);
-                    carModel.position.set(0, 1.5, 0);
+                    
+                    // FIXED: Rotate the model to lay flat on the grid
+                    // If the car is vertical, rotate it to be horizontal
+                    carModel.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X axis
+                    carModel.position.set(0, 0, 0); // Position on the grid
                     
                     updateProgressBar(95, "Finalizing...");
                     
@@ -1954,7 +1958,7 @@
                 });
                 
                 carModel = group;
-                carModel.position.set(0, 1.5, 0);
+                carModel.position.set(0, 0, 0); // Position on the grid
                 
                 updateProgressBar(80, "Applying materials...");
                 
@@ -2044,8 +2048,8 @@
             
             // Rotate model
             if (carModel) {
-                carModel.rotation.y += 0.01;
-                carModel.position.y = Math.sin(Date.now() * 0.001) * 0.1 + 1.5;
+                carModel.rotation.z += 0.01; // Rotate around Z axis since model is now horizontal
+                carModel.position.y = Math.sin(Date.now() * 0.001) * 0.1; // Gentle floating effect
             }
             
             if (renderer && scene && camera) {
