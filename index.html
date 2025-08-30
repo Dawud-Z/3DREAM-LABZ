@@ -1841,13 +1841,13 @@
             updateProgressBar(60, "Processing geometry...");
             
             setTimeout(() => {
-                // Enhanced material
+                // FIXED: Enhanced material - less glossy, more matte red
                 const material = new THREE.MeshStandardMaterial({
-                    color: 0xff6b35,
-                    metalness: 0.8,
-                    roughness: 0.2,
-                    emissive: 0x221100,
-                    emissiveIntensity: 0.1
+                    color: 0xcc2020, // Pure red color
+                    metalness: 0.2,  // Much less metallic
+                    roughness: 0.8,  // Much more rough/matte
+                    emissive: 0x000000, // No emissive
+                    emissiveIntensity: 0.0
                 });
                 
                 updateProgressBar(80, "Applying materials...");
@@ -1868,13 +1868,18 @@
                     // Center and scale
                     geometry.translate(-center.x, -center.y, -center.z);
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 3 / maxDim;
+                    
+                    // FIXED: Much larger scale (8 instead of 3)
+                    const scale = 8 / maxDim;
                     carModel.scale.set(scale, scale, scale);
                     
-                    // FIXED: Rotate the model to lay flat on the grid
-                    // If the car is vertical, rotate it to be horizontal
+                    // FIXED: Rotate the model to lay flat on the grid and position properly
                     carModel.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X axis
-                    carModel.position.set(0, 0, 0); // Position on the grid
+                    
+                    // FIXED: Position so bottom of model sits on grid surface
+                    // Calculate the bottom Y position after rotation and scaling
+                    const scaledSizeY = size.y * scale;
+                    carModel.position.set(0, 0, scaledSizeY / 2); // Lift model so bottom touches grid
                     
                     updateProgressBar(95, "Finalizing...");
                     
@@ -1909,35 +1914,35 @@
             setTimeout(() => {
                 const group = new THREE.Group();
                 
-                // Car body
-                const bodyGeometry = new THREE.BoxGeometry(4, 1, 2);
+                // Car body - FIXED: Larger and less glossy
+                const bodyGeometry = new THREE.BoxGeometry(6, 1.5, 3); // Larger
                 const bodyMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xff6b35,
-                    metalness: 0.8,
-                    roughness: 0.2,
-                    emissive: 0x221100,
-                    emissiveIntensity: 0.1
+                    color: 0xcc2020, // Pure red color
+                    metalness: 0.2,  // Much less metallic
+                    roughness: 0.8,  // Much more rough/matte
+                    emissive: 0x000000,
+                    emissiveIntensity: 0.0
                 });
                 const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-                body.position.set(0, 0.5, 0);
+                body.position.set(0, 0.75, 0);
                 body.castShadow = true;
                 body.receiveShadow = true;
                 group.add(body);
                 
-                // Car roof
-                const roofGeometry = new THREE.BoxGeometry(2.5, 0.8, 1.8);
+                // Car roof - FIXED: Larger and less glossy
+                const roofGeometry = new THREE.BoxGeometry(3.75, 1.2, 2.7); // Larger
                 const roofMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xff8c42,
-                    metalness: 0.7,
-                    roughness: 0.3
+                    color: 0xaa1818, // Slightly darker red
+                    metalness: 0.1,
+                    roughness: 0.9
                 });
                 const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-                roof.position.set(0, 1.4, 0);
+                roof.position.set(0, 2.1, 0);
                 roof.castShadow = true;
                 group.add(roof);
                 
-                // Wheels
-                const wheelGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 16);
+                // Wheels - FIXED: Larger
+                const wheelGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.45, 16); // Larger
                 const wheelMaterial = new THREE.MeshStandardMaterial({
                     color: 0x222222,
                     metalness: 0.1,
@@ -1945,8 +1950,8 @@
                 });
                 
                 const wheelPositions = [
-                    [1.2, 0.4, -1.2], [1.2, 0.4, 1.2], 
-                    [-1.2, 0.4, -1.2], [-1.2, 0.4, 1.2]
+                    [1.8, 0.6, -1.8], [1.8, 0.6, 1.8], 
+                    [-1.8, 0.6, -1.8], [-1.8, 0.6, 1.8]
                 ];
                 
                 wheelPositions.forEach(pos => {
