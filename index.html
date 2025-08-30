@@ -1876,10 +1876,10 @@
                     // FIXED: Rotate the model to lay flat on the grid and position properly
                     carModel.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X axis
                     
-                    // FIXED: Position so bottom of model sits on grid surface
-                    // Calculate the bottom Y position after rotation and scaling
+                    // FIXED: Position so model sits properly on grid surface
+                    // Calculate the actual height after rotation and ensure car sits on top of grid
                     const scaledSizeY = size.y * scale;
-                    carModel.position.set(0, 0, scaledSizeY / 2); // Lift model so bottom touches grid
+                    carModel.position.set(0, scaledSizeY / 2 + 0.5, 0); // Added 0.5 to lift it higher
                     
                     updateProgressBar(95, "Finalizing...");
                     
@@ -1963,7 +1963,7 @@
                 });
                 
                 carModel = group;
-                carModel.position.set(0, 0, 0); // Position on the grid
+                carModel.position.set(0, 1, 0); // FIXED: Lifted higher to sit properly on grid
                 
                 updateProgressBar(80, "Applying materials...");
                 
@@ -2054,7 +2054,9 @@
             // Rotate model
             if (carModel) {
                 carModel.rotation.z += 0.01; // Rotate around Z axis since model is now horizontal
-                carModel.position.y = Math.sin(Date.now() * 0.001) * 0.1; // Gentle floating effect
+                // FIXED: Gentle floating effect with higher base Y position
+                const baseY = carModel.position.y;
+                carModel.position.y = baseY + Math.sin(Date.now() * 0.001) * 0.1; // Gentle floating effect
             }
             
             if (renderer && scene && camera) {
