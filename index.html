@@ -2045,19 +2045,14 @@
             renderer.setSize(rect.width, rect.height);
         }
         
-        // Animation loop
+        // FIXED Animation loop - removed car floating animation
         function animate() {
             animationId = requestAnimationFrame(animate);
             
             if (controls) controls.update();
             
-            // Rotate model
-            if (carModel) {
-                carModel.rotation.z += 0.01; // Rotate around Z axis since model is now horizontal
-                // FIXED: Gentle floating effect with higher base Y position
-                const baseY = carModel.position.y;
-                carModel.position.y = baseY + Math.sin(Date.now() * 0.001) * 0.1; // Gentle floating effect
-            }
+            // REMOVED: Car movement animations - car stays perfectly still now
+            // The camera rotates around the stationary car due to controls.autoRotate
             
             if (renderer && scene && camera) {
                 renderer.render(scene, camera);
