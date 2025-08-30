@@ -945,6 +945,51 @@ body {
   left: 2rem;
   right: 2rem;
 }
+
+/* Custom tooltip for disabled text option button */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: "Coming Soon";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+  border: 1px solid #4b5563;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1f2937;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+.tooltip:hover::after,
+.tooltip:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
 </style>
 
 <!-- How It Works diagram styles (updated) -->
@@ -1634,23 +1679,57 @@ body {
 <div class="mb-4">
 <div class="flex space-x-2 mb-2">
 <button id="upload-option" class="flex-1 px-3 py-2 bg-orange-500 rounded-md text-white hover:bg-orange-600 transition-colors">Upload Image</button>
-<button id="text-option" class="flex-1 px-3 py-2 rounded-md text-gray-300 border border-gray-600 hover:bg-gray-700 transition-colors">Text Description</button>
+<button id="text-option" class="flex-1 px-3 py-2 rounded-md text-gray-500 border border-gray-500 cursor-not-allowed opacity-50 tooltip" disabled>Text Description</button>
 </div>
 
 <!-- Image upload input -->
 <div id="upload-input" class="mb-3">
 <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-orange-500 transition-colors" id="drop-zone">
-<div class="space-y-1 text-center">
+<div class="flex flex-col items-center w-full relative">
+<!-- Continuous vertical separator line -->
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-500 transform -translate-x-1/2"></div>
+
+<!-- Icons row -->
+<div class="flex items-center justify-between w-full mb-4">
+<div class="flex-1 text-center">
 <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 </svg>
-<div class="flex justify-center text-sm">
+</div>
+<div class="flex-1 text-center pl-6">
+<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+</svg>
+</div>
+</div>
+
+<!-- Buttons row - each centered in their section -->
+<div class="flex items-center justify-between w-full mb-4">
+<div class="flex-1 text-center">
 <label class="file-input-wrapper relative cursor-pointer bg-orange-500 rounded-md font-medium text-white px-4 py-2 hover:bg-orange-600 transition-colors">
 <span>Upload a file</span>
 <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*">
 </label>
 </div>
-<p id="file-name" class="text-xs text-gray-400 mt-2">PNG, JPG, WEBP up to 10MB</p>
+<div class="flex-1 text-center pl-6">
+<button id="generate-image-btn" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded text-sm transition-colors flex items-center justify-center mx-auto">
+<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+</svg>
+Generate AI Image
+</button>
+</div>
+</div>
+
+<!-- Text row -->
+<div class="flex items-center justify-between w-full">
+<div class="flex-1 text-center">
+<p id="file-name" class="text-xs text-gray-400">PNG, JPG, WEBP up to 10MB</p>
+</div>
+<div class="flex-1 text-center pl-6">
+<p class="text-gray-400 text-xs">Don't have an image?</p>
+</div>
+</div>
 </div>
 </div>
 <div id="image-preview-wrapper" class="mt-4 flex justify-center hidden">
@@ -4375,22 +4454,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  if (textOption) {
-    textOption.addEventListener('click', () => {
-      textOption.classList.add('bg-orange-500', 'text-white');
-      textOption.classList.remove('border', 'border-gray-600', 'text-gray-300');
-      
-      if (uploadOption) {
-        uploadOption.classList.remove('bg-orange-500', 'text-white');
-        uploadOption.classList.add('border', 'border-gray-600', 'text-gray-300');
-      }
-      
-      const uploadInput = document.getElementById('upload-input');
-      const textInput = document.getElementById('text-input');
-      if (textInput) textInput.classList.remove('hidden');
-      if (uploadInput) uploadInput.classList.add('hidden');
-    });
-  }
+  // Text option button is disabled - coming soon
+  // if (textOption) {
+  //   textOption.addEventListener('click', () => {
+  //     textOption.classList.add('bg-orange-500', 'text-white');
+  //     textOption.classList.remove('border', 'border-gray-600', 'text-gray-300');
+  //     
+  //     if (uploadOption) {
+  //       uploadOption.classList.remove('bg-orange-500', 'text-white');
+  //       uploadOption.classList.add('border', 'border-gray-600', 'text-gray-300');
+  //       }
+  //     
+  //     const uploadInput = document.getElementById('upload-input');
+  //     const textInput = document.getElementById('text-input');
+  //     if (textInput) textInput.classList.remove('hidden');
+  //       if (uploadInput) uploadInput.classList.add('hidden');
+  //   });
+  // }
   
   // File upload
   const fileUpload = document.getElementById('file-upload');
@@ -5000,6 +5080,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (logsContent) logsContent.innerHTML = '';
       
       logToUI("Reset for new model generation", "info");
+    });
+  }
+
+  // Generate AI Image button
+  const generateImageBtn = document.getElementById('generate-image-btn');
+  if (generateImageBtn) {
+    generateImageBtn.addEventListener('click', () => {
+      showAlert('Coming Soon', 'AI image generation will be available in a future update. For now, please upload an existing image to create your 3D model.');
     });
   }
   
