@@ -1878,8 +1878,8 @@
                     
                     // FIXED: Position so model sits properly on grid surface
                     // Calculate the actual height after rotation and ensure car sits on top of grid
-                    const scaledSizeY = size.y * scale;
-                    carModel.position.set(0, 0, 0); // Position directly on the grid
+                    const scaledSizeY = size.y * scale;carModel.position.set(0, 0.15, 0); // Position directly on the grid
+                    
                     
                     updateProgressBar(95, "Finalizing...");
                     
@@ -1963,7 +1963,7 @@
                 });
                 
                 carModel = group;
-                carModel.position.set(0, 0, 0); // Position directly on the grid
+                carModel.position.set(0, 0.15, 0); // FIXED: Lifted higher to sit properly on grid
                 
                 updateProgressBar(80, "Applying materials...");
                 
